@@ -22,7 +22,21 @@ export const colors = {
   },
 
   // Gradients для LinearGradient компонента
+  // Соответствуют веб версии из theme.css
   gradients: {
+    // GradientBackground варианты (3 цвета для более плавного перехода)
+    peach: ['#ffecd2', '#ffd7ba', '#fcb69f'],
+    lavender: ['#e6dff5', '#d4c5f0', '#c8b8e8'],
+    cream: ['#fef3e2', '#ffecd2', '#ffd7ba'],
+    pink: ['#ffd6e8', '#ffc9df', '#ffb5d5'],
+    
+    // WellnessCard градиенты (с прозрачностью, но в RN используем более светлые версии)
+    coral: ['rgba(255, 138, 101, 0.2)', 'rgba(255, 178, 153, 0.3)'],
+    blue: ['rgba(168, 216, 234, 0.2)', 'rgba(168, 216, 234, 0.3)'],
+    pinkCard: ['rgba(255, 214, 232, 0.3)', 'rgba(255, 181, 213, 0.4)'],
+    lavenderCard: ['rgba(212, 197, 240, 0.3)', 'rgba(184, 160, 214, 0.4)'],
+    
+    // Старые варианты (для обратной совместимости)
     peachLavender: ['#FFE5D9', '#E8D5F2'],
     mintSky: ['#D5F2E3', '#C9E4F5'],
     roseYellow: ['#FFD1DC', '#FFF4CC'],
@@ -46,14 +60,14 @@ export const colors = {
     900: '#171717',
   },
 
-  // Текст
+  // Текст (соответствует веб версии)
   text: {
-    primary: '#2D2D2D',
+    primary: '#1a1a1a', // --foreground из theme.css
     secondary: '#666666',
     tertiary: '#999999',
     disabled: '#CCCCCC',
     onDark: '#FFFFFF',
-    onLight: '#2D2D2D',
+    onLight: '#1a1a1a',
   },
 
   // Семантические цвета
@@ -78,14 +92,21 @@ export const colors = {
     overlay: 'rgba(0, 0, 0, 0.5)',
   },
 
-  // Специальные цвета для компонентов
+  // Специальные цвета для компонентов (соответствует веб версии)
   component: {
-    buttonPrimary: '#2D2D2D',
+    buttonPrimary: '#1a1a1a', // --primary из theme.css
     buttonSecondary: '#FFFFFF',
     inputBackground: '#FFFFFF',
-    inputBorder: '#E5E5E5',
+    inputBorder: 'rgba(0, 0, 0, 0.08)', // --input из theme.css
     cardBackground: '#FFFFFF',
     modalBackground: '#FFFFFF',
+    // Wellness цвета из theme.css
+    coral: '#ff8a5b',
+    coralLight: '#ffb299',
+    lavender: '#e4a5f0',
+    lavenderLight: '#f0d5f7',
+    softBlue: '#6ab9e7',
+    softPink: '#ffb5d5',
   },
 } as const;
 

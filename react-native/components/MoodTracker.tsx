@@ -1,66 +1,80 @@
 /**
  * MoodTracker Component - React Native
- * Портировано из web версии
+ * Портировано из web версии - соответствует веб версии точно
  */
 
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { colors, spacing, borderRadius, textStyles } from '../theme';
+import { colors, spacing, borderRadius, textStyles, shadows } from '../theme';
 
-const moodEmojis = [
-  { emoji: '😔', label: 'Грустно', value: 1, color: colors.wellness.sky },
-  { emoji: '😐', label: 'Нормально', value: 2, color: colors.wellness.mint },
-  { emoji: '🙂', label: 'Хорошо', value: 3, color: colors.wellness.peach },
-  { emoji: '😊', label: 'Отлично', value: 4, color: colors.wellness.lavender },
-  { emoji: '🤩', label: 'Прекрасно', value: 5, color: colors.wellness.rose },
+// Соответствует веб версии точно
+const moods = [
+  { emoji: '😔', label: 'Fri', value: 'sad' },
+  { emoji: '😐', label: 'Sat', value: 'neutral' },
+  { emoji: '😊', label: 'Sun', value: 'good' },
+  { emoji: '😴', label: 'Mon', value: 'tired' },
+  { emoji: '😄', label: 'Tue', value: 'happy' },
 ];
 
 export interface MoodTrackerProps {
-  /** Текущее выбранное настроение */
-  value?: number;
-  /** Callback при изменении */
-  onChange?: (value: number) => void;
-  /** Показывать labels */
-  showLabels?: boolean;
+  /** Количество дней streak */
+  streak?: number;
+  /** Callback при выборе настроения */
+  onMoodSelect?: (mood: string) => void;
+  /** Дополнительные стили */
+  style?: any;
 }
 
 export const MoodTracker: React.FC<MoodTrackerProps> = ({
-  value,
-  onChange,
-  showLabels = true,
+  streak = 7,
+  onMoodSelect,
+  style,
 }) => {
-  const [selectedMood, setSelectedMood] = useState<number | undefined>(value);
+  const [selectedMood, setSelectedMood] = useState<string>('happy');
 
-  const handleMoodSelect = (moodValue: number) => {
-    setSelectedMood(moodValue);
-    onChange?.(moodValue);
+  const handleMoodClick = (value: string) => {
+    setSelectedMood(value);
+    onMoodSelect?.(value);
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
+      {/* Streak Header - соответствует веб версии */}
+      <View style={styles.streakHeader}>
+        <Text style={styles.streakEmoji}>🔥</Text>
+        <Text style={styles.streakText}>
+          {streak} Day Streak
+        </Text>
+      </View>
+
+      {/* Mood Selector - соответствует веб версии */}
       <View style={styles.moodGrid}>
-        {moodEmojis.map((mood) => {
+        {moods.map((mood) => {
           const isSelected = selectedMood === mood.value;
 
           return (
             <TouchableOpacity
               key={mood.value}
-              style={[
-                styles.moodButton,
-                isSelected && {
-                  backgroundColor: mood.color,
-                  transform: [{ scale: 1.1 }],
-                },
-              ]}
-              onPress={() => handleMoodSelect(mood.value)}
-              activeOpacity={0.7}
+              onPress={() => handleMoodClick(mood.value)}
+              activeOpacity={0.8}
+              style={styles.moodButtonContainer}
             >
-              <Text style={styles.emoji}>{mood.emoji}</Text>
-              {showLabels && (
-                <Text style={[styles.label, isSelected && styles.labelSelected]}>
-                  {mood.label}
-                </Text>
-              )}
+              <View
+                style={[
+                  styles.moodButton,
+                  isSelected && styles.moodButtonSelected,
+                ]}
+              >
+                <Text style={styles.emoji}>{mood.emoji}</Text>
+              </View>
+              <Text
+                style={[
+                  styles.label,
+                  isSelected && styles.labelSelected,
+                ]}
+              >
+                {mood.label}
+              </Text>
             </TouchableOpacity>
           );
         })}
@@ -71,34 +85,60 @@ export const MoodTracker: React.FC<MoodTrackerProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    backgroundColor: '#FFFFFF',
+    borderRadius: borderRadius['2xl'], // 28px как в веб версии (rounded-[28px])
+    padding: spacing[6], // p-6 = 24px
+    ...shadows.sm, // shadow-sm
+  },
+  streakHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: spacing[2], // gap-2 = 8px
+    marginBottom: spacing[6], // mb-6 = 24px
+  },
+  streakEmoji: {
+    fontSize: 12,
+    color: colors.component.coral, // text-[#ff8a5b]
+  },
+  streakText: {
+    fontSize: 10,
+    textTransform: 'uppercase',
+    letterSpacing: 1.6, // tracking-[0.1em]
+    color: colors.component.coral, // text-[#ff8a5b]
+    fontWeight: '500', // font-medium
   },
   moodGrid: {
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
-    gap: spacing[2],
+    gap: spacing[2], // gap-2 = 8px
+  },
+  moodButtonContainer: {
+    alignItems: 'center',
+    gap: spacing[2], // gap-2 = 8px
   },
   moodButton: {
-    flex: 1,
+    width: 52, // w-[52px]
+    height: 52, // h-[52px]
+    borderRadius: borderRadius.full, // rounded-full
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: spacing[4],
-    paddingHorizontal: spacing[2],
-    borderRadius: borderRadius.lg,
-    backgroundColor: colors.neutral[100],
-    minHeight: 80,
+    backgroundColor: '#f5f5f5', // bg-[#f5f5f5]
+  },
+  moodButtonSelected: {
+    backgroundColor: '#1a1a1a', // bg-[#1a1a1a]
+    ...shadows.base, // shadow-md
   },
   emoji: {
-    fontSize: 32,
-    marginBottom: spacing[1],
+    fontSize: 24, // text-2xl = 24px
   },
   label: {
-    ...textStyles.caption,
-    color: colors.text.secondary,
-    textAlign: 'center',
+    fontSize: 10, // text-[10px]
+    fontWeight: '500', // font-medium
+    color: '#999999', // text-[#999999]
   },
   labelSelected: {
-    color: colors.text.primary,
-    fontWeight: '600',
+    color: '#1a1a1a', // text-[#1a1a1a]
   },
 });
