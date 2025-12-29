@@ -9,7 +9,7 @@ interface WellnessCardProps {
 }
 
 const gradientClasses = {
-  coral: 'bg-gradient-to-br from-[#ff8a65]/20 to-[#ffb299]/30',
+  coral: 'bg-gradient-to-br from-[#ffd4c4] via-[#ffb299] to-[#ff8a65]',
   blue: 'bg-gradient-to-br from-[#a8d8ea]/20 to-[#a8d8ea]/30',
   pink: 'bg-gradient-to-br from-[#ffd6e8]/30 to-[#ffb5d5]/40',
   lavender: 'bg-gradient-to-br from-[#d4c5f0]/30 to-[#b8a0d6]/40',

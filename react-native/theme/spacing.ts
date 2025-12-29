@@ -26,9 +26,8 @@ export const borderRadius = {
   base: 8,
   md: 12,
   lg: 16,
-  xl: 20, // Изменено с 24 на 20 для соответствия WellnessCard (rounded-[20px])
-  '2xl': 28, // Добавлено для MoodTracker (rounded-[28px])
-  '3xl': 32,
+  xl: 24,
+  '2xl': 32,
   full: 9999,
   pill: 100, // Для pill buttons
 } as const;
@@ -51,8 +50,8 @@ export const shadows = {
   md: {
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.06, // Изменено с 0.1 на 0.06 для соответствия WellnessCard
-    shadowRadius: 20, // Изменено с 6 на 20 для соответствия shadow-[0_4px_20px_rgba(0,0,0,0.06)]
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
     elevation: 4,
   },
   lg: {

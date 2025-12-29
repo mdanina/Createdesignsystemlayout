@@ -10,53 +10,33 @@ import { colors, GradientName } from '../theme';
 
 export interface GradientBackgroundProps {
   children: React.ReactNode;
-  /** Вариант градиента (соответствует веб версии: peach, lavender, cream, pink) */
-  variant?: 'peach' | 'lavender' | 'cream' | 'pink';
-  /** Имя предустановленного градиента или массив цветов (альтернатива variant) */
+  /** Имя предустановленного градиента или массив цветов */
   gradient?: GradientName | string[];
-  /** Направление градиента (по умолчанию diagonal для соответствия bg-gradient-to-br) */
+  /** Направление градиента */
   direction?: 'vertical' | 'horizontal' | 'diagonal';
   style?: ViewStyle;
 }
 
 export const GradientBackground: React.FC<GradientBackgroundProps> = ({
   children,
-  variant,
-  gradient,
-  direction = 'diagonal', // По умолчанию diagonal для соответствия bg-gradient-to-br
+  gradient = 'peachLavender',
+  direction = 'vertical',
   style,
 }) => {
   // Получаем цвета градиента
-  const getGradientColors = (): string[] => {
-    // Если указан variant, используем его (соответствует веб версии)
-    if (variant) {
-      return colors.gradients[variant] || colors.gradients.peach;
-    }
-    
-    // Если указан gradient напрямую
-    if (gradient) {
-      if (Array.isArray(gradient)) {
-        return gradient;
-      }
-      return colors.gradients[gradient as GradientName] || colors.gradients.peach;
-    }
-    
-    // По умолчанию
-    return colors.gradients.peach;
-  };
+  const gradientColors = Array.isArray(gradient)
+    ? gradient
+    : colors.gradients[gradient as GradientName];
 
-  const gradientColors = getGradientColors();
-
-  // Определяем направление (по умолчанию diagonal для bg-gradient-to-br)
+  // Определяем направление
   const getGradientProps = () => {
     switch (direction) {
       case 'horizontal':
         return { start: { x: 0, y: 0 }, end: { x: 1, y: 0 } };
-      case 'vertical':
-        return { start: { x: 0, y: 0 }, end: { x: 0, y: 1 } };
       case 'diagonal':
-      default:
-        return { start: { x: 0, y: 0 }, end: { x: 1, y: 1 } }; // bg-gradient-to-br
+        return { start: { x: 0, y: 0 }, end: { x: 1, y: 1 } };
+      default: // vertical
+        return { start: { x: 0, y: 0 }, end: { x: 0, y: 1 } };
     }
   };
 
