@@ -5,10 +5,12 @@ import { DesignSystemDocs } from './components/design-system/DesignSystemDocs';
 import { ComponentShowcase } from './components/design-system/ComponentShowcase';
 import { BottomNavigation } from './components/design-system/BottomNavigation';
 import { OnboardingFlow } from './components/onboarding';
+import { MainAppFlow } from './components/screens';
 import {
   FileText,
   LayoutGrid,
   Smartphone,
+  RotateCcw,
   X
 } from 'lucide-react';
 
@@ -35,11 +37,19 @@ export default function App() {
     );
   }
 
-  // Show completion screen after onboarding
+  // Show main app after onboarding
   if (viewMode === 'app' && isOnboarded) {
     return (
-      <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6">
+      <div className="min-h-screen bg-white">
+        {/* Mode switcher */}
         <div className="fixed top-4 right-4 z-50 flex gap-2">
+          <button
+            onClick={() => setIsOnboarded(false)}
+            className="px-3 py-1.5 text-xs bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full text-gray-600 hover:bg-gray-50 transition-colors shadow-sm"
+          >
+            <RotateCcw className="w-3 h-3 inline mr-1" />
+            Restart
+          </button>
           <button
             onClick={() => setViewMode('showcase')}
             className="px-3 py-1.5 text-xs bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full text-gray-600 hover:bg-gray-50 transition-colors shadow-sm"
@@ -48,21 +58,10 @@ export default function App() {
             Components
           </button>
         </div>
-        <div className="text-center max-w-md">
-          <div className="text-6xl mb-6">🎉</div>
-          <h1 className="text-3xl font-semibold text-[#2D3142] mb-4">
-            Welcome to Myndlift!
-          </h1>
-          <p className="text-gray-500 mb-8">
-            Your onboarding is complete. You're ready to start your mental wellness journey.
-          </p>
-          <button
-            onClick={() => setIsOnboarded(false)}
-            className="px-8 py-4 bg-[#5ECEC5] text-white font-medium rounded-full hover:bg-[#4DBDB4] transition-colors"
-          >
-            Restart Onboarding
-          </button>
-        </div>
+        <MainAppFlow
+          userName="Mariya"
+          onBack={() => setIsOnboarded(false)}
+        />
       </div>
     );
   }
