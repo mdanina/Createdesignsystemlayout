@@ -4,8 +4,8 @@ import { SerifHeading } from './components/design-system/SerifHeading';
 import { DesignSystemDocs } from './components/design-system/DesignSystemDocs';
 import { ComponentShowcase } from './components/design-system/ComponentShowcase';
 import { BottomNavigation } from './components/design-system/BottomNavigation';
-import { OnboardingFlow } from './components/onboarding';
 import { MainAppFlow } from './components/screens';
+import { WavesAppFlow } from './components/waves/WavesAppFlow';
 import {
   FileText,
   LayoutGrid,
@@ -16,10 +16,9 @@ import {
 
 export default function App() {
   const [viewMode, setViewMode] = useState<'showcase' | 'docs' | 'app'>('app');
-  const [isOnboarded, setIsOnboarded] = useState(false);
 
-  // Show onboarding flow when in app mode and not yet onboarded
-  if (viewMode === 'app' && !isOnboarded) {
+  // Show Waves app (по ТЗ)
+  if (viewMode === 'app') {
     return (
       <div className="min-h-screen bg-white">
         {/* Mode switcher */}
@@ -32,36 +31,7 @@ export default function App() {
             Components
           </button>
         </div>
-        <OnboardingFlow onComplete={() => setIsOnboarded(true)} />
-      </div>
-    );
-  }
-
-  // Show main app after onboarding
-  if (viewMode === 'app' && isOnboarded) {
-    return (
-      <div className="min-h-screen bg-white">
-        {/* Mode switcher */}
-        <div className="fixed top-4 right-4 z-50 flex gap-2">
-          <button
-            onClick={() => setIsOnboarded(false)}
-            className="px-3 py-1.5 text-xs bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full text-gray-600 hover:bg-gray-50 transition-colors shadow-sm"
-          >
-            <RotateCcw className="w-3 h-3 inline mr-1" />
-            Restart
-          </button>
-          <button
-            onClick={() => setViewMode('showcase')}
-            className="px-3 py-1.5 text-xs bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full text-gray-600 hover:bg-gray-50 transition-colors shadow-sm"
-          >
-            <LayoutGrid className="w-3 h-3 inline mr-1" />
-            Components
-          </button>
-        </div>
-        <MainAppFlow
-          userName="Mariya"
-          onBack={() => setIsOnboarded(false)}
-        />
+        <WavesAppFlow />
       </div>
     );
   }
