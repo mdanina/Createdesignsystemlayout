@@ -109,7 +109,7 @@ export function ProgressScreen({ userName, onBack, sessions, onSessionClick }: P
                       <span>{session.timeInZone}% в зоне</span>
                     </>
                   )}
-                  {session.endReason === 'early' && (
+                  {session.endReason === 'early' && session.type !== 'Дыхание' && (
                     <>
                       <span>•</span>
                       <span className="text-orange-600">Досрочно завершено</span>

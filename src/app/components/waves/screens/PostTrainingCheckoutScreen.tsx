@@ -32,9 +32,9 @@ export function PostTrainingCheckoutScreen({
 }: PostTrainingCheckoutScreenProps) {
   const [mood, setMood] = useState<string | null>(null);
   const [concentration, setConcentration] = useState<number | null>(null);
-  const [rating, setRating] = useState<number | null>(null);
+  const [rating, setRating] = useState<number>(3); // По умолчанию 3, если пользователь не двигал слайдер
 
-  const canComplete = mood !== null && concentration !== null && rating !== null;
+  const canComplete = mood !== null && concentration !== null;
 
   return (
     <GradientBackground variant="lavender" className="flex flex-col">
@@ -129,11 +129,11 @@ export function PostTrainingCheckoutScreen({
               {/* Fill */}
               <div
                 className="absolute left-0 top-0 h-full rounded-full transition-all duration-200"
-                style={{
-                  width: `${((rating || 3) - 1) / 4 * 100}%`,
-                  background: `linear-gradient(to right, #F3B83A, #F3B83A80)`,
-                  boxShadow: `0 0 20px #F3B83A30`,
-                }}
+              style={{
+                width: `${(rating - 1) / 4 * 100}%`,
+                background: `linear-gradient(to right, #F3B83A, #F3B83A80)`,
+                boxShadow: `0 0 20px #F3B83A30`,
+              }}
               />
             </div>
             
@@ -141,7 +141,7 @@ export function PostTrainingCheckoutScreen({
             <div
               className="absolute w-12 h-12 rounded-full transition-all duration-200 flex items-center justify-center pointer-events-none top-1/2 -translate-y-1/2"
               style={{
-                left: `calc(${((rating || 3) - 1) / 4 * 100}% - 24px)`,
+                left: `calc(${(rating - 1) / 4 * 100}% - 24px)`,
                 background: `radial-gradient(circle at 30% 30%, #F3B83Aff, #F3B83Acc, #F3B83A99)`,
                 boxShadow: `0 6px 20px #F3B83A50, 0 2px 8px #F3B83A40, inset 0 1px 2px rgba(255,255,255,0.3)`,
               }}
@@ -155,7 +155,7 @@ export function PostTrainingCheckoutScreen({
               min={1}
               max={5}
               step={1}
-              value={rating || 3}
+              value={rating}
               onChange={(e) => setRating(Number(e.target.value))}
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none"
             />

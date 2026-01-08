@@ -218,15 +218,15 @@ export function WavesAppFlow() {
   };
 
   const handleSignalCheckComplete = () => {
-    setCurrentScreen('training-tips');
-  };
-
-  const handleTrainingTipsContinue = () => {
     setCurrentScreen('training-selection');
   };
 
-  const handleTrainingStart = () => {
+  const handleTrainingTipsContinue = () => {
     setCurrentScreen('active-training');
+  };
+
+  const handleTrainingStart = () => {
+    setCurrentScreen('training-tips');
   };
 
   const handleTrainingComplete = (
@@ -460,12 +460,8 @@ export function WavesAppFlow() {
         return (
           <TrainingTipsScreen
             onBack={() => {
-              // Возвращаемся на предыдущий экран в зависимости от контекста
-              if (connectedDevice) {
-                setCurrentScreen('signal-check');
-              } else {
-                setCurrentScreen('home');
-              }
+              // Возвращаемся к выбору тренировки
+              setCurrentScreen('training-selection');
             }}
             onContinue={handleTrainingTipsContinue}
           />
@@ -487,7 +483,14 @@ export function WavesAppFlow() {
             onChangeProgram={() => {
               // Можно добавить модальное окно выбора программы
             }}
-            onBack={() => setCurrentScreen('training-tips')}
+            onBack={() => {
+              // Возвращаемся на предыдущий экран в зависимости от контекста
+              if (connectedDevice) {
+                setCurrentScreen('signal-check');
+              } else {
+                setCurrentScreen('home');
+              }
+            }}
           />
         );
 
@@ -528,6 +531,7 @@ export function WavesAppFlow() {
             streak={lastTrainingData?.endReason === 'completed' ? 5 : 0}
             endReason={lastTrainingData?.endReason || 'completed'}
             technicalIssue={lastTrainingData?.technicalIssue}
+            trainingType={selectedTrainingType}
             onComplete={handleTrainingCompleteDone}
           />
         );

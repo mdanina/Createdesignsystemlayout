@@ -76,10 +76,10 @@ void main() {
     float dist = distance(fragCoord, center);
     float radius = min(iResolution.x, iResolution.y) * 0.5;
     
-    // Only render inside circle
-    if (dist > radius) {
-        discard;
-    }
+    // Разрешаем рендеринг для свечения за пределами круга
+    // if (dist > radius) {
+    //     discard;
+    // }
     
     // Normalized coordinates
     vec2 uv = (fragCoord - iResolution.xy * 0.5) / min(iResolution.x, iResolution.y);
@@ -89,18 +89,18 @@ void main() {
     float mouseDist = length(uv - (mouse - 0.5) * 2.0);
     float mouseEffect = smoothstep(1.0, 0.0, mouseDist);
     
-    // Time-based animation - более медленная и плавная
-    float t = iTime * 0.15;
+    // Time-based animation
+    float t = iTime * 0.3;
     
-    // Multiple layers of movement - уменьшенные скорости для плавности
-    vec2 p1 = uv * 3.0 + vec2(t * 0.05, t * 0.07);
-    vec2 p2 = uv * 2.0 - vec2(t * 0.06, -t * 0.04);
-    vec2 p3 = uv * 4.0 + vec2(-t * 0.04, t * 0.05);
+    // Multiple layers of movement
+    vec2 p1 = uv * 3.0 + vec2(t * 0.1, t * 0.15);
+    vec2 p2 = uv * 2.0 - vec2(t * 0.12, -t * 0.08);
+    vec2 p3 = uv * 4.0 + vec2(-t * 0.08, t * 0.1);
     
-    // Combine different noise patterns - более плавные переходы
-    float n1 = fbm(p1 + vec2(cos(t * 0.5), sin(t * 0.5)));
-    float n2 = fbm(p2 - vec2(sin(t * 0.35), cos(t * 0.25)));
-    float n3 = voronoi(p3 * 2.0 + iTime * 0.1);
+    // Combine different noise patterns
+    float n1 = fbm(p1 + vec2(cos(t), sin(t)));
+    float n2 = fbm(p2 - vec2(sin(t * 0.7), cos(t * 0.5)));
+    float n3 = voronoi(p3 * 2.0 + iTime * 0.2);
     
     // Create flowing pattern
     float pattern = n1 * 0.5 + n2 * 0.3 + n3 * 0.2;
@@ -114,9 +114,9 @@ void main() {
     vec3 color3 = vec3(1.0, 0.3, 0.6); // Pink
     vec3 color4 = vec3(0.3, 0.9, 0.5); // Green
     
-    // Animate color mixing - более плавные переходы
-    float mixFactor1 = sin(t * 0.5 + pattern * 2.0) * 0.5 + 0.5;
-    float mixFactor2 = cos(t * 0.35 + pattern * 3.0) * 0.5 + 0.5;
+    // Animate color mixing
+    float mixFactor1 = sin(t + pattern * 2.0) * 0.5 + 0.5;
+    float mixFactor2 = cos(t * 0.7 + pattern * 3.0) * 0.5 + 0.5;
     
     vec3 mixedColor1 = mix(color1, color2, mixFactor1);
     vec3 mixedColor2 = mix(color3, color4, mixFactor2);
@@ -136,8 +136,29 @@ void main() {
     float edgeGlow = smoothstep(0.95, 0.85, radialDist);
     finalColor += vec3(0.3, 0.7, 1.0) * (1.0 - edgeGlow) * 0.5;
     
+    // Внешнее свечение под цвет внутреннего круга
+    float glowDist = dist - radius;
+    float outerGlow = 0.0;
+    if (dist > radius) {
+        // Свечение за пределами круга
+        outerGlow = exp(-glowDist * 0.1) * smoothstep(radius + 50.0, radius, dist);
+    }
+    
+    vec3 glowColor = mix(mixedColor1, mixedColor2, pattern * 0.5 + 0.5);
+    finalColor = mix(finalColor, glowColor, outerGlow * 0.8);
+    finalColor += glowColor * outerGlow * 0.5;
+    
     // Smooth edge fade for antialiasing
-    float alpha = smoothstep(radius, radius - 2.0, dist);
+    float alpha = 0.0;
+    if (dist <= radius) {
+        alpha = smoothstep(radius, radius - 2.0, dist);
+    } else {
+        // Альфа для свечения за пределами круга
+        alpha = outerGlow * 0.6;
+    }
+    
+    // Увеличиваем прозрачность (уменьшаем непрозрачность)
+    alpha *= 0.7;
     
     gl_FragColor = vec4(finalColor, alpha);
 }

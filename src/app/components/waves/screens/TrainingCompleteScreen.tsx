@@ -16,6 +16,7 @@ interface TrainingCompleteScreenProps {
   streak: number;
   endReason?: TrainingEndReason; // Причина завершения тренировки
   technicalIssue?: string; // Описание технической проблемы (если есть)
+  trainingType?: string; // Тип тренировки ('breathing' для дыхательной)
   onComplete: () => void;
 }
 
@@ -27,6 +28,7 @@ export function TrainingCompleteScreen({
   streak,
   endReason = 'completed',
   technicalIssue,
+  trainingType,
   onComplete,
 }: TrainingCompleteScreenProps) {
   const isCompleted = endReason === 'completed';
@@ -106,8 +108,8 @@ export function TrainingCompleteScreen({
           </WellnessCard>
         )}
 
-        {/* Сообщение для досрочно завершенной тренировки */}
-        {endReason === 'early' && (
+        {/* Сообщение для досрочно завершенной тренировки - не показываем для дыхательной тренировки */}
+        {endReason === 'early' && trainingType !== 'breathing' && (
           <WellnessCard gradient="pink" className="mb-6">
             <p className="text-sm text-[#1a1a1a]/80">
               Тренировка была завершена досрочно. Для лучших результатов рекомендуется проходить тренировку полностью.

@@ -23,6 +23,7 @@ export function BreathingTrainingScreen({
   const [cycle, setCycle] = useState(0);
   const timerRef = React.useRef<NodeJS.Timeout | null>(null);
   const phaseProgressRef = React.useRef<number>(0); // Точный прогресс фазы от 0 до 1
+  const trainingStartTimeRef = React.useRef<number>(Date.now()); // Время начала тренировки
 
   useEffect(() => {
     if (!isPaused) {
@@ -116,6 +117,11 @@ export function BreathingTrainingScreen({
     }
   };
   
+  // Сбрасываем время начала тренировки при монтировании компонента
+  React.useEffect(() => {
+    trainingStartTimeRef.current = Date.now();
+  }, []);
+  
   // Состояние для принудительного обновления компонента при изменении прогресса
   const [, forceUpdate] = React.useReducer(x => x + 1, 0);
   
@@ -135,11 +141,13 @@ export function BreathingTrainingScreen({
         onClick={() => {
           // Останавливаем таймер при закрытии
           if (timerRef.current) {
-            clearInterval(timerRef.current);
+            clearTimeout(timerRef.current);
             timerRef.current = null;
           }
+          // Вычисляем прошедшее время тренировки в секундах
+          const timeElapsed = Math.floor((Date.now() - trainingStartTimeRef.current) / 1000);
           // Завершаем сессию - это приведет к показу экрана завершения, затем чек-аута, и возврату на главный экран
-          onComplete('early', 0);
+          onComplete('early', timeElapsed);
         }}
         className="absolute top-0 left-1/2 -translate-x-1/2 z-20 bg-black/30 backdrop-blur-sm rounded-b-xl px-3 py-2 flex items-center justify-center text-white hover:bg-black/40 transition-all"
         title="Завершить тренировку"

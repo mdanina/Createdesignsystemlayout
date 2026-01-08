@@ -92,7 +92,7 @@ export function TrainingDetailScreen({ session, onBack }: TrainingDetailScreenPr
                 <p className="font-semibold text-[#1a1a1a]">{session.duration} мин</p>
               </div>
             </div>
-            {session.endReason === 'early' && (
+            {session.endReason === 'early' && session.type !== 'Дыхание' && (
               <div className="p-3 bg-orange-50 rounded-lg">
                 <p className="text-sm text-orange-800">Тренировка завершена досрочно</p>
               </div>
