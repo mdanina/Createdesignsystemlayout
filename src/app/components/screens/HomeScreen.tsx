@@ -1,5 +1,6 @@
 import React from 'react';
 import { Crown, ChevronRight, Compass, BarChart2, Dumbbell, Grid, MoreHorizontal } from 'lucide-react';
+import { CardStack } from '../design-system/CardStack';
 
 interface HomeScreenProps {
   userName: string;
@@ -76,6 +77,42 @@ export function HomeScreen({
             </span>
           </div>
         </button>
+
+        {/* Wellness Cards Stack */}
+        <div className="mb-6">
+          <h2 className="text-lg font-semibold text-[#2D3142] mb-4">Featured Activities</h2>
+          <div className="flex justify-center">
+            <CardStack
+              items={[
+                {
+                  id: 1,
+                  title: "Morning Meditation",
+                  description: "Start your day with peace and clarity",
+                  gradient: "coral"
+                },
+                {
+                  id: 2,
+                  title: "Breathing Exercise",
+                  description: "Calm your mind in minutes",
+                  gradient: "blue"
+                },
+                {
+                  id: 3,
+                  title: "Evening Reflection",
+                  description: "Wind down and reflect on your day",
+                  gradient: "lavender"
+                },
+                {
+                  id: 4,
+                  title: "Mindful Walk",
+                  description: "Connect with nature and yourself",
+                  gradient: "pink"
+                },
+              ]}
+              className="mx-auto"
+            />
+          </div>
+        </div>
 
         {/* Action Cards */}
         <div className="space-y-3">

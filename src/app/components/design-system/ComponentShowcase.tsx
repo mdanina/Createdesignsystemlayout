@@ -30,6 +30,7 @@ import { ActionCard } from './ActionCard';
 import { MoodGraph } from './MoodGraph';
 import { DayGreeting } from './DayGreeting';
 import { FloatingActionButton } from './FloatingActionButton';
+import { CardStack } from './CardStack';
 import { ArrowRight, Smile, Clock, Mail, Search, Heart, Calendar, CheckCircle, Activity, Home, TrendingUp } from 'lucide-react';
 
 const mockMoodData = [
@@ -149,6 +150,42 @@ export function ComponentShowcase() {
             <h3 className="font-medium mb-2">Blue Gradient</h3>
             <p className="text-sm opacity-70">Trustworthy blue gradient</p>
           </WellnessCard>
+        </div>
+      </section>
+
+      {/* Card Stack */}
+      <section className="space-y-6">
+        <h2 className="text-2xl font-medium">Card Stack</h2>
+        <p className="text-sm opacity-70 mb-4">Swipeable card stack with drag interactions</p>
+        <div className="flex justify-center">
+          <CardStack
+            items={[
+              {
+                id: 1,
+                title: "Morning Meditation",
+                description: "Start your day with peace",
+                gradient: "coral"
+              },
+              {
+                id: 2,
+                title: "Evening Reflection",
+                description: "Wind down and reflect",
+                gradient: "lavender"
+              },
+              {
+                id: 3,
+                title: "Breathing Exercise",
+                description: "Calm your mind",
+                gradient: "blue"
+              },
+              {
+                id: 4,
+                title: "Mindful Walk",
+                description: "Connect with nature",
+                gradient: "pink"
+              },
+            ]}
+          />
         </div>
       </section>
 

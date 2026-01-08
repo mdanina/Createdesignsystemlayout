@@ -52,3 +52,7 @@ export { Pagination } from './Pagination';
 export { Modal } from './Modal';
 export { Tooltip } from './Tooltip';
 export { Popover } from './Popover';
+
+// Card Stack Component
+export { CardStack } from './CardStack';
+export type { CardItem, CardStackSettings, GradientType } from './CardStack';
