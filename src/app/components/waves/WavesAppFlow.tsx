@@ -660,8 +660,8 @@ export function WavesAppFlow() {
       <Modal
         isOpen={isSupportModalOpen}
         onClose={() => setIsSupportModalOpen(false)}
-        title="Поддержка"
         size="md"
+        showCloseButton={false}
       >
         <div className="space-y-4">
           <p className="text-[#1a1a1a]/80 text-center">
