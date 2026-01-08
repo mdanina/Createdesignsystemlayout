@@ -51,51 +51,81 @@ export function PostTrainingCheckoutScreen({
         {/* Настроение */}
         <div className="mb-8">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Настроение</h2>
-          <div className="flex items-center justify-between gap-2">
-            {moodOptions.map((option) => (
-              <button
-                key={option.value}
-                onClick={() => setMood(option.value)}
-                className={`flex-1 p-4 rounded-xl border-2 transition-all ${
-                  mood === option.value
-                    ? 'border-[#a8d8ea] bg-gradient-to-br from-[#a8d8ea]/30 to-[#a8d8ea]/20 scale-110'
-                    : 'border-[#1a1a1a]/10 bg-white/50 hover:border-[#a8d8ea]/30'
-                }`}
-              >
-                <div className="text-3xl mb-1">{option.emoji}</div>
-                <div className="text-xs text-gray-600">{option.label}</div>
-              </button>
-            ))}
+          <div className="grid grid-cols-5 gap-5">
+            {moodOptions.map((option) => {
+              const isSelected = mood === option.value;
+              return (
+                <button
+                  key={option.value}
+                  onClick={() => setMood(option.value)}
+                  className={`flex flex-col items-center gap-1 transition-all duration-200 ${
+                    isSelected ? 'scale-110' : 'hover:scale-105'
+                  }`}
+                >
+                  <div
+                    className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl transition-all ${
+                      isSelected
+                        ? 'bg-white shadow-[0_4px_15px_rgba(0,0,0,0.1)] scale-110'
+                        : 'bg-white/50 hover:bg-white/80'
+                    }`}
+                  >
+                    {option.emoji}
+                  </div>
+                  <span
+                    className={`text-xs transition-opacity ${
+                      isSelected ? 'opacity-100 font-medium' : 'opacity-60'
+                    }`}
+                  >
+                    {option.label}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
         {/* Концентрация */}
         <div className="mb-8">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Концентрация</h2>
-          <div className="flex items-center justify-between gap-2">
-            {concentrationLevels.map((level) => (
-              <button
-                key={level.value}
-                onClick={() => setConcentration(level.value)}
-                className={`flex-1 p-4 rounded-xl border-2 transition-all ${
-                  concentration === level.value
-                    ? 'border-[#a8d8ea] bg-gradient-to-br from-[#a8d8ea]/30 to-[#a8d8ea]/20 scale-110'
-                    : 'border-[#1a1a1a]/10 bg-white/50 hover:border-[#a8d8ea]/30'
-                }`}
-              >
-                <div className="text-3xl mb-1">{level.emoji}</div>
-                <div className="text-xs text-gray-600">{level.label}</div>
-              </button>
-            ))}
+          <div className="grid grid-cols-5 gap-5">
+            {concentrationLevels.map((level) => {
+              const isSelected = concentration === level.value;
+              return (
+                <button
+                  key={level.value}
+                  onClick={() => setConcentration(level.value)}
+                  className={`flex flex-col items-center gap-1 transition-all duration-200 ${
+                    isSelected ? 'scale-110' : 'hover:scale-105'
+                  }`}
+                >
+                  <div
+                    className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl transition-all ${
+                      isSelected
+                        ? 'bg-white shadow-[0_4px_15px_rgba(0,0,0,0.1)] scale-110'
+                        : 'bg-white/50 hover:bg-white/80'
+                    }`}
+                  >
+                    {level.emoji}
+                  </div>
+                  <span
+                    className={`text-xs transition-opacity ${
+                      isSelected ? 'opacity-100 font-medium' : 'opacity-60'
+                    }`}
+                  >
+                    {level.label}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
         {/* Понравилась тренировка */}
         <div className="mb-8">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Понравилась тренировка?</h2>
-          <div className="relative">
+          <div className="relative py-6">
             {/* Slider track */}
-            <div className="relative h-2 w-full bg-gradient-to-r from-gray-100 to-gray-200 rounded-full overflow-hidden shadow-inner">
+            <div className="relative h-2 w-full bg-gradient-to-r from-gray-100 to-gray-200 rounded-full overflow-visible shadow-inner">
               {/* Fill */}
               <div
                 className="absolute left-0 top-0 h-full rounded-full transition-all duration-200"
@@ -109,14 +139,14 @@ export function PostTrainingCheckoutScreen({
             
             {/* Thumb */}
             <div
-              className="absolute w-8 h-8 rounded-full transition-all duration-200 flex items-center justify-center pointer-events-none -mt-3"
+              className="absolute w-12 h-12 rounded-full transition-all duration-200 flex items-center justify-center pointer-events-none top-1/2 -translate-y-1/2"
               style={{
-                left: `calc(${((rating || 3) - 1) / 4 * 100}% - 16px)`,
+                left: `calc(${((rating || 3) - 1) / 4 * 100}% - 24px)`,
                 background: `radial-gradient(circle at 30% 30%, #F3B83Aff, #F3B83Acc, #F3B83A99)`,
                 boxShadow: `0 6px 20px #F3B83A50, 0 2px 8px #F3B83A40, inset 0 1px 2px rgba(255,255,255,0.3)`,
               }}
             >
-              <div className="w-2 h-2 bg-white/90 rounded-full shadow-sm" />
+              <div className="w-3 h-3 bg-white/90 rounded-full shadow-sm" />
             </div>
             
             {/* Input */}
@@ -130,14 +160,6 @@ export function PostTrainingCheckoutScreen({
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none"
             />
             
-            {/* Labels */}
-            <div className="flex justify-between mt-4 text-xs text-gray-500">
-              <span>1</span>
-              <span>2</span>
-              <span>3</span>
-              <span>4</span>
-              <span>5</span>
-            </div>
           </div>
         </div>
 

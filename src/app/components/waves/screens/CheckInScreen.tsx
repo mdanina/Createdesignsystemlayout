@@ -3,6 +3,7 @@ import { PillButton } from '../../design-system/PillButton';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
 import { GradientBackground } from '../../design-system/GradientBackground';
+import { EmojiSelector } from '../../design-system/EmojiSelector';
 
 interface CheckInScreenProps {
   childName?: string;
@@ -47,7 +48,7 @@ export function CheckInScreen({ childName = 'ребёнок', onContinue, onBack
         {/* Секция Эмоции */}
         <div className="mb-8">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Эмоции</h2>
-          <div className="grid grid-cols-5 gap-3">
+          <div className="grid grid-cols-5 gap-5">
             {emotions.map((emotion) => {
               const isSelected = selectedEmotion === emotion.value;
               return (
@@ -60,14 +61,26 @@ export function CheckInScreen({ childName = 'ребёнок', onContinue, onBack
                       setSelectedEmotion(emotion.value);
                     }
                   }}
-                  className={`p-4 rounded-xl border-2 transition-all ${
-                    isSelected
-                      ? 'border-[#a8d8ea] bg-gradient-to-br from-[#a8d8ea]/30 to-[#a8d8ea]/20 scale-110'
-                      : 'border-[#1a1a1a]/10 bg-white/50 hover:border-[#a8d8ea]/30'
+                  className={`flex flex-col items-center gap-1 transition-all duration-200 ${
+                    isSelected ? 'scale-110' : 'hover:scale-105'
                   }`}
                 >
-                  <div className="text-3xl mb-1">{emotion.emoji}</div>
-                  <div className="text-xs text-gray-600">{emotion.label}</div>
+                  <div
+                    className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl transition-all ${
+                      isSelected
+                        ? 'bg-white shadow-[0_4px_15px_rgba(0,0,0,0.1)] scale-110'
+                        : 'bg-white/50 hover:bg-white/80'
+                    }`}
+                  >
+                    {emotion.emoji}
+                  </div>
+                  <span
+                    className={`text-xs transition-opacity ${
+                      isSelected ? 'opacity-100 font-medium' : 'opacity-60'
+                    }`}
+                  >
+                    {emotion.label}
+                  </span>
                 </button>
               );
             })}
@@ -77,21 +90,36 @@ export function CheckInScreen({ childName = 'ребёнок', onContinue, onBack
         {/* Секция Концентрация */}
         <div className="mb-8">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Концентрация</h2>
-          <div className="flex items-center justify-between gap-2">
-            {concentrationLevels.map((level) => (
-              <button
-                key={level.value}
-                onClick={() => setConcentration(level.value)}
-                className={`flex-1 p-4 rounded-xl border-2 transition-all ${
-                  concentration === level.value
-                    ? 'border-[#a8d8ea] bg-gradient-to-br from-[#a8d8ea]/30 to-[#a8d8ea]/20 scale-110'
-                    : 'border-[#1a1a1a]/10 bg-white/50 hover:border-[#a8d8ea]/30'
-                }`}
-              >
-                <div className="text-3xl mb-1">{level.emoji}</div>
-                <div className="text-xs text-gray-600">{level.label}</div>
-              </button>
-            ))}
+          <div className="grid grid-cols-5 gap-5">
+            {concentrationLevels.map((level) => {
+              const isSelected = concentration === level.value;
+              return (
+                <button
+                  key={level.value}
+                  onClick={() => setConcentration(level.value)}
+                  className={`flex flex-col items-center gap-1 transition-all duration-200 ${
+                    isSelected ? 'scale-110' : 'hover:scale-105'
+                  }`}
+                >
+                  <div
+                    className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl transition-all ${
+                      isSelected
+                        ? 'bg-white shadow-[0_4px_15px_rgba(0,0,0,0.1)] scale-110'
+                        : 'bg-white/50 hover:bg-white/80'
+                    }`}
+                  >
+                    {level.emoji}
+                  </div>
+                  <span
+                    className={`text-xs transition-opacity ${
+                      isSelected ? 'opacity-100 font-medium' : 'opacity-60'
+                    }`}
+                  >
+                    {level.label}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
 

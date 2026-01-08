@@ -27,6 +27,7 @@ import {
   PlaylistScreen,
   ProfileScreen,
   TrainingDetailScreen,
+  TutorialScreen,
 } from './screens';
 import { BottomNavigation } from '../design-system/BottomNavigation';
 import { PillButton } from '../design-system/PillButton';
@@ -63,6 +64,7 @@ type WavesScreen =
   | 'settings'
   | 'profile'
   | 'training-detail'
+  | 'tutorial'
   | 'support';
 
 interface SubProfile {
@@ -359,6 +361,7 @@ export function WavesAppFlow() {
               setCurrentScreen('sub-profile-selection');
             }}
             onStartTraining={handleStartTraining}
+            onTutorial={() => setCurrentScreen('tutorial')}
             streak={5}
           />
         );
@@ -625,6 +628,14 @@ export function WavesAppFlow() {
           <TrainingDetailScreen
             session={selectedTrainingSession}
             onBack={() => setCurrentScreen('progress')}
+          />
+        );
+
+      case 'tutorial':
+        return (
+          <TutorialScreen
+            onBack={() => setCurrentScreen('home')}
+            onComplete={() => setCurrentScreen('home')}
           />
         );
 
