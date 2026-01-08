@@ -31,6 +31,7 @@ import { MoodGraph } from './MoodGraph';
 import { DayGreeting } from './DayGreeting';
 import { FloatingActionButton } from './FloatingActionButton';
 import { CardStack } from './CardStack';
+import { DecorativeShaderCircle } from './DecorativeShaderCircle';
 import { ArrowRight, Smile, Clock, Mail, Search, Heart, Calendar, CheckCircle, Activity, Home, TrendingUp } from 'lucide-react';
 
 const mockMoodData = [
@@ -69,7 +70,7 @@ export function ComponentShowcase() {
     <div className="max-w-6xl mx-auto p-8 space-y-12 pb-32">
       <div className="text-center space-y-4">
         <SerifHeading size="4xl">Component Library</SerifHeading>
-        <p className="text-lg opacity-70">Complete showcase of all 37 design system components</p>
+        <p className="text-lg opacity-70">Complete showcase of all 38 design system components</p>
       </div>
 
       {/* Typography */}
@@ -502,6 +503,66 @@ export function ComponentShowcase() {
             onButtonClick={() => setActionStarted('meditation')}
           />
         </div>
+      </section>
+
+      {/* Decorative Components */}
+      <section className="space-y-6">
+        <h2 className="text-2xl font-medium">Decorative Components</h2>
+        <WellnessCard>
+          <div className="space-y-6">
+            <div>
+              <p className="text-xs opacity-50 mb-4">Decorative Shader Circle</p>
+              <p className="text-sm opacity-70 mb-6">
+                Анимированные декоративные круги с WebGL шейдерами. Поддерживают различные визуальные эффекты и интерактивность.
+              </p>
+              <div className="flex flex-wrap items-center gap-8 justify-center py-8">
+                <div className="flex flex-col items-center gap-2">
+                  <DecorativeShaderCircle size={150} />
+                  <p className="text-xs opacity-50">Default: Iridescent</p>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <DecorativeShaderCircle size={150} shaderId={1} />
+                  <p className="text-xs opacity-50">Shader 1: Gradient Wave</p>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <DecorativeShaderCircle size={150} shaderId={2} />
+                  <p className="text-xs opacity-50">Shader 2: Spiral</p>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <DecorativeShaderCircle size={150} shaderId={3} />
+                  <p className="text-xs opacity-50">Shader 3: Pulsing Rings</p>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <DecorativeShaderCircle size={150} shaderId={4} />
+                  <p className="text-xs opacity-50">Shader 4: Swirling Colors</p>
+                </div>
+              </div>
+            </div>
+            <div className="border-t pt-6">
+              <p className="text-xs opacity-50 mb-4">Различные размеры</p>
+              <div className="flex flex-wrap items-center gap-6 justify-center">
+                <DecorativeShaderCircle size={100} shaderId={1} />
+                <DecorativeShaderCircle size={150} shaderId={2} />
+                <DecorativeShaderCircle size={200} shaderId={3} />
+                <DecorativeShaderCircle size={120} shaderId={4} />
+              </div>
+            </div>
+            <div className="border-t pt-6">
+              <p className="text-xs opacity-50 mb-4">Без эффектов при наведении</p>
+              <div className="flex flex-wrap items-center gap-6 justify-center">
+                <DecorativeShaderCircle size={120} shaderId={1} enableHoverEffect={false} />
+                <DecorativeShaderCircle size={120} shaderId={2} enableHoverEffect={false} />
+              </div>
+            </div>
+            <div className="border-t pt-6">
+              <p className="text-xs opacity-50 mb-4">Без взаимодействия с мышью</p>
+              <div className="flex flex-wrap items-center gap-6 justify-center">
+                <DecorativeShaderCircle size={120} shaderId={3} enableMouseInteraction={false} />
+                <DecorativeShaderCircle size={120} shaderId={4} enableMouseInteraction={false} />
+              </div>
+            </div>
+          </div>
+        </WellnessCard>
       </section>
 
     </div>

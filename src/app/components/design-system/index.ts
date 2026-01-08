@@ -56,3 +56,6 @@ export { Popover } from './Popover';
 // Card Stack Component
 export { CardStack } from './CardStack';
 export type { CardItem, CardStackSettings, GradientType } from './CardStack';
+
+// Decorative Components
+export { DecorativeShaderCircle } from './DecorativeShaderCircle';

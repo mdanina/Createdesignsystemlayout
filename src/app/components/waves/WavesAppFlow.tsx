@@ -651,7 +651,7 @@ export function WavesAppFlow() {
     currentScreen === 'settings';
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white relative">
       {renderScreen()}
       {showBottomNav && (
         <BottomNavigation
