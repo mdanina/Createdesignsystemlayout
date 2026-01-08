@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Pause, Play } from 'lucide-react';
+import { SerifHeading } from '../../design-system/SerifHeading';
+import { GradientBackground } from '../../design-system/GradientBackground';
 
 type BreathingPhase = 'inhale' | 'hold' | 'exhale' | 'hold2';
 
@@ -81,18 +83,18 @@ export function BreathingTrainingScreen({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex flex-col items-center justify-center px-6">
+    <GradientBackground variant="lavender" className="flex flex-col items-center justify-center px-6">
       <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">{getPhaseText(phase)}</h1>
-        <p className="text-4xl font-mono text-gray-600 mb-4">{countdown}</p>
-        <p className="text-sm text-gray-500">
+        <SerifHeading size="2xl" className="mb-2">{getPhaseText(phase)}</SerifHeading>
+        <p className="text-4xl font-mono text-[#1a1a1a]/70 mb-4">{countdown}</p>
+        <p className="text-sm text-[#1a1a1a]/50">
           Паттерн: {pattern.inhale}-{pattern.hold}-{pattern.exhale}-{pattern.hold2}
         </p>
       </div>
 
       {/* Анимация круга */}
       <div
-        className="bg-blue-500 rounded-full transition-all duration-1000 ease-in-out mb-8"
+        className="bg-[#a8d8ea] rounded-full transition-all duration-1000 ease-in-out mb-8"
         style={{
           width: `${getCircleSize()}px`,
           height: `${getCircleSize()}px`,
@@ -107,9 +109,9 @@ export function BreathingTrainingScreen({
         }}
         className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all"
       >
-        {isPaused ? <Play className="w-8 h-8 text-blue-600" /> : <Pause className="w-8 h-8 text-blue-600" />}
+        {isPaused ? <Play className="w-8 h-8 text-[#a8d8ea]" /> : <Pause className="w-8 h-8 text-[#a8d8ea]" />}
       </button>
-    </div>
+    </GradientBackground>
   );
 }
 

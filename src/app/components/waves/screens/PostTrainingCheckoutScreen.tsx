@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
+import { SerifHeading } from '../../design-system/SerifHeading';
+import { WellnessCard } from '../../design-system/WellnessCard';
+import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface PostTrainingCheckoutScreenProps {
   childName?: string;
@@ -34,13 +37,13 @@ export function PostTrainingCheckoutScreen({
   const canComplete = mood !== null && concentration !== null && rating !== null;
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <GradientBackground variant="lavender" className="flex flex-col">
       <div className="flex-1 px-6 py-8">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">
+          <SerifHeading size="2xl">
             Как {childName} себя чувствует после тренировки?
-          </h1>
-          <button onClick={onSkip} className="text-gray-400 hover:text-gray-600">
+          </SerifHeading>
+          <button onClick={onSkip} className="text-[#1a1a1a]/40 hover:text-[#1a1a1a]/60">
             <X className="w-6 h-6" />
           </button>
         </div>
@@ -55,8 +58,8 @@ export function PostTrainingCheckoutScreen({
                 onClick={() => setMood(option.value)}
                 className={`flex-1 p-4 rounded-xl border-2 transition-all ${
                   mood === option.value
-                    ? 'border-blue-500 bg-blue-50 scale-110'
-                    : 'border-gray-200 bg-gray-50 hover:border-gray-300'
+                    ? 'border-[#a8d8ea] bg-gradient-to-br from-[#a8d8ea]/30 to-[#a8d8ea]/20 scale-110'
+                    : 'border-[#1a1a1a]/10 bg-white/50 hover:border-[#a8d8ea]/30'
                 }`}
               >
                 <div className="text-3xl mb-1">{option.emoji}</div>
@@ -76,8 +79,8 @@ export function PostTrainingCheckoutScreen({
                 onClick={() => setConcentration(level.value)}
                 className={`flex-1 p-4 rounded-xl border-2 transition-all ${
                   concentration === level.value
-                    ? 'border-blue-500 bg-blue-50 scale-110'
-                    : 'border-gray-200 bg-gray-50 hover:border-gray-300'
+                    ? 'border-[#a8d8ea] bg-gradient-to-br from-[#a8d8ea]/30 to-[#a8d8ea]/20 scale-110'
+                    : 'border-[#1a1a1a]/10 bg-white/50 hover:border-[#a8d8ea]/30'
                 }`}
               >
                 <div className="text-3xl mb-1">{level.emoji}</div>
@@ -90,20 +93,51 @@ export function PostTrainingCheckoutScreen({
         {/* Понравилась тренировка */}
         <div className="mb-8">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Понравилась тренировка?</h2>
-          <div className="flex items-center justify-between gap-2">
-            {[1, 2, 3, 4, 5].map((value) => (
-              <button
-                key={value}
-                onClick={() => setRating(value)}
-                className={`flex-1 p-4 rounded-xl border-2 transition-all ${
-                  rating === value
-                    ? 'border-blue-500 bg-blue-50 scale-110'
-                    : 'border-gray-200 bg-gray-50 hover:border-gray-300'
-                }`}
-              >
-                <div className="text-2xl">{value === 5 ? '⭐' : '⭐'.repeat(value)}</div>
-              </button>
-            ))}
+          <div className="relative">
+            {/* Slider track */}
+            <div className="relative h-2 w-full bg-gradient-to-r from-gray-100 to-gray-200 rounded-full overflow-hidden shadow-inner">
+              {/* Fill */}
+              <div
+                className="absolute left-0 top-0 h-full rounded-full transition-all duration-200"
+                style={{
+                  width: `${((rating || 3) - 1) / 4 * 100}%`,
+                  background: `linear-gradient(to right, #F3B83A, #F3B83A80)`,
+                  boxShadow: `0 0 20px #F3B83A30`,
+                }}
+              />
+            </div>
+            
+            {/* Thumb */}
+            <div
+              className="absolute w-8 h-8 rounded-full transition-all duration-200 flex items-center justify-center pointer-events-none -mt-3"
+              style={{
+                left: `calc(${((rating || 3) - 1) / 4 * 100}% - 16px)`,
+                background: `radial-gradient(circle at 30% 30%, #F3B83Aff, #F3B83Acc, #F3B83A99)`,
+                boxShadow: `0 6px 20px #F3B83A50, 0 2px 8px #F3B83A40, inset 0 1px 2px rgba(255,255,255,0.3)`,
+              }}
+            >
+              <div className="w-2 h-2 bg-white/90 rounded-full shadow-sm" />
+            </div>
+            
+            {/* Input */}
+            <input
+              type="range"
+              min={1}
+              max={5}
+              step={1}
+              value={rating || 3}
+              onChange={(e) => setRating(Number(e.target.value))}
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none"
+            />
+            
+            {/* Labels */}
+            <div className="flex justify-between mt-4 text-xs text-gray-500">
+              <span>1</span>
+              <span>2</span>
+              <span>3</span>
+              <span>4</span>
+              <span>5</span>
+            </div>
           </div>
         </div>
 
@@ -124,11 +158,11 @@ export function PostTrainingCheckoutScreen({
           Готово
         </PillButton>
 
-        <button onClick={onSkip} className="w-full text-center text-gray-500 hover:text-gray-700 text-sm">
+        <button onClick={onSkip} className="w-full text-center text-[#1a1a1a]/50 hover:text-[#1a1a1a]/70 text-sm">
           Пропустить
         </button>
       </div>
-    </div>
+    </GradientBackground>
   );
 }
 

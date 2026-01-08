@@ -45,7 +45,7 @@ export function Input({
             'w-full px-4 py-3 rounded-2xl border-2 transition-all duration-200',
             'bg-white/80 backdrop-blur-sm',
             'focus:outline-none',
-            isFocused ? 'border-[#ff8a65] shadow-lg shadow-[#ff8a65]/20' : 'border-gray-200',
+            isFocused ? 'border-[#F3B83A] shadow-lg shadow-[#F3B83A]/20' : 'border-gray-200',
             error && 'border-red-300',
             icon && 'pl-12',
             label && 'pt-6 pb-3',

@@ -27,8 +27,8 @@ export function MoodTracker({ streak = 7, onMoodSelect, className }: MoodTracker
     <div className={cn('bg-white rounded-[28px] p-6 shadow-sm', className)}>
       {/* Streak Header */}
       <div className="flex items-center justify-center gap-2 mb-6">
-        <span className="text-[#ff8a5b] text-xs">🔥</span>
-        <span className="text-[10px] uppercase tracking-[0.1em] text-[#ff8a5b] font-medium">
+        <span className="text-[#F3B83A] text-xs">🔥</span>
+        <span className="text-[10px] uppercase tracking-[0.1em] text-[#F3B83A] font-medium">
           {streak} Day Streak
         </span>
       </div>

@@ -10,6 +10,7 @@ export { BluetoothOffScreen } from './BluetoothOffScreen';
 export { LocationOffScreen } from './LocationOffScreen';
 export { HomeScreen } from './HomeScreen';
 export { DeviceInTransitScreen } from './DeviceInTransitScreen';
+export { PurchaseScreen } from './PurchaseScreen';
 export { FirstTrainingScreen } from './FirstTrainingScreen';
 export { InsightsEmptyScreen } from './InsightsEmptyScreen';
 export { CheckInScreen } from './CheckInScreen';
@@ -34,4 +35,7 @@ export { TutorialScreen } from './TutorialScreen';
 export { SettingsScreen } from './SettingsScreen';
 export { OfflineModeScreen } from './OfflineModeScreen';
 export { AppUpdateScreen } from './AppUpdateScreen';
+export { PlaylistScreen } from './PlaylistScreen';
+export { ProfileScreen } from './ProfileScreen';
+export { TrainingDetailScreen } from './TrainingDetailScreen';
 

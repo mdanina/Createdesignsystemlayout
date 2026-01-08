@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Play, CheckCircle2 } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
+import { SerifHeading } from '../../design-system/SerifHeading';
+import { WellnessCard } from '../../design-system/WellnessCard';
+import { GradientBackground } from '../../design-system/GradientBackground';
+import { Logo } from '../../design-system/Logo';
 
 interface TutorialScreenProps {
   onBack: () => void;
@@ -13,74 +17,74 @@ export function TutorialScreen({ onBack, onComplete }: TutorialScreenProps) {
 
   if (step === 'video') {
     return (
-      <div className="min-h-screen bg-white flex flex-col">
-        <div className="flex items-center px-4 py-4 border-b border-gray-100">
-          <button onClick={onBack} className="mr-4 text-gray-600 hover:text-gray-900">
+      <GradientBackground variant="lavender" className="flex flex-col">
+        <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
+          <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
             <ArrowLeft className="w-6 h-6" />
           </button>
-          <h1 className="text-lg font-semibold text-gray-900">Инструктаж</h1>
+          <SerifHeading size="xl">Инструктаж</SerifHeading>
         </div>
 
         <div className="flex-1 px-6 py-8">
-          <div className="w-full h-64 bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl mb-6 flex items-center justify-center">
+          <div className="w-full h-64 bg-gradient-to-br from-[#a8d8ea]/30 to-[#b8a0d6]/30 rounded-2xl mb-6 flex items-center justify-center">
             <span className="text-6xl">📹</span>
           </div>
-          <p className="text-center text-gray-600 mb-6">
+          <p className="text-center text-[#1a1a1a]/70 mb-6">
             Видео: что такое нейрофидбек (1-2 мин)
           </p>
           <PillButton onClick={() => setStep('explanation')} variant="coral" className="w-full">
             Далее
           </PillButton>
         </div>
-      </div>
+      </GradientBackground>
     );
   }
 
   if (step === 'explanation') {
     return (
-      <div className="min-h-screen bg-white flex flex-col">
-        <div className="flex items-center px-4 py-4 border-b border-gray-100">
-          <button onClick={() => setStep('video')} className="mr-4 text-gray-600 hover:text-gray-900">
+      <GradientBackground variant="lavender" className="flex flex-col">
+        <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
+          <button onClick={() => setStep('video')} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
             <ArrowLeft className="w-6 h-6" />
           </button>
-          <h1 className="text-lg font-semibold text-gray-900">Объяснение</h1>
+          <SerifHeading size="xl">Объяснение</SerifHeading>
         </div>
 
         <div className="flex-1 px-6 py-8">
           <div className="space-y-4 mb-6">
-            <div className="bg-blue-50 rounded-xl p-4">
-              <p className="font-semibold text-gray-900 mb-2">Будем тренировать волну SMR</p>
-            </div>
-            <div className="bg-blue-50 rounded-xl p-4">
-              <p className="font-semibold text-gray-900 mb-2">Линия идёт вверх, когда ты сосредоточен</p>
-            </div>
-            <div className="bg-blue-50 rounded-xl p-4">
-              <p className="font-semibold text-gray-900 mb-2">Расслабься и наблюдай</p>
-            </div>
+            <WellnessCard gradient="blue" className="p-4">
+              <p className="font-semibold text-[#1a1a1a] mb-2">Будем тренировать волну SMR</p>
+            </WellnessCard>
+            <WellnessCard gradient="lavender" className="p-4">
+              <p className="font-semibold text-[#1a1a1a] mb-2">Линия идёт вверх, когда ты сосредоточен</p>
+            </WellnessCard>
+            <WellnessCard gradient="pink" className="p-4">
+              <p className="font-semibold text-[#1a1a1a] mb-2">Расслабься и наблюдай</p>
+            </WellnessCard>
           </div>
           <PillButton onClick={() => setStep('demo')} variant="coral" className="w-full">
             Далее
           </PillButton>
         </div>
-      </div>
+      </GradientBackground>
     );
   }
 
   if (step === 'demo') {
     return (
-      <div className="min-h-screen bg-white flex flex-col">
-        <div className="flex items-center px-4 py-4 border-b border-gray-100">
-          <button onClick={() => setStep('explanation')} className="mr-4 text-gray-600 hover:text-gray-900">
+      <GradientBackground variant="lavender" className="flex flex-col">
+        <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
+          <button onClick={() => setStep('explanation')} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
             <ArrowLeft className="w-6 h-6" />
           </button>
-          <h1 className="text-lg font-semibold text-gray-900">Демо-тренировка</h1>
+          <SerifHeading size="xl">Демо-тренировка</SerifHeading>
         </div>
 
         <div className="flex-1 flex flex-col items-center justify-center px-6 py-8">
-          <div className="w-64 h-64 bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900 rounded-full flex items-center justify-center mb-6">
-            <span className="text-8xl">🌊</span>
+          <div className="mb-6">
+            <Logo size="xl" variant="default" />
           </div>
-          <p className="text-center text-gray-600 mb-6">Демо-тренировка (2-3 мин)</p>
+          <p className="text-center text-[#1a1a1a]/70 mb-6">Демо-тренировка (2-3 мин)</p>
           <PillButton
             onClick={() => {
               setDemoCompleted(true);
@@ -93,24 +97,24 @@ export function TutorialScreen({ onBack, onComplete }: TutorialScreenProps) {
             Начать демо
           </PillButton>
         </div>
-      </div>
+      </GradientBackground>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 py-12">
+    <GradientBackground variant="peach" className="flex flex-col items-center justify-center px-6 py-12">
       <div className="w-full max-w-sm text-center">
-        <div className="w-24 h-24 mx-auto mb-6 bg-green-100 rounded-full flex items-center justify-center">
-          <CheckCircle2 className="w-16 h-16 text-green-600" />
+        <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-[#a8d8ea]/30 to-[#a8d8ea]/50 rounded-full flex items-center justify-center">
+          <CheckCircle2 className="w-16 h-16 text-[#a8d8ea]" />
         </div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">
+        <SerifHeading size="2xl" className="mb-4">
           Отлично! Теперь ты готов к настоящим тренировкам 👏
-        </h1>
+        </SerifHeading>
         <PillButton onClick={onComplete} variant="coral" className="w-full">
           Начать тренировку
         </PillButton>
       </div>
-    </div>
+    </GradientBackground>
   );
 }
 

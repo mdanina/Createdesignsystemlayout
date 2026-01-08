@@ -3,7 +3,7 @@ import { cn } from '../ui/utils';
 
 interface LoadingSpinnerProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
-  gradient?: 'coral' | 'lavender' | 'blue' | 'pink';
+  gradient?: 'coral' | 'lavender' | 'blue' | 'pink' | 'yellow';
   className?: string;
 }
 
@@ -22,8 +22,9 @@ export function LoadingSpinner({
   const gradients = {
     coral: 'border-t-[#ff8a65]',
     lavender: 'border-t-[#b8a0d6]',
-    blue: 'border-t-[#a8d8ea]',
+    blue: 'border-t-[#47BDF7]',
     pink: 'border-t-[#ffb5c5]',
+    yellow: 'border-t-[#F3B83A]',
   };
 
   return (

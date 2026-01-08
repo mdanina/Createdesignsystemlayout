@@ -1,18 +1,21 @@
 import React from 'react';
+import { SerifHeading } from '../../design-system/SerifHeading';
+import { GradientBackground } from '../../design-system/GradientBackground';
+import { Logo } from '../../design-system/Logo';
 
 export function SplashScreen() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500">
+    <GradientBackground variant="lavender" className="flex items-center justify-center">
       <div className="text-center">
         <div className="mb-8">
-          {/* Логотип Waves - можно заменить на реальный */}
-          <div className="w-24 h-24 mx-auto bg-white rounded-full flex items-center justify-center mb-4 animate-pulse">
-            <span className="text-4xl">🌊</span>
+          {/* Логотип Waves */}
+          <div className="mx-auto mb-4 animate-pulse">
+            <Logo size="xl" variant="default" />
           </div>
-          <h1 className="text-4xl font-bold text-white">Waves</h1>
+          <SerifHeading size="4xl" className="text-white">Waves</SerifHeading>
         </div>
       </div>
-    </div>
+    </GradientBackground>
   );
 }
 

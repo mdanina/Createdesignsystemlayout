@@ -1,6 +1,8 @@
 import React from 'react';
 import { Download, X } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
+import { SerifHeading } from '../../design-system/SerifHeading';
+import { WellnessCard } from '../../design-system/WellnessCard';
 
 interface AppUpdateScreenProps {
   isMandatory?: boolean;
@@ -11,9 +13,9 @@ interface AppUpdateScreenProps {
 export function AppUpdateScreen({ isMandatory = false, onUpdate, onLater }: AppUpdateScreenProps) {
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center px-6">
-      <div className="w-full max-w-sm bg-white rounded-2xl p-6">
-        <h1 className="text-xl font-bold text-gray-900 mb-2">Доступна новая версия</h1>
-        <p className="text-gray-600 mb-6">
+      <WellnessCard className="w-full max-w-sm p-6">
+        <SerifHeading size="xl" className="mb-2">Доступна новая версия</SerifHeading>
+        <p className="text-[#1a1a1a]/70 mb-6">
           Обновите приложение для получения новых функций и исправлений
         </p>
 
@@ -28,7 +30,7 @@ export function AppUpdateScreen({ isMandatory = false, onUpdate, onLater }: AppU
             </PillButton>
           )}
         </div>
-      </div>
+      </WellnessCard>
     </div>
   );
 }

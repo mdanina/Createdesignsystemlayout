@@ -1,6 +1,9 @@
 import React from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
+import { SerifHeading } from '../../design-system/SerifHeading';
+import { WellnessCard } from '../../design-system/WellnessCard';
+import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface WearingInstructionScreenProps {
   onBack: () => void;
@@ -9,44 +12,55 @@ interface WearingInstructionScreenProps {
 
 export function WearingInstructionScreen({ onBack, onReady }: WearingInstructionScreenProps) {
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      <div className="flex items-center px-4 py-4 border-b border-gray-100">
-        <button onClick={onBack} className="mr-4 text-gray-600 hover:text-gray-900">
+    <GradientBackground variant="cream" className="flex flex-col">
+      <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
+        <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
           <ArrowLeft className="w-6 h-6" />
         </button>
-        <h1 className="text-lg font-semibold text-gray-900">Инструкция</h1>
+        <SerifHeading size="xl">Инструкция</SerifHeading>
       </div>
 
       <div className="flex-1 px-6 py-8">
         {/* Видео/GIF placeholder */}
-        <div className="w-full h-64 bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl mb-6 flex items-center justify-center">
+        <div className="w-full h-64 bg-gradient-to-br from-[#a8d8ea]/30 to-[#b8a0d6]/30 rounded-2xl mb-6 flex items-center justify-center">
           <span className="text-6xl">📹</span>
         </div>
 
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Наденьте устройство на ребёнка</h2>
+        <SerifHeading size="xl" className="mb-4">Наденьте устройство на ребёнка</SerifHeading>
 
         <div className="space-y-4 mb-6">
-          <div className="flex items-start gap-3">
-            <span className="text-2xl">👂</span>
-            <p className="text-gray-700">Датчики за ушами — на кожу</p>
-          </div>
-
-          <div className="flex items-start gap-3">
-            <span className="text-2xl">💇</span>
-            <div>
-              <p className="text-gray-700 mb-1">Длинные волосы?</p>
-              <button className="text-blue-600 hover:text-blue-700 text-sm">
-                Смотреть дополнительные инструкции
-              </button>
+          <WellnessCard gradient="blue" className="p-4">
+            <div className="flex items-start gap-3">
+              <span className="text-2xl">👂</span>
+              <p className="text-[#1a1a1a]/80">Датчики за ушами — на кожу</p>
             </div>
-          </div>
+          </WellnessCard>
+
+          <WellnessCard gradient="lavender" className="p-4">
+            <div className="flex items-start gap-3">
+              <span className="text-2xl">💇</span>
+              <div>
+                <p className="text-[#1a1a1a]/80 mb-1">Длинные волосы?</p>
+                <button className="text-[#a8d8ea] hover:text-[#8bc9e0] text-sm">
+                  Смотреть дополнительные инструкции
+                </button>
+              </div>
+            </div>
+          </WellnessCard>
         </div>
 
-        <PillButton onClick={onReady} variant="coral" className="w-full">
+        <PillButton onClick={onReady} variant="coral" className="w-full mb-3">
           Готово
         </PillButton>
+        
+        <button
+          onClick={onBack}
+          className="w-full text-center text-[#1a1a1a]/70 hover:text-[#1a1a1a] py-3 text-sm transition-colors"
+        >
+          Назад
+        </button>
       </div>
-    </div>
+    </GradientBackground>
   );
 }
 

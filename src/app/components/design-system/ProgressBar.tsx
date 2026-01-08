@@ -4,7 +4,7 @@ import { cn } from '../ui/utils';
 interface ProgressBarProps {
   value: number;
   max?: number;
-  gradient?: 'coral' | 'lavender' | 'blue' | 'pink';
+  gradient?: 'coral' | 'lavender' | 'blue' | 'pink' | 'yellow';
   showLabel?: boolean;
   label?: string;
   size?: 'sm' | 'md' | 'lg';
@@ -25,8 +25,9 @@ export function ProgressBar({
   const gradients = {
     coral: 'from-[#ff8a65] to-[#ff6f4a]',
     lavender: 'from-[#b8a0d6] to-[#9b7ec4]',
-    blue: 'from-[#a8d8ea] to-[#8bc9e0]',
+    blue: 'from-[#47BDF7] to-[#6ab9e7]',
     pink: 'from-[#ffb5c5] to-[#ff9fb3]',
+    yellow: 'from-[#F3B83A] to-[#FFD54F]',
   };
 
   const sizes = {

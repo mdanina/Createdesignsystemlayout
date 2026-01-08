@@ -1,38 +1,53 @@
 import React from 'react';
-import { ChevronRight } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
+import { SerifHeading } from '../../design-system/SerifHeading';
+import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface WelcomeFlowScreenProps {
   step: 1 | 2 | 3;
   childName?: string;
   onNext: () => void;
   onComplete: () => void;
+  onStepChange?: (step: 1 | 2 | 3) => void;
 }
 
-export function WelcomeFlowScreen({ step, childName = 'ребёнка', onNext, onComplete }: WelcomeFlowScreenProps) {
+export function WelcomeFlowScreen({ step, childName = 'ребёнка', onNext, onComplete, onStepChange }: WelcomeFlowScreenProps) {
+  const handleStepClick = (stepNumber: 1 | 2 | 3) => {
+    if (stepNumber !== step) {
+      if (onStepChange) {
+        // Прямое переключение на любой шаг (вперед или назад)
+        onStepChange(stepNumber);
+      } else {
+        // Fallback: используем onNext только для перехода вперед
+        if (stepNumber > step) {
+          if (step === 1 && stepNumber === 2) {
+            onNext();
+          } else if (step === 2 && stepNumber === 3) {
+            onNext();
+          } else if (step === 1 && stepNumber === 3) {
+            onNext();
+            setTimeout(() => onNext(), 100);
+          }
+        }
+      }
+    }
+  };
+
   const renderStep = () => {
     switch (step) {
       case 1:
         return (
           <>
             <div className="text-6xl mb-6">👋</div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">
+            <SerifHeading size="2xl" className="mb-4">
               Привет, {childName || 'Имя'}!
-            </h1>
+            </SerifHeading>
             <p className="text-gray-600 mb-2">
               Вы на пути к тому, чтобы помочь {childName || 'Имя ребенка'}
             </p>
             <p className="text-gray-600">
               Waves — это научно доказанный метод тренировки внимания
             </p>
-            <div className="flex gap-2 mt-8">
-              <div className="w-3 h-3 rounded-full bg-blue-600"></div>
-              <div className="w-3 h-3 rounded-full bg-gray-300"></div>
-              <div className="w-3 h-3 rounded-full bg-gray-300"></div>
-            </div>
-            <PillButton onClick={onNext} variant="coral" className="mt-6">
-              Далее <ChevronRight className="w-4 h-4 ml-2" />
-            </PillButton>
           </>
         );
 
@@ -40,7 +55,7 @@ export function WelcomeFlowScreen({ step, childName = 'ребёнка', onNext, 
         return (
           <>
             <div className="text-6xl mb-6">🎯</div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-6">Как это работает:</h1>
+            <SerifHeading size="2xl" className="mb-6">Как это работает:</SerifHeading>
             <div className="space-y-4 text-left mb-8">
               <div className="flex items-start gap-3">
                 <span className="text-2xl">1️⃣</span>
@@ -58,14 +73,6 @@ export function WelcomeFlowScreen({ step, childName = 'ребёнка', onNext, 
             <p className="text-gray-500 italic mb-8">
               Регулярность важнее интенсивности
             </p>
-            <div className="flex gap-2">
-              <div className="w-3 h-3 rounded-full bg-gray-300"></div>
-              <div className="w-3 h-3 rounded-full bg-blue-600"></div>
-              <div className="w-3 h-3 rounded-full bg-gray-300"></div>
-            </div>
-            <PillButton onClick={onNext} variant="coral" className="mt-6">
-              Далее <ChevronRight className="w-4 h-4 ml-2" />
-            </PillButton>
           </>
         );
 
@@ -73,7 +80,7 @@ export function WelcomeFlowScreen({ step, childName = 'ребёнка', onNext, 
         return (
           <>
             <div className="text-6xl mb-6">📈</div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-6">Когда ждать результат:</h1>
+            <SerifHeading size="2xl" className="mb-6">Когда ждать результат:</SerifHeading>
             <div className="space-y-4 text-left mb-8">
               <div className="flex items-start gap-3">
                 <span className="text-xl">📅</span>
@@ -100,25 +107,46 @@ export function WelcomeFlowScreen({ step, childName = 'ребёнка', onNext, 
             <p className="text-gray-500 mb-8">
               Ключ к успеху — тренировки 4-5 раз в неделю
             </p>
-            <div className="flex gap-2">
-              <div className="w-3 h-3 rounded-full bg-gray-300"></div>
-              <div className="w-3 h-3 rounded-full bg-gray-300"></div>
-              <div className="w-3 h-3 rounded-full bg-blue-600"></div>
+            <div className="flex justify-center">
+              <PillButton onClick={onComplete} variant="coral" className="mt-6">
+                Начать
+              </PillButton>
             </div>
-            <PillButton onClick={onComplete} variant="coral" className="mt-6">
-              Начать
-            </PillButton>
           </>
         );
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center px-6 py-12">
+    <GradientBackground variant="lavender" className="flex items-center justify-center px-6 py-12">
       <div className="w-full max-w-md text-center">
         {renderStep()}
+        
+        {/* Интерактивный слайдер (точки пагинации) */}
+        <div className="flex gap-2 justify-center mt-8">
+          <button
+            onClick={() => handleStepClick(1)}
+            className={`h-3 rounded-full transition-all ${
+              step === 1 ? 'bg-[#b8a0d6] w-8' : 'bg-white/50 hover:bg-white/70 w-3'
+            }`}
+            aria-label="Шаг 1"
+          />
+          <button
+            onClick={() => handleStepClick(2)}
+            className={`h-3 rounded-full transition-all ${
+              step === 2 ? 'bg-[#b8a0d6] w-8' : 'bg-white/50 hover:bg-white/70 w-3'
+            }`}
+            aria-label="Шаг 2"
+          />
+          <button
+            onClick={() => handleStepClick(3)}
+            className={`h-3 rounded-full transition-all ${
+              step === 3 ? 'bg-[#b8a0d6] w-8' : 'bg-white/50 hover:bg-white/70 w-3'
+            }`}
+            aria-label="Шаг 3"
+          />
+        </div>
       </div>
-    </div>
+    </GradientBackground>
   );
 }
-

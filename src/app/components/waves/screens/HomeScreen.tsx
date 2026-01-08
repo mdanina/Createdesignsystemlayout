@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Flame, Play, Info } from 'lucide-react';
 import { StreakBadge } from '../../design-system/StreakBadge';
 import { PillButton } from '../../design-system/PillButton';
+import { SerifHeading } from '../../design-system/SerifHeading';
+import { WellnessCard } from '../../design-system/WellnessCard';
 
 interface HomeScreenProps {
   childName?: string;
@@ -33,8 +35,8 @@ export function HomeScreen({
   return (
     <div className="min-h-screen bg-white pb-20">
       {/* Шапка */}
-      <div className="sticky top-0 z-10 bg-white border-b border-gray-100 px-4 py-3">
-        <h1 className="text-xl font-bold text-gray-900">Сегодня</h1>
+      <div className="sticky top-0 z-10 bg-white border-b border-[#1a1a1a]/10 px-4 py-3">
+        <SerifHeading size="xl">Сегодня</SerifHeading>
       </div>
 
       <div className="px-4 py-6 space-y-6">
@@ -47,33 +49,34 @@ export function HomeScreen({
 
         {/* Карточка инструктажа для новых */}
         {showTutorial && onTutorial && (
-          <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 relative">
+          <WellnessCard gradient="blue" className="relative">
             <button
               onClick={() => setShowTutorial(false)}
-              className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
+              className="absolute top-2 right-2 text-[#1a1a1a]/40 hover:text-[#1a1a1a]/60"
             >
               ×
             </button>
             <div className="flex items-center gap-3">
-              <Info className="w-5 h-5 text-blue-600" />
+              <Info className="w-5 h-5 text-[#a8d8ea]" />
               <div className="flex-1">
-                <h3 className="font-semibold text-gray-900">Пройти инструктаж</h3>
-                <p className="text-sm text-gray-600">Узнайте, как работает нейрофидбек</p>
+                <h3 className="font-semibold text-[#1a1a1a]">Пройти инструктаж</h3>
+                <p className="text-sm text-[#1a1a1a]/70">Узнайте, как работает нейрофидбек</p>
               </div>
-              <button
+              <PillButton
                 onClick={onTutorial}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
+                variant="coral"
+                size="sm"
               >
                 Начать
-              </button>
+              </PillButton>
             </div>
-          </div>
+          </WellnessCard>
         )}
 
         {/* Рекомендуемая тренировка */}
-        <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-6 border border-blue-100">
-          <h2 className="text-lg font-semibold text-gray-900 mb-2">Рекомендуемая тренировка</h2>
-          <p className="text-sm text-gray-600 mb-4">{recommendedTraining.type}</p>
+        <WellnessCard>
+          <h2 className="text-lg font-semibold text-[#1a1a1a] mb-2">Рекомендуемая тренировка</h2>
+          <p className="text-sm text-[#1a1a1a]/70 mb-4">{recommendedTraining.type}</p>
           <PillButton
             onClick={() => onStartTraining('tbr')}
             variant="coral"
@@ -82,39 +85,47 @@ export function HomeScreen({
             <Play className="w-4 h-4 mr-2" />
             Начать
           </PillButton>
-        </div>
+        </WellnessCard>
 
         {/* Карточки тренировок по типам */}
         <div className="space-y-3">
-          <h2 className="text-lg font-semibold text-gray-900">Типы тренировок</h2>
+          <h2 className="text-lg font-semibold text-[#1a1a1a]">Типы тренировок</h2>
           <div className="grid grid-cols-2 gap-3">
             <button
               onClick={() => onStartTraining('tbr')}
-              className="p-4 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 text-left"
+              className="text-left transition-all hover:scale-[1.02]"
             >
-              <h3 className="font-semibold text-gray-900 mb-1">Концентрация</h3>
-              <p className="text-xs text-gray-500">TBR</p>
+              <WellnessCard gradient="blue" hover>
+                <h3 className="font-semibold text-[#1a1a1a] mb-1">Концентрация</h3>
+                <p className="text-xs text-[#1a1a1a]/50">TBR</p>
+              </WellnessCard>
             </button>
             <button
               onClick={() => onStartTraining('alpha')}
-              className="p-4 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 text-left"
+              className="text-left transition-all hover:scale-[1.02]"
             >
-              <h3 className="font-semibold text-gray-900 mb-1">Спокойствие</h3>
-              <p className="text-xs text-gray-500">Alpha</p>
+              <WellnessCard gradient="lavender" hover>
+                <h3 className="font-semibold text-[#1a1a1a] mb-1">Спокойствие</h3>
+                <p className="text-xs text-[#1a1a1a]/50">Alpha</p>
+              </WellnessCard>
             </button>
             <button
               onClick={() => onStartTraining('smr')}
-              className="p-4 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 text-left"
+              className="text-left transition-all hover:scale-[1.02]"
             >
-              <h3 className="font-semibold text-gray-900 mb-1">Фокус</h3>
-              <p className="text-xs text-gray-500">SMR</p>
+              <WellnessCard gradient="pink" hover>
+                <h3 className="font-semibold text-[#1a1a1a] mb-1">Фокус</h3>
+                <p className="text-xs text-[#1a1a1a]/50">SMR</p>
+              </WellnessCard>
             </button>
             <button
               onClick={() => onStartTraining('breathing')}
-              className="p-4 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 text-left"
+              className="text-left transition-all hover:scale-[1.02]"
             >
-              <h3 className="font-semibold text-gray-900 mb-1">Дыхание</h3>
-              <p className="text-xs text-gray-500">Без устройства</p>
+              <WellnessCard gradient="coral" hover>
+                <h3 className="font-semibold text-[#1a1a1a] mb-1">Дыхание</h3>
+                <p className="text-xs text-[#1a1a1a]/50">Без устройства</p>
+              </WellnessCard>
             </button>
           </div>
         </div>

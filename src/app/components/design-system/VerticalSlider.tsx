@@ -21,7 +21,7 @@ export function VerticalSlider({
   max = 10,
   defaultValue = 5,
   labels,
-  color = '#ff8a65',
+  color = '#F3B83A',
   onChange,
   className,
 }: VerticalSliderProps) {

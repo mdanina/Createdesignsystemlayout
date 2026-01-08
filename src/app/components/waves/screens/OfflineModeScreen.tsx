@@ -1,5 +1,6 @@
 import React from 'react';
 import { WifiOff, CheckCircle2 } from 'lucide-react';
+import { WellnessCard } from '../../design-system/WellnessCard';
 
 interface OfflineModeScreenProps {
   isOnline: boolean;
@@ -8,23 +9,23 @@ interface OfflineModeScreenProps {
 export function OfflineModeScreen({ isOnline }: OfflineModeScreenProps) {
   if (isOnline) {
     return (
-      <div className="bg-green-50 border-b border-green-200 px-4 py-3 flex items-center gap-3">
-        <CheckCircle2 className="w-5 h-5 text-green-600" />
-        <p className="text-sm text-green-900">Данные синхронизированы ✓</p>
-      </div>
+      <WellnessCard gradient="blue" className="border-b border-[#1a1a1a]/10 px-4 py-3 flex items-center gap-3">
+        <CheckCircle2 className="w-5 h-5 text-[#a8d8ea]" />
+        <p className="text-sm text-[#1a1a1a]">Данные синхронизированы ✓</p>
+      </WellnessCard>
     );
   }
 
   return (
-    <div className="bg-yellow-50 border-b border-yellow-200 px-4 py-3">
+    <WellnessCard gradient="coral" className="border-b border-[#1a1a1a]/10 px-4 py-3">
       <div className="flex items-center gap-3 mb-3">
-        <WifiOff className="w-5 h-5 text-yellow-600" />
-        <p className="font-semibold text-yellow-900">Нет подключения к интернету</p>
+        <WifiOff className="w-5 h-5 text-[#ff8a65]" />
+        <p className="font-semibold text-[#1a1a1a]">Нет подключения к интернету</p>
       </div>
       <div className="ml-8 space-y-2 text-sm">
         <div>
-          <p className="font-semibold text-gray-900 mb-1">Доступно офлайн:</p>
-          <ul className="space-y-1 text-gray-700">
+          <p className="font-semibold text-[#1a1a1a] mb-1">Доступно офлайн:</p>
+          <ul className="space-y-1 text-[#1a1a1a]/80">
             <li>✅ Тренировки (до 3 закэшированных)</li>
             <li>✅ Дыхательные упражнения</li>
             <li>✅ Просмотр истории</li>
@@ -32,13 +33,13 @@ export function OfflineModeScreen({ isOnline }: OfflineModeScreenProps) {
           </ul>
         </div>
         <div>
-          <p className="font-semibold text-gray-900 mb-1">Недоступно офлайн:</p>
-          <ul className="space-y-1 text-gray-700">
+          <p className="font-semibold text-[#1a1a1a] mb-1">Недоступно офлайн:</p>
+          <ul className="space-y-1 text-[#1a1a1a]/80">
             <li>❌ Синхронизация прогресса</li>
           </ul>
         </div>
       </div>
-    </div>
+    </WellnessCard>
   );
 }
 

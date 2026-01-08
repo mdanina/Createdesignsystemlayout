@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Info, Play, Zap } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
 import { Tag } from '../../design-system/Tag';
+import { SerifHeading } from '../../design-system/SerifHeading';
+import { WellnessCard } from '../../design-system/WellnessCard';
+import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface TrainingProgram {
   id: string;
@@ -18,6 +21,7 @@ interface TrainingSelectionScreenProps {
   onStart: () => void;
   onChangeProgram: () => void;
   onQuickSession?: () => void;
+  onBack?: () => void;
 }
 
 export function TrainingSelectionScreen({
@@ -25,12 +29,13 @@ export function TrainingSelectionScreen({
   onStart,
   onChangeProgram,
   onQuickSession,
+  onBack,
 }: TrainingSelectionScreenProps) {
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <GradientBackground variant="lavender" className="flex flex-col">
       <div className="flex-1 px-6 py-8">
         {/* Изображение головы с Flex4 */}
-        <div className="w-48 h-48 mx-auto mb-6 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center relative">
+        <div className="w-48 h-48 mx-auto mb-6 bg-gradient-to-br from-[#a8d8ea]/30 to-[#b8a0d6]/30 rounded-full flex items-center justify-center relative">
           <span className="text-6xl">🧠</span>
           <div className="absolute top-4 left-4">
             <Tag
@@ -43,44 +48,53 @@ export function TrainingSelectionScreen({
         {/* Текущая программа */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-2">
-            <h2 className="text-xl font-bold text-gray-900">Текущая программа</h2>
+            <SerifHeading size="xl">Текущая программа</SerifHeading>
             <button
               onClick={onChangeProgram}
-              className="text-sm text-blue-600 hover:text-blue-700"
+              className="text-sm text-[#a8d8ea] hover:text-[#8bc9e0]"
             >
               Сменить
             </button>
           </div>
-          <div className="bg-gray-50 rounded-xl p-4">
+          <WellnessCard gradient="blue" className="p-4">
             <div className="flex items-center justify-between mb-2">
-              <h3 className="font-semibold text-gray-900">{currentProgram.name}</h3>
-              <button className="text-gray-400 hover:text-gray-600">
+              <h3 className="font-semibold text-[#1a1a1a]">{currentProgram.name}</h3>
+              <button className="text-[#1a1a1a]/40 hover:text-[#1a1a1a]/60">
                 <Info className="w-5 h-5" />
               </button>
             </div>
-            <div className="space-y-1 text-sm text-gray-600">
+            <div className="space-y-1 text-sm text-[#1a1a1a]/70">
               <p>Тренируемые волны: {currentProgram.waves}</p>
               <p>Длительность: {currentProgram.duration} мин</p>
             </div>
-          </div>
+          </WellnessCard>
         </div>
 
-        <PillButton onClick={onStart} variant="coral" className="w-full mb-4">
+        <PillButton onClick={onStart} variant="coral" className="w-full mb-3">
           <Play className="w-4 h-4 mr-2" />
           Начать тренировку
         </PillButton>
 
+        {onBack && (
+          <button
+            onClick={onBack}
+            className="w-full text-center text-[#1a1a1a]/70 hover:text-[#1a1a1a] py-3 text-sm transition-colors mb-3"
+          >
+            Назад
+          </button>
+        )}
+
         {onQuickSession && (
           <button
             onClick={onQuickSession}
-            className="w-full flex items-center justify-center gap-2 text-gray-600 hover:text-gray-900 py-2"
+            className="w-full flex items-center justify-center gap-2 text-[#1a1a1a]/70 hover:text-[#1a1a1a] py-2"
           >
             <Zap className="w-4 h-4" />
             <span className="text-sm">Мало времени? Быстрая сессия</span>
           </button>
         )}
       </div>
-    </div>
+    </GradientBackground>
   );
 }
 

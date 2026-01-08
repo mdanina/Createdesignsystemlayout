@@ -3,6 +3,7 @@
 
 export { GradientBackground } from './GradientBackground';
 export { WellnessCard } from './WellnessCard';
+export { Logo } from './Logo';
 export { SerifHeading } from './SerifHeading';
 export { PillButton } from './PillButton';
 export { EmojiSelector } from './EmojiSelector';

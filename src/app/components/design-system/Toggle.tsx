@@ -57,7 +57,7 @@ export function Toggle({
           sizeConfig.track,
           'rounded-full transition-all duration-300',
           isChecked
-            ? 'bg-gradient-to-r from-[#ff8a65] to-[#ff6f4a] shadow-md shadow-[#ff8a65]/30'
+            ? 'bg-gradient-to-r from-[#F3B83A] to-[#FFD54F] shadow-md shadow-[#F3B83A]/30'
             : 'bg-gray-200'
         )}>
           <div className={cn(

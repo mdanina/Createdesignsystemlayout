@@ -1,10 +1,15 @@
 import React from 'react';
 import { cn } from '../ui/utils';
+import { DropdownSelector } from './DropdownSelector';
 
 interface MoodGraphProps {
   title?: string;
   subtitle?: string;
   data?: Array<{ day: string; value: number }>;
+  showDropdown?: boolean;
+  dropdownOptions?: string[];
+  defaultDropdownValue?: string;
+  onDropdownChange?: (value: string) => void;
   className?: string;
 }
 
@@ -22,6 +27,10 @@ export function MoodGraph({
   title = '3.6 average mood',
   subtitle = 'You focus on health and you feel great',
   data = defaultData,
+  showDropdown = false,
+  dropdownOptions = ['Weeks', 'Months', 'Year'],
+  defaultDropdownValue = 'Weeks',
+  onDropdownChange,
   className 
 }: MoodGraphProps) {
   // Create smooth wave path
@@ -61,6 +70,13 @@ export function MoodGraph({
             <p className="text-[10px] text-[#999999] mt-0.5">{subtitle}</p>
           </div>
         </div>
+        {showDropdown && (
+          <DropdownSelector
+            options={dropdownOptions}
+            defaultValue={defaultDropdownValue}
+            onChange={onDropdownChange}
+          />
+        )}
       </div>
 
       {/* Graph */}

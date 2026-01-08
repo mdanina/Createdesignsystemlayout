@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Clock, X } from 'lucide-react';
+import { Logo } from '../../design-system/Logo';
 
 type TrainingEndReason = 'completed' | 'early' | 'technical';
 
@@ -64,9 +65,7 @@ export function ActiveTrainingScreen({
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900 flex flex-col items-center justify-center relative overflow-hidden">
       {/* Визуальная обратная связь - видео/анимация */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-64 h-64 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-          <span className="text-8xl">🌊</span>
-        </div>
+        <Logo size="xl" variant="white" />
       </div>
 
       {/* Закладки вверху */}

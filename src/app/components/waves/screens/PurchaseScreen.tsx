@@ -1,0 +1,165 @@
+import React, { useState } from 'react';
+import { Package, Check, ArrowLeft, ExternalLink } from 'lucide-react';
+import { PillButton } from '../../design-system/PillButton';
+import { SerifHeading } from '../../design-system/SerifHeading';
+import { WellnessCard } from '../../design-system/WellnessCard';
+import { Modal } from '../../design-system/Modal';
+
+interface PurchaseScreenProps {
+  onPurchase: () => void;
+  onBack?: () => void;
+}
+
+export function PurchaseScreen({ onPurchase, onBack }: PurchaseScreenProps) {
+  const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
+
+  const availablePackages = [
+    {
+      id: 'basic',
+      name: 'Базовый',
+      price: '80 000 ₽',
+      pricePerMonth: '3 333 ₽/мес',
+      includes: [
+        'Flex4 устройство',
+        'Программа без ограничений',
+        'Все типы тренировок (TBR, Alpha, SMR)',
+        'Персональный прогресс и аналитика',
+        'Поддержка 24/7',
+        'Гарантия на устройство',
+      ],
+      recommended: false,
+    },
+    {
+      id: 'parent-child',
+      name: 'Родитель + Ребёнок',
+      price: '120 000 ₽',
+      pricePerMonth: '5 000 ₽/мес',
+      includes: [
+        'Flex4 устройство',
+        'Программы для обоих (взрослые + дети)',
+        'Профили для родителя и ребёнка',
+        'Все типы тренировок (TBR, Alpha, SMR)',
+        'Персональный прогресс для каждого',
+        'Поддержка 24/7',
+        'Гарантия на устройство',
+        'Приоритетная поддержка',
+      ],
+      recommended: true,
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-white flex flex-col">
+      {/* Шапка */}
+      {onBack && (
+        <div className="flex items-center px-4 py-4 border-b border-gray-100">
+          <button onClick={onBack} className="p-2 text-gray-600 hover:text-gray-900">
+            <ArrowLeft className="w-6 h-6" />
+          </button>
+          <h1 className="text-lg font-semibold text-gray-900 flex-1 text-center">Выберите пакет</h1>
+          <div className="w-10"></div>
+        </div>
+      )}
+
+      <div className="flex-1 px-6 py-8">
+        <div className="max-w-md mx-auto">
+          <div className="text-center mb-8">
+            <SerifHeading size="2xl" className="mb-2">
+              Начните тренировки с Flex4
+            </SerifHeading>
+            <p className="text-gray-600 mb-1">
+              Научно доказанный метод улучшения концентрации
+            </p>
+            <p className="text-sm text-gray-500">
+              Выберите пакет и начните путь к лучшему вниманию уже сегодня
+            </p>
+          </div>
+
+          <div className="space-y-4 mb-8">
+            {availablePackages.map((pkg) => (
+              <div key={pkg.id} className="relative">
+                {pkg.recommended && (
+                  <div className="absolute -top-3 left-6 z-10 bg-[#ff8a65] text-white text-xs font-semibold px-3 py-1 rounded-full">
+                    Рекомендуется
+                  </div>
+                )}
+                <WellnessCard gradient={pkg.recommended ? 'coral' : undefined} hover>
+                  <div className="mb-4">
+                    <h3 className="text-xl font-semibold text-[#1a1a1a] mb-1">{pkg.name}</h3>
+                    <div className="flex items-baseline gap-2 mb-2">
+                      <span className="text-2xl font-semibold text-[#1a1a1a]">{pkg.price}</span>
+                      {pkg.pricePerMonth && (
+                        <span className="text-sm text-[#1a1a1a]/60">или {pkg.pricePerMonth}</span>
+                      )}
+                    </div>
+                    {pkg.pricePerMonth && (
+                      <p className="text-xs text-[#1a1a1a]/50">Рассрочка на 24 месяца без переплаты</p>
+                    )}
+                  </div>
+                  <ul className="space-y-2 mb-4">
+                    {pkg.includes.map((item, index) => (
+                      <li key={index} className="flex items-start gap-2">
+                        <Check className="w-5 h-5 text-[#ff8a65] flex-shrink-0 mt-0.5" />
+                        <span className="text-[#1a1a1a]/80 text-sm">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <PillButton
+                    onClick={() => setIsPurchaseModalOpen(true)}
+                    variant={pkg.recommended ? 'coral' : 'secondary'}
+                    className="w-full"
+                  >
+                    Выбрать пакет
+                  </PillButton>
+                </WellnessCard>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center text-sm text-gray-500 space-y-1">
+            <p className="font-medium text-gray-700">💳 Безопасная оплата через CloudPayments</p>
+            <p>✅ Рассрочка без переплаты • 🔒 Гарантия возврата средств</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Модальное окно для оплаты подписки */}
+      <Modal
+        isOpen={isPurchaseModalOpen}
+        onClose={() => setIsPurchaseModalOpen(false)}
+        title="Оформить подписку"
+        size="md"
+      >
+        <div className="space-y-4">
+          <p className="text-[#1a1a1a]/80">
+            Управление подпиской и оплата происходят в личном кабинете на сайте.
+          </p>
+          <p className="text-sm text-[#1a1a1a]/60">
+            Перейдите на сайт, чтобы выбрать пакет и оформить подписку.
+          </p>
+          <div className="flex gap-3 pt-2">
+            <PillButton
+              onClick={() => {
+                window.open('https://waves.ru/account', '_blank');
+                setIsPurchaseModalOpen(false);
+              }}
+              variant="coral"
+              className="flex-1"
+            >
+              <ExternalLink className="w-4 h-4 mr-2" />
+              Перейти на сайт
+            </PillButton>
+            <PillButton
+              onClick={() => setIsPurchaseModalOpen(false)}
+              variant="secondary"
+              className="flex-1"
+            >
+              Отмена
+            </PillButton>
+          </div>
+        </div>
+      </Modal>
+    </div>
+  );
+}
+

@@ -12,6 +12,7 @@ import {
   DeviceConnectionScreen,
   DeviceConnectedScreen,
   DeviceNotFoundScreen,
+  DeviceInTransitScreen,
   WearingInstructionScreen,
   SignalCheckScreen,
   TrainingTipsScreen,
@@ -22,9 +23,15 @@ import {
   PostTrainingCheckoutScreen,
   ProgressScreen,
   SettingsScreen,
+  PurchaseScreen,
+  PlaylistScreen,
+  ProfileScreen,
+  TrainingDetailScreen,
 } from './screens';
 import { BottomNavigation } from '../design-system/BottomNavigation';
-import { Home, BarChart3, Dumbbell, Settings, MessageCircle } from 'lucide-react';
+import { PillButton } from '../design-system/PillButton';
+import { Modal } from '../design-system/Modal';
+import { Home, BarChart3, Music2, Settings, MessageCircle } from 'lucide-react';
 
 type WavesScreen =
   | 'splash'
@@ -41,6 +48,8 @@ type WavesScreen =
   | 'device-connection'
   | 'device-connected'
   | 'device-not-found'
+  | 'device-in-transit'
+  | 'purchase'
   | 'wearing-instruction'
   | 'signal-check'
   | 'training-tips'
@@ -52,6 +61,8 @@ type WavesScreen =
   | 'progress'
   | 'training'
   | 'settings'
+  | 'profile'
+  | 'training-detail'
   | 'support';
 
 interface SubProfile {
@@ -70,20 +81,50 @@ export function WavesAppFlow() {
   const [isFirstLaunch, setIsFirstLaunch] = useState(true);
   const [selectedTrainingType, setSelectedTrainingType] = useState<string>('tbr');
   const [connectedDevice, setConnectedDevice] = useState<string | null>(null);
+  // Состояние устройства и подписки
+  const [hasDevice, setHasDevice] = useState(false);
+  const [hasSubscription, setHasSubscription] = useState(false);
+  const [subscriptionType, setSubscriptionType] = useState<'basic' | 'parent-child' | null>(null);
+  const [deviceStatus, setDeviceStatus] = useState<'none' | 'in-transit' | 'delivered'>('none');
   const [lastTrainingData, setLastTrainingData] = useState<{
     endReason: 'completed' | 'early' | 'technical';
     timeElapsed: number;
     duration: number;
     technicalIssue?: string;
   } | null>(null);
+  
+  // История тренировок
+  const [trainingHistory, setTrainingHistory] = useState<Array<{
+    id: string;
+    date: string;
+    type: string;
+    duration: number; // в минутах
+    timeElapsed: number; // в секундах
+    timeInZone: number;
+    endReason: 'completed' | 'early' | 'technical';
+    technicalIssue?: string;
+    points?: number;
+  }>>([]);
+  const [selectedTrainingSession, setSelectedTrainingSession] = useState<{
+    id: string;
+    date: string;
+    type: string;
+    duration: number;
+    timeElapsed: number;
+    timeInZone: number;
+    endReason: 'completed' | 'early' | 'technical';
+    technicalIssue?: string;
+    points?: number;
+  } | null>(null);
+  const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
 
   // Mock данные для субпрофилей
-  const allSubProfiles: SubProfile[] = [
+  const [allSubProfiles, setAllSubProfiles] = useState<SubProfile[]>([
     { id: '1', name: 'Миша', age: 9, type: 'child' },
     { id: '2', name: 'Анна', age: 38, type: 'adult' },
     { id: '3', name: 'Саша', age: 7, type: 'child' },
     { id: '4', name: 'Иван', age: 42, type: 'adult' },
-  ];
+  ]);
 
   // Фильтруем субпрофили по типу профиля
   const mockSubProfiles = allSubProfiles.filter((profile) => {
@@ -191,13 +232,32 @@ export function WavesAppFlow() {
     timeElapsed: number,
     technicalIssue?: string
   ) => {
-    // Сохраняем данные о тренировке
-    setLastTrainingData({
+    // Сохраняем данные о тренировке с реальным временем
+    const trainingData = {
       endReason,
       timeElapsed,
-      duration: 16 * 60, // 16 минут в секундах
+      duration: 16 * 60, // Планируемая длительность тренировки (16 минут в секундах)
       technicalIssue,
-    });
+    };
+    setLastTrainingData(trainingData);
+    
+    // Сохраняем в историю тренировок с правильной пометкой причины завершения
+    const newSession = {
+      id: Date.now().toString(),
+      date: new Date().toLocaleDateString('ru-RU'),
+      type: selectedTrainingType === 'tbr' ? 'TBR' : 
+            selectedTrainingType === 'alpha' ? 'Alpha' : 
+            selectedTrainingType === 'smr' ? 'SMR' : 
+            selectedTrainingType === 'breathing' ? 'Дыхание' : 'Тренировка',
+      duration: Math.round(timeElapsed / 60), // в минутах для отображения
+      timeElapsed, // в секундах для точности
+      timeInZone: endReason === 'completed' ? 68 : 0, // только для завершенных тренировок
+      endReason,
+      technicalIssue,
+      points: endReason === 'completed' ? Math.round(timeElapsed / 60) * 50 : undefined, // очки только за завершенные
+    };
+    setTrainingHistory((prev) => [newSession, ...prev]);
+    
     setCurrentScreen('training-complete');
   };
 
@@ -227,7 +287,7 @@ export function WavesAppFlow() {
         setCurrentScreen('settings');
         break;
       case 'support':
-        setCurrentScreen('support');
+        setIsSupportModalOpen(true);
         break;
     }
   };
@@ -279,6 +339,10 @@ export function WavesAppFlow() {
             childName={selectedSubProfile?.name}
             onNext={handleWelcomeNext}
             onComplete={handleWelcomeComplete}
+            onStepChange={(newStep) => {
+              setWelcomeStep(newStep);
+              setCurrentScreen(`welcome-${newStep}` as WavesScreen);
+            }}
           />
         );
 
@@ -304,6 +368,7 @@ export function WavesAppFlow() {
           <CheckInScreen
             childName={selectedSubProfile?.name}
             onContinue={handleCheckInComplete}
+            onBack={() => setCurrentScreen('home')}
           />
         );
 
@@ -311,10 +376,20 @@ export function WavesAppFlow() {
         return (
           <DeviceConnectionScreen
             onClose={() => setCurrentScreen('home')}
-            onSupport={() => setCurrentScreen('support')}
+            onSupport={() => setIsSupportModalOpen(true)}
             onConnected={handleDeviceConnected}
             onNoDevice={() => {
-              window.open('https://waves.example.com', '_blank');
+              // Проверяем статус устройства и подписки
+              if (!hasDevice && !hasSubscription) {
+                // Нет устройства и подписки - показываем экран покупки
+                setCurrentScreen('purchase');
+              } else if (deviceStatus === 'in-transit') {
+                // Устройство в пути
+                setCurrentScreen('device-in-transit');
+              } else {
+                // Устройство не куплено, но есть подписка (или другая ситуация)
+                setCurrentScreen('purchase');
+              }
             }}
           />
         );
@@ -326,6 +401,7 @@ export function WavesAppFlow() {
             onContinue={handleDeviceContinue}
             onClose={() => setCurrentScreen('home')}
             onHome={() => setCurrentScreen('home')}
+            onBack={() => setCurrentScreen('device-connection')}
           />
         );
 
@@ -333,7 +409,31 @@ export function WavesAppFlow() {
         return (
           <DeviceNotFoundScreen
             onRetry={() => setCurrentScreen('device-connection')}
-            onSupport={() => setCurrentScreen('support')}
+            onSupport={() => setIsSupportModalOpen(true)}
+          />
+        );
+
+      case 'device-in-transit':
+        return (
+          <DeviceInTransitScreen
+            onBreathingExercise={() => setCurrentScreen('breathing-training')}
+            onVideo={() => window.open('https://www.youtube.com/watch?v=example', '_blank')}
+            onBack={() => setCurrentScreen('home')}
+          />
+        );
+
+      case 'purchase':
+        return (
+          <PurchaseScreen
+            onPurchase={() => {
+              // После покупки: активируем подписку и устройство
+              setHasSubscription(true);
+              setSubscriptionType('basic'); // Можно определить тип на основе выбранного пакета
+              setDeviceStatus('in-transit'); // Устройство будет доставлено
+              // Переходим на главный экран
+              setCurrentScreen('home');
+            }}
+            onBack={() => setCurrentScreen('home')}
           />
         );
 
@@ -356,7 +456,14 @@ export function WavesAppFlow() {
       case 'training-tips':
         return (
           <TrainingTipsScreen
-            onBack={() => setCurrentScreen('home')}
+            onBack={() => {
+              // Возвращаемся на предыдущий экран в зависимости от контекста
+              if (connectedDevice) {
+                setCurrentScreen('signal-check');
+              } else {
+                setCurrentScreen('home');
+              }
+            }}
             onContinue={handleTrainingTipsContinue}
           />
         );
@@ -377,6 +484,7 @@ export function WavesAppFlow() {
             onChangeProgram={() => {
               // Можно добавить модальное окно выбора программы
             }}
+            onBack={() => setCurrentScreen('training-tips')}
           />
         );
 
@@ -411,9 +519,12 @@ export function WavesAppFlow() {
         return (
           <TrainingCompleteScreen
             userName={selectedSubProfile?.name || 'Пользователь'}
-            duration={16}
+            duration={lastTrainingData ? Math.round(lastTrainingData.timeElapsed / 60) : 16}
+            timeElapsed={lastTrainingData?.timeElapsed || 0}
             timeInZone={68}
-            streak={5}
+            streak={lastTrainingData?.endReason === 'completed' ? 5 : 0}
+            endReason={lastTrainingData?.endReason || 'completed'}
+            technicalIssue={lastTrainingData?.technicalIssue}
             onComplete={handleTrainingCompleteDone}
           />
         );
@@ -432,62 +543,89 @@ export function WavesAppFlow() {
           <ProgressScreen
             userName={selectedSubProfile?.name}
             onBack={() => setCurrentScreen('home')}
+            sessions={trainingHistory}
+            onSessionClick={(sessionId) => {
+              console.log('onSessionClick called with sessionId:', sessionId);
+              console.log('trainingHistory:', trainingHistory);
+              // Ищем в trainingHistory или используем mock данные
+              let session = trainingHistory.find((s) => s.id === sessionId);
+              
+              // Если не найдено в trainingHistory, создаем из mock данных
+              if (!session) {
+                const defaultSessions = [
+                  { id: '1', date: '05.01.2026', type: 'TBR', duration: 16, timeElapsed: 960, timeInZone: 68, endReason: 'completed' as const, points: 850 },
+                  { id: '2', date: '04.01.2026', type: 'Alpha', duration: 16, timeElapsed: 960, timeInZone: 72, endReason: 'completed' as const, points: 920 },
+                  { id: '3', date: '03.01.2026', type: 'SMR', duration: 16, timeElapsed: 960, timeInZone: 65, endReason: 'completed' as const, points: 780 },
+                  { id: '4', date: '02.01.2026', type: 'TBR', duration: 16, timeElapsed: 960, timeInZone: 70, endReason: 'completed' as const, points: 880 },
+                  { id: '5', date: '01.01.2026', type: 'Дыхание', duration: 10, timeElapsed: 600, timeInZone: 0, endReason: 'completed' as const },
+                ];
+                session = defaultSessions.find((s) => s.id === sessionId);
+              }
+              
+              if (session) {
+                console.log('Session found:', session);
+                setSelectedTrainingSession(session);
+                setCurrentScreen('training-detail');
+              } else {
+                console.warn('Session not found for id:', sessionId);
+              }
+            }}
           />
         );
 
       case 'training':
         return (
-          <div className="min-h-screen bg-white flex items-center justify-center">
-            <div className="text-center">
-              <h1 className="text-2xl font-bold mb-4">Тренировка</h1>
-              <p className="text-gray-600 mb-4">Выберите тренировку на главном экране</p>
-              <button
-                onClick={() => setCurrentScreen('home')}
-                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-              >
-                На главный
-              </button>
-            </div>
-          </div>
+          <PlaylistScreen onBack={() => setCurrentScreen('home')} />
         );
 
       case 'settings':
         return (
           <SettingsScreen
-            profileType={profileType}
-            onProfileTypeChange={(type) => {
-              setProfileType(type);
-              setCurrentScreen('sub-profile-selection');
+            currentProfile={selectedSubProfile}
+            allProfiles={allSubProfiles}
+            onProfileChange={(profileId) => {
+              const profile = allSubProfiles.find((p) => p.id === profileId);
+              if (profile) {
+                setSelectedSubProfile(profile);
+                // Автоматически определяем тип профиля на основе возраста/типа пользователя
+                if (profile.type === 'child' || (profile.age && profile.age < 18)) {
+                  setProfileType('waves-kids');
+                } else {
+                  setProfileType('waves');
+                }
+                // Остаемся на экране настроек после переключения
+              }
             }}
-            onSwitchProfile={() => setCurrentScreen('sub-profile-selection')}
+            onProfileClick={() => setCurrentScreen('profile')}
             onLogout={() => setCurrentScreen('login')}
           />
         );
 
-      case 'support':
+      case 'profile':
         return (
-          <div className="min-h-screen bg-white flex items-center justify-center px-6">
-            <div className="text-center max-w-md">
-              <h1 className="text-2xl font-bold mb-4">Поддержка</h1>
-              <p className="text-gray-600 mb-6">
-                Открыть Telegram чат поддержки?
-              </p>
-              <button
-                onClick={() => {
-                  window.open('https://t.me/waves_support', '_blank');
-                }}
-                className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 mb-4"
-              >
-                Открыть Telegram
-              </button>
-              <button
-                onClick={() => setCurrentScreen('home')}
-                className="block w-full text-gray-600 hover:text-gray-900"
-              >
-                Назад
-              </button>
-            </div>
-          </div>
+          <ProfileScreen
+            profile={selectedSubProfile}
+            hasSubscription={hasSubscription}
+            subscriptionType={subscriptionType}
+            onBack={() => setCurrentScreen('settings')}
+            onSave={(updatedProfile) => {
+              // Обновляем профиль в списке
+              setAllSubProfiles((prev) =>
+                prev.map((p) => (p.id === updatedProfile.id ? updatedProfile : p))
+              );
+              setSelectedSubProfile(updatedProfile);
+              setCurrentScreen('settings');
+            }}
+            onUpgrade={() => setCurrentScreen('purchase')}
+          />
+        );
+
+      case 'training-detail':
+        return (
+          <TrainingDetailScreen
+            session={selectedTrainingSession}
+            onBack={() => setCurrentScreen('progress')}
+          />
         );
 
       default:
@@ -509,7 +647,7 @@ export function WavesAppFlow() {
           items={[
             { icon: <Home className="w-5 h-5" />, label: 'Сегодня', value: 'home' },
             { icon: <BarChart3 className="w-5 h-5" />, label: 'Прогресс', value: 'progress' },
-            { icon: <Dumbbell className="w-5 h-5" />, label: 'Тренировка', value: 'training' },
+            { icon: <Music2 className="w-5 h-5" />, label: 'Плейлист', value: 'training' },
             { icon: <Settings className="w-5 h-5" />, label: 'Настройки', value: 'settings' },
             { icon: <MessageCircle className="w-5 h-5" />, label: 'Поддержка', value: 'support' },
           ]}
@@ -517,6 +655,40 @@ export function WavesAppFlow() {
           onChange={handleNavigation}
         />
       )}
+
+      {/* Модальное окно поддержки */}
+      <Modal
+        isOpen={isSupportModalOpen}
+        onClose={() => setIsSupportModalOpen(false)}
+        title="Поддержка"
+        size="md"
+      >
+        <div className="space-y-4">
+          <p className="text-[#1a1a1a]/80 text-center">
+            Открыть Telegram чат поддержки?
+          </p>
+          <div className="flex gap-3 pt-2">
+            <PillButton
+              onClick={() => {
+                window.open('https://t.me/waves_support', '_blank');
+                setIsSupportModalOpen(false);
+              }}
+              variant="coral"
+              className="flex-1"
+            >
+              <MessageCircle className="w-4 h-4 mr-2" />
+              Открыть Telegram
+            </PillButton>
+            <PillButton
+              onClick={() => setIsSupportModalOpen(false)}
+              variant="secondary"
+              className="flex-1"
+            >
+              Отмена
+            </PillButton>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }

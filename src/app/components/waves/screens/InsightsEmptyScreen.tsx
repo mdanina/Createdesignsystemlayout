@@ -1,6 +1,9 @@
 import React from 'react';
 import { TrendingUp, Play } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
+import { SerifHeading } from '../../design-system/SerifHeading';
+import { WellnessCard } from '../../design-system/WellnessCard';
+import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface InsightsEmptyScreenProps {
   onStartTraining: () => void;
@@ -8,24 +11,24 @@ interface InsightsEmptyScreenProps {
 
 export function InsightsEmptyScreen({ onStartTraining }: InsightsEmptyScreenProps) {
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <GradientBackground variant="cream" className="flex flex-col">
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
         <div className="w-full max-w-sm text-center">
-          <div className="w-32 h-32 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
-            <TrendingUp className="w-20 h-20 text-gray-400" />
+          <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-[#1a1a1a]/10 to-[#1a1a1a]/5 rounded-full flex items-center justify-center">
+            <TrendingUp className="w-20 h-20 text-[#1a1a1a]/40" />
           </div>
 
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Пока нет данных для аналитики</h1>
-          <p className="text-gray-600 mb-6">
+          <SerifHeading size="2xl" className="mb-4">Пока нет данных для аналитики</SerifHeading>
+          <p className="text-[#1a1a1a]/70 mb-6">
             Завершите несколько тренировок, и здесь появятся:
           </p>
 
-          <div className="bg-gray-50 rounded-xl p-6 mb-6 text-left">
-            <ul className="space-y-2 text-gray-700">
+          <WellnessCard className="p-6 mb-6 text-left">
+            <ul className="space-y-2 text-[#1a1a1a]/80">
               <li>• Прогресс по сессиям</li>
               <li>• Тренды улучшения</li>
             </ul>
-          </div>
+          </WellnessCard>
 
           <PillButton onClick={onStartTraining} variant="coral" className="w-full">
             <Play className="w-4 h-4 mr-2" />
@@ -33,7 +36,7 @@ export function InsightsEmptyScreen({ onStartTraining }: InsightsEmptyScreenProp
           </PillButton>
         </div>
       </div>
-    </div>
+    </GradientBackground>
   );
 }
 

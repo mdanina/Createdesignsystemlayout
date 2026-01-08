@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, Volume2 } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
+import { SerifHeading } from '../../design-system/SerifHeading';
+import { WellnessCard } from '../../design-system/WellnessCard';
+import { GradientBackground } from '../../design-system/GradientBackground';
 
 type SignalQuality = 'good' | 'medium' | 'poor';
 
@@ -39,34 +42,6 @@ export function SignalCheckScreen({ onBack, onAllGood }: SignalCheckScreenProps)
       // Впервые все стали зелеными
       setAllGood(true);
       setCountdown(3);
-      
-      // Очищаем предыдущий таймер, если был
-      if (transitionTimerRef.current) {
-        clearTimeout(transitionTimerRef.current);
-      }
-      
-      // Автопереход через 3 секунды согласно ТЗ
-      transitionTimerRef.current = setTimeout(() => {
-        onAllGood();
-      }, 3000);
-      
-      // Счетчик обратного отсчета
-      const countdownInterval = setInterval(() => {
-        setCountdown((prev) => {
-          if (prev === null || prev <= 1) {
-            clearInterval(countdownInterval);
-            return null;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-      
-      return () => {
-        if (transitionTimerRef.current) {
-          clearTimeout(transitionTimerRef.current);
-        }
-        clearInterval(countdownInterval);
-      };
     } else if (!allAreGood && allGood) {
       // Если хотя бы один не зеленый - сбрасываем
       setAllGood(false);
@@ -76,7 +51,25 @@ export function SignalCheckScreen({ onBack, onAllGood }: SignalCheckScreenProps)
         transitionTimerRef.current = null;
       }
     }
-  }, [signals, allGood, onAllGood]);
+  }, [signals, allGood]);
+
+  // Отдельный эффект для обратного отсчета
+  useEffect(() => {
+    if (allGood && countdown !== null && countdown > 0) {
+      const timer = setTimeout(() => {
+        setCountdown((prev) => {
+          if (prev === null || prev <= 1) {
+            // Когда отсчет закончился, переходим на тренировку
+            onAllGood();
+            return null;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [allGood, countdown, onAllGood]);
 
   const getSignalColor = (quality: SignalQuality) => {
     switch (quality) {
@@ -105,13 +98,13 @@ export function SignalCheckScreen({ onBack, onAllGood }: SignalCheckScreenProps)
   const poorSensorIndex = signals.findIndex((s) => s === 'poor');
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100">
-        <button onClick={onBack} className="text-gray-600 hover:text-gray-900">
+    <GradientBackground variant="cream" className="flex flex-col">
+      <div className="flex items-center justify-between px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
+        <button onClick={onBack} className="text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
           <ArrowLeft className="w-6 h-6" />
         </button>
-        <h1 className="text-lg font-semibold text-gray-900">Проверка сигнала</h1>
-        <button className="text-gray-600 hover:text-gray-900">
+        <SerifHeading size="xl">Проверка сигнала</SerifHeading>
+        <button className="text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
           <Volume2 className="w-6 h-6" />
         </button>
       </div>
@@ -141,39 +134,41 @@ export function SignalCheckScreen({ onBack, onAllGood }: SignalCheckScreenProps)
 
         {/* Динамическая подсказка */}
         {needsAdjustment && poorSensorIndex !== -1 && (
-          <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6">
-            <p className="font-semibold text-gray-900 mb-1">
+          <WellnessCard gradient="coral" className="p-4 mb-6">
+            <p className="font-semibold text-[#1a1a1a] mb-1">
               Поправьте датчик {sensorNames[poorSensorIndex].toLowerCase()}
             </p>
-            <button className="text-sm text-blue-600 hover:text-blue-700">
+            <button className="text-sm text-[#a8d8ea] hover:text-[#8bc9e0]">
               Как улучшить контакт?
             </button>
-          </div>
+          </WellnessCard>
         )}
 
         {allGood && (
-          <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-6 text-center">
-            <p className="font-semibold text-green-900">Все датчики подключены!</p>
+          <WellnessCard gradient="blue" className="p-4 mb-6 text-center">
+            <p className="font-semibold text-[#1a1a1a]">Все датчики подключены!</p>
             {countdown !== null && countdown > 0 ? (
-              <p className="text-sm text-green-700 mt-1">
+              <p className="text-sm text-[#1a1a1a]/70 mt-1">
                 Начинаем тренировку через {countdown}...
               </p>
             ) : (
-              <p className="text-sm text-green-700 mt-1">Начинаем тренировку...</p>
+              <p className="text-sm text-[#1a1a1a]/70 mt-1">Начинаем тренировку...</p>
             )}
-          </div>
+          </WellnessCard>
         )}
 
         {/* Список датчиков */}
         <div className="space-y-2 mb-6">
           {sensorNames.map((name, index) => (
-            <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-gray-900">{name}</span>
-              <span className="text-2xl">{getSignalEmoji(signals[index])}</span>
-            </div>
+            <WellnessCard key={index} className="p-3">
+              <div className="flex items-center justify-between">
+                <span className="text-[#1a1a1a]">{name}</span>
+                <span className="text-2xl">{getSignalEmoji(signals[index])}</span>
+              </div>
+            </WellnessCard>
           ))}
         </div>
       </div>
-    </div>
+    </GradientBackground>
   );
 }

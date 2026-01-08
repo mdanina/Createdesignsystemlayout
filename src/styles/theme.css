@@ -7,7 +7,13 @@
   --background: #fffef7;
   --foreground: #1a1a1a;
   
-  /* Gradient Colors - More accurate to reference */
+  /* Primary Colors from Reference */
+  --primary-yellow: #F3B83A;
+  --primary-pink: #AECB0F;
+  --secondary-blue: #47BDF7;
+  --cream-white: #fffef7;
+  
+  /* Gradient Colors - Updated to match reference */
   --gradient-peach-start: #ff8a5b;
   --gradient-peach-end: #ffc4a8;
   --gradient-lavender-start: #e4a5f0;
@@ -16,8 +22,10 @@
   --gradient-cream-end: #ffecd2;
   --gradient-pink-start: #ffb5d5;
   --gradient-pink-end: #ff99c2;
-  --gradient-blue-start: #6ab9e7;
-  --gradient-blue-end: #5aa8d8;
+  --gradient-blue-start: #47BDF7;
+  --gradient-blue-end: #6ab9e7;
+  --gradient-yellow-start: #F3B83A;
+  --gradient-yellow-end: #FFD54F;
   
   /* Primary Colors - Updated */
   --primary: #1a1a1a;
@@ -26,8 +34,9 @@
   --coral-light: #ffb299;
   --lavender: #e4a5f0;
   --lavender-light: #f0d5f7;
-  --soft-blue: #6ab9e7;
+  --soft-blue: #47BDF7;
   --soft-pink: #ffb5d5;
+  --yellow: #F3B83A;
   
   /* Card & Surface */
   --card: #ffffff;
@@ -41,7 +50,7 @@
   --secondary-foreground: #1a1a1a;
   --muted: #f0f0f0;
   --muted-foreground: #6b7280;
-  --accent: #ff8a5b;
+  --accent: #F3B83A;
   --accent-foreground: #ffffff;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
@@ -51,7 +60,7 @@
   --input: rgba(0, 0, 0, 0.08);
   --input-background: #ffffff;
   --switch-background: #e5e7eb;
-  --ring: rgba(255, 138, 91, 0.2);
+  --ring: rgba(243, 184, 58, 0.2);
   
   /* Typography */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -61,8 +70,8 @@
   
   /* Chart Colors */
   --chart-1: #e4a5f0;
-  --chart-2: #6ab9e7;
-  --chart-3: #ff8a5b;
+  --chart-2: #47BDF7;
+  --chart-3: #F3B83A;
   --chart-4: #ffb5d5;
   --chart-5: #ffecd2;
   

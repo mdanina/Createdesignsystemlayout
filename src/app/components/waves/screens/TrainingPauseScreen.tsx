@@ -1,6 +1,8 @@
 import React from 'react';
 import { Play, X } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
+import { SerifHeading } from '../../design-system/SerifHeading';
+import { WellnessCard } from '../../design-system/WellnessCard';
 
 interface TrainingPauseScreenProps {
   reason?: string;
@@ -11,10 +13,10 @@ interface TrainingPauseScreenProps {
 export function TrainingPauseScreen({ reason, onResume, onFinish }: TrainingPauseScreenProps) {
   return (
     <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center px-6">
-      <div className="w-full max-w-sm bg-white rounded-2xl p-6 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">Пауза</h1>
+      <WellnessCard className="w-full max-w-sm p-6 text-center">
+        <SerifHeading size="2xl" className="mb-4">Пауза</SerifHeading>
         {reason && (
-          <p className="text-gray-600 mb-6">Причина: {reason}</p>
+          <p className="text-[#1a1a1a]/70 mb-6">Причина: {reason}</p>
         )}
 
         <div className="space-y-3">
@@ -27,7 +29,7 @@ export function TrainingPauseScreen({ reason, onResume, onFinish }: TrainingPaus
             Завершить
           </PillButton>
         </div>
-      </div>
+      </WellnessCard>
     </div>
   );
 }

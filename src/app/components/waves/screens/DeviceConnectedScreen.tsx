@@ -1,6 +1,9 @@
 import React from 'react';
 import { CheckCircle2, X, Home } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
+import { SerifHeading } from '../../design-system/SerifHeading';
+import { WellnessCard } from '../../design-system/WellnessCard';
+import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface DeviceConnectedScreenProps {
   deviceId: string;
@@ -8,6 +11,7 @@ interface DeviceConnectedScreenProps {
   onContinue: () => void;
   onClose?: () => void;
   onHome?: () => void;
+  onBack?: () => void;
 }
 
 export function DeviceConnectedScreen({
@@ -16,11 +20,12 @@ export function DeviceConnectedScreen({
   onContinue,
   onClose,
   onHome,
+  onBack,
 }: DeviceConnectedScreenProps) {
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <GradientBackground variant="peach" className="flex flex-col">
       {/* Шапка с кнопками */}
-      <div className="sticky top-0 z-10 bg-white flex items-center justify-between px-4 py-4 border-b border-gray-100">
+      <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-sm flex items-center justify-between px-4 py-4 border-b border-[#1a1a1a]/10">
         {onClose ? (
           <button
             onClick={onClose}
@@ -45,13 +50,13 @@ export function DeviceConnectedScreen({
       </div>
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
         <div className="w-full max-w-sm text-center">
-          <div className="w-24 h-24 mx-auto mb-6 bg-green-100 rounded-full flex items-center justify-center">
-            <CheckCircle2 className="w-16 h-16 text-green-600" />
+          <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-[#a8d8ea]/30 to-[#a8d8ea]/50 rounded-full flex items-center justify-center">
+            <CheckCircle2 className="w-16 h-16 text-[#a8d8ea]" />
           </div>
 
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Устройство подключено</h1>
+          <SerifHeading size="2xl" className="mb-4">Устройство подключено</SerifHeading>
 
-          <div className="bg-gray-50 rounded-xl p-4 mb-6 text-left">
+          <WellnessCard className="mb-6 text-left">
             <div className="mb-2">
               <p className="text-sm text-gray-600">Серийный номер</p>
               <p className="font-semibold text-gray-900">{deviceId}</p>
@@ -59,20 +64,30 @@ export function DeviceConnectedScreen({
             <div>
               <p className="text-sm text-gray-600">Заряд</p>
               <div className="flex items-center gap-2 mt-1">
-                <div className="flex-1 bg-gray-200 rounded-full h-2">
+                <div className="flex-1 bg-[#1a1a1a]/10 rounded-full h-2">
                   <div
-                    className="bg-green-500 h-2 rounded-full"
+                    className="bg-[#a8d8ea] h-2 rounded-full"
                     style={{ width: `${batteryLevel}%` }}
                   ></div>
                 </div>
-                <span className="text-sm font-semibold text-gray-900">{batteryLevel}%</span>
+                <span className="text-sm font-semibold text-[#1a1a1a]">{batteryLevel}%</span>
               </div>
             </div>
-          </div>
+          </WellnessCard>
 
           <PillButton onClick={onContinue} variant="coral" className="w-full mb-3">
             Продолжить
           </PillButton>
+          
+          {onBack && (
+            <button
+              onClick={onBack}
+              className="w-full text-center text-[#1a1a1a]/70 hover:text-[#1a1a1a] py-3 text-sm transition-colors mb-3"
+            >
+              Назад
+            </button>
+          )}
+          
           {onHome && (
             <button
               onClick={onHome}
@@ -84,7 +99,7 @@ export function DeviceConnectedScreen({
           )}
         </div>
       </div>
-    </div>
+    </GradientBackground>
   );
 }
 

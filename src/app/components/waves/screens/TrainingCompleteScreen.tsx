@@ -1,13 +1,17 @@
 import React from 'react';
-import { Flame } from 'lucide-react';
+import { Flame, AlertTriangle } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
 import { StreakBadge } from '../../design-system/StreakBadge';
+import { SerifHeading } from '../../design-system/SerifHeading';
+import { WellnessCard } from '../../design-system/WellnessCard';
+import { GradientBackground } from '../../design-system/GradientBackground';
 
 type TrainingEndReason = 'completed' | 'early' | 'technical';
 
 interface TrainingCompleteScreenProps {
   userName: string;
-  duration: number;
+  duration: number; // Длительность в минутах (для отображения)
+  timeElapsed: number; // Реальное время тренировки в секундах
   timeInZone: number;
   streak: number;
   endReason?: TrainingEndReason; // Причина завершения тренировки
@@ -18,6 +22,7 @@ interface TrainingCompleteScreenProps {
 export function TrainingCompleteScreen({
   userName,
   duration,
+  timeElapsed,
   timeInZone,
   streak,
   endReason = 'completed',
@@ -26,9 +31,23 @@ export function TrainingCompleteScreen({
 }: TrainingCompleteScreenProps) {
   const isCompleted = endReason === 'completed';
   const isTechnical = endReason === 'technical';
+  const isEarly = endReason === 'early';
+  
+  // Форматируем время для отображения: минуты и секунды
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    if (mins === 0) {
+      return `${secs} сек`;
+    }
+    if (secs === 0) {
+      return `${mins} мин`;
+    }
+    return `${mins} мин ${secs} сек`;
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex flex-col items-center justify-center px-6 py-12">
+    <GradientBackground variant="lavender" className="flex flex-col items-center justify-center px-6 py-12">
       <div className="w-full max-w-sm text-center">
         {/* Анимация */}
         {isCompleted ? (
@@ -39,27 +58,29 @@ export function TrainingCompleteScreen({
           <div className="text-8xl mb-6">👍</div>
         )}
 
-        <h1 className="text-2xl font-bold text-gray-900 mb-8">
+        <SerifHeading size="2xl" className="mb-8">
           {isCompleted
             ? `Отличная тренировка, ${userName}!`
             : isTechnical
             ? `Тренировка прервана, ${userName}`
             : `Тренировка завершена, ${userName}`}
-        </h1>
+        </SerifHeading>
 
         {/* Статистика */}
-        <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm">
+        <WellnessCard className="mb-6">
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">Длительность</span>
-              <span className="font-semibold text-gray-900">{duration} мин</span>
+              <span className="text-[#1a1a1a]/70">Длительность</span>
+              <span className="font-semibold text-[#1a1a1a]">{formatTime(timeElapsed)}</span>
             </div>
-            <div className="flex justify-between items-center">
-              <span className="text-gray-600">Время «в зоне»</span>
-              <span className="font-semibold text-gray-900">{timeInZone}%</span>
-            </div>
+            {isCompleted && (
+              <div className="flex justify-between items-center">
+                <span className="text-[#1a1a1a]/70">Время «в зоне»</span>
+                <span className="font-semibold text-[#1a1a1a]">{timeInZone}%</span>
+              </div>
+            )}
           </div>
-        </div>
+        </WellnessCard>
 
         {/* Streak - показываем только если тренировка завершена полностью */}
         {isCompleted && streak > 0 && (
@@ -75,30 +96,30 @@ export function TrainingCompleteScreen({
 
         {/* Сообщение для технических проблем */}
         {isTechnical && (
-          <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4">
-            <p className="text-sm font-semibold text-red-900 mb-2">
+          <WellnessCard gradient="coral" className="mb-6">
+            <p className="text-sm font-semibold text-[#1a1a1a] mb-2">
               Техническая проблема
             </p>
-            <p className="text-sm text-red-800">
+            <p className="text-sm text-[#1a1a1a]/80">
               {technicalIssue || 'Потерян сигнал с устройства. Проверьте подключение электродов и попробуйте снова.'}
             </p>
-          </div>
+          </WellnessCard>
         )}
 
         {/* Сообщение для досрочно завершенной тренировки */}
         {endReason === 'early' && (
-          <div className="mb-6 bg-yellow-50 border border-yellow-200 rounded-xl p-4">
-            <p className="text-sm text-yellow-800">
+          <WellnessCard gradient="pink" className="mb-6">
+            <p className="text-sm text-[#1a1a1a]/80">
               Тренировка была завершена досрочно. Для лучших результатов рекомендуется проходить тренировку полностью.
             </p>
-          </div>
+          </WellnessCard>
         )}
 
         <PillButton onClick={onComplete} variant="coral" className="w-full">
           Готово
         </PillButton>
       </div>
-    </div>
+    </GradientBackground>
   );
 }
 
