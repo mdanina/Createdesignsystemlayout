@@ -43,18 +43,18 @@ export function HomeScreen({
       }}
     >
       <div className="px-12 py-6 space-y-6">
+        {/* Streak */}
+        {streak > 0 && (
+          <div className="flex items-center justify-center pt-6">
+            <StreakBadge days={streak} />
+          </div>
+        )}
         {/* Центральный заголовок */}
-        <div className="flex justify-center pt-6">
+        <div className="flex justify-center">
           <SerifHeading size="3xl" className="text-center">
             Привет, {childName}, хороший день для тренировки!
           </SerifHeading>
         </div>
-        {/* Streak */}
-        {streak > 0 && (
-          <div className="flex items-center justify-center">
-            <StreakBadge days={streak} />
-          </div>
-        )}
 
         {/* Карточка инструктажа для новых */}
         {showTutorial && onTutorial && (
@@ -106,17 +106,17 @@ export function HomeScreen({
               className="text-left transition-all hover:scale-[1.02] relative overflow-hidden rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0_6px_30px_rgba(0,0,0,0.1)]"
             >
               <img 
-                src="/card1.png?v=2" 
+                src="/card1.png" 
                 alt="Концентрация" 
                 className="w-full h-auto"
               />
-              <div className="absolute inset-0 p-6 flex flex-col justify-between items-start">
-                <span className="inline-block bg-white/80 backdrop-blur-sm text-[#1a1a1a] text-xs font-medium px-3 py-1 rounded-full self-start">
+              <div className="absolute inset-0 p-6 pl-4 flex flex-col justify-between items-start">
+                <span className="inline-block bg-white/80 backdrop-blur-sm text-[#1a1a1a] text-[10px] sm:text-xs font-medium px-2 sm:px-3 py-1 rounded-full self-start -ml-1">
                   16 МИН
                 </span>
-                <div className="flex flex-col">
-                  <SerifHeading size="xl" className="mb-1 text-2xl">Концентрация</SerifHeading>
-                  <p className="text-sm text-[#1a1a1a]/70 leading-relaxed">Theta/Beta (4-7 / 15-20 Hz)</p>
+                <div className="flex flex-col -ml-1">
+                  <SerifHeading size="xl" className="mb-1 text-lg sm:text-xl md:text-2xl">Концентрация</SerifHeading>
+                  <p className="text-xs sm:text-sm text-[#1a1a1a]/70 leading-relaxed">Theta/Beta (4-7 / 15-20 Hz)</p>
                 </div>
               </div>
             </button>
@@ -129,13 +129,13 @@ export function HomeScreen({
                 alt="Спокойствие" 
                 className="w-full h-auto"
               />
-              <div className="absolute inset-0 p-6 flex flex-col justify-between items-start">
-                <span className="inline-block bg-white/80 backdrop-blur-sm text-[#1a1a1a] text-xs font-medium px-3 py-1 rounded-full self-start">
+              <div className="absolute inset-0 p-6 pl-4 flex flex-col justify-between items-start">
+                <span className="inline-block bg-white/80 backdrop-blur-sm text-[#1a1a1a] text-[10px] sm:text-xs font-medium px-2 sm:px-3 py-1 rounded-full self-start -ml-1">
                   16 МИН
                 </span>
-                <div className="flex flex-col">
-                  <SerifHeading size="xl" className="mb-1 text-2xl">Спокойствие</SerifHeading>
-                  <p className="text-sm text-[#1a1a1a]/70 leading-relaxed">Alpha (8-12 Hz)</p>
+                <div className="flex flex-col -ml-1">
+                  <SerifHeading size="xl" className="mb-1 text-lg sm:text-xl md:text-2xl">Спокойствие</SerifHeading>
+                  <p className="text-xs sm:text-sm text-[#1a1a1a]/70 leading-relaxed">Alpha (8-12 Hz)</p>
                 </div>
               </div>
             </button>
@@ -148,13 +148,13 @@ export function HomeScreen({
                 alt="Фокус" 
                 className="w-full h-auto"
               />
-              <div className="absolute inset-0 p-6 flex flex-col justify-between items-start">
-                <span className="inline-block bg-white/80 backdrop-blur-sm text-[#1a1a1a] text-xs font-medium px-3 py-1 rounded-full self-start">
+              <div className="absolute inset-0 p-6 pl-4 flex flex-col justify-between items-start">
+                <span className="inline-block bg-white/80 backdrop-blur-sm text-[#1a1a1a] text-[10px] sm:text-xs font-medium px-2 sm:px-3 py-1 rounded-full self-start -ml-1">
                   16 МИН
                 </span>
-                <div className="flex flex-col">
-                  <SerifHeading size="xl" className="mb-1 text-2xl">Фокус</SerifHeading>
-                  <p className="text-sm text-[#1a1a1a]/70 leading-relaxed">Low-Beta (12-15 Hz)</p>
+                <div className="flex flex-col -ml-1">
+                  <SerifHeading size="xl" className="mb-1 text-lg sm:text-xl md:text-2xl">Фокус</SerifHeading>
+                  <p className="text-xs sm:text-sm text-[#1a1a1a]/70 leading-relaxed">Low-Beta (12-15 Hz)</p>
                 </div>
               </div>
             </button>
@@ -167,13 +167,13 @@ export function HomeScreen({
                 alt="Дыхание" 
                 className="w-full h-auto"
               />
-              <div className="absolute inset-0 p-6 flex flex-col justify-between items-start">
-                <span className="inline-block bg-white/80 backdrop-blur-sm text-[#1a1a1a] text-xs font-medium px-3 py-1 rounded-full self-start">
+              <div className="absolute inset-0 p-6 pl-4 flex flex-col justify-between items-start">
+                <span className="inline-block bg-white/80 backdrop-blur-sm text-[#1a1a1a] text-[10px] sm:text-xs font-medium px-2 sm:px-3 py-1 rounded-full self-start -ml-1">
                   10 МИН
                 </span>
-                <div className="flex flex-col">
-                  <SerifHeading size="xl" className="mb-1 text-2xl">Дыхание</SerifHeading>
-                  <p className="text-sm text-[#1a1a1a]/70 leading-relaxed">Без устройства</p>
+                <div className="flex flex-col -ml-1">
+                  <SerifHeading size="xl" className="mb-1 text-lg sm:text-xl md:text-2xl">Дыхание</SerifHeading>
+                  <p className="text-xs sm:text-sm text-[#1a1a1a]/70 leading-relaxed">Без устройства</p>
                 </div>
               </div>
             </button>
