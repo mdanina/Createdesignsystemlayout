@@ -395,7 +395,10 @@ export function WavesAppFlow() {
       case 'device-connection':
         return (
           <DeviceConnectionScreen
-            onClose={() => setCurrentScreen('home')}
+            onClose={() => {
+              setConnectedDevice(null);
+              setCurrentScreen('home');
+            }}
             onSupport={() => setIsSupportModalOpen(true)}
             onConnected={handleDeviceConnected}
             onNoDevice={() => {
@@ -419,8 +422,14 @@ export function WavesAppFlow() {
           <DeviceConnectedScreen
             deviceId={connectedDevice || 'Flex4-12345'}
             onContinue={handleDeviceContinue}
-            onClose={() => setCurrentScreen('home')}
-            onHome={() => setCurrentScreen('home')}
+            onClose={() => {
+              setConnectedDevice(null);
+              setCurrentScreen('home');
+            }}
+            onHome={() => {
+              setConnectedDevice(null);
+              setCurrentScreen('home');
+            }}
             onBack={() => setCurrentScreen('device-connection')}
           />
         );
