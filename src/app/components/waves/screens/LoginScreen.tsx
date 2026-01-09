@@ -32,7 +32,7 @@ export function LoginScreen({ onLogin, onForgotPassword }: LoginScreenProps) {
       }}
     >
       {/* Контейнер для позиционирования формы - можно свободно перемещать */}
-      <div className="flex-1 flex items-start justify-center px-6" style={{ paddingTop: '77px' }}>
+      <div className="flex-1 flex items-start justify-center px-16" style={{ paddingTop: '77px' }}>
         {/* Независимый блок формы */}
         <div className="w-full max-w-sm">
           {/* Логотип */}

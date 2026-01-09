@@ -31,7 +31,7 @@ export function DeviceInTransitScreen({
           <div className="w-10"></div>
         </div>
       )}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
+      <div className="flex-1 flex flex-col items-center justify-center px-16 py-12">
         <div className="w-full max-w-sm text-center">
           <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-[#a8d8ea]/30 to-[#a8d8ea]/50 rounded-full flex items-center justify-center">
             <Package className="w-20 h-20 text-[#a8d8ea]" />

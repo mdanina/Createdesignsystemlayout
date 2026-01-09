@@ -48,7 +48,7 @@ export function TrainingCompleteScreen({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center px-6 py-12 bg-white min-h-screen">
+    <div className="flex flex-col items-center justify-center px-16 py-12 bg-white min-h-screen">
       <div className="w-full max-w-sm text-center">
         {/* Анимация */}
         {isCompleted ? (

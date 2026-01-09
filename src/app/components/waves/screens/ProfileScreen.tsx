@@ -60,7 +60,7 @@ export function ProfileScreen({
           </button>
           <SerifHeading size="xl">Профиль</SerifHeading>
         </div>
-        <div className="flex-1 flex items-center justify-center px-12">
+        <div className="flex-1 flex items-center justify-center px-16">
           <p className="text-[#1a1a1a]/70">Профиль не выбран</p>
         </div>
       </div>
@@ -85,7 +85,7 @@ export function ProfileScreen({
         )}
       </div>
 
-      <div className="flex-1 px-12 py-8">
+      <div className="flex-1 px-16 py-8">
         {/* Информация о профиле */}
         <WellnessCard className="mb-6">
           <div className="space-y-4">
@@ -133,7 +133,7 @@ export function ProfileScreen({
         </WellnessCard>
 
         {/* Информация о подписке */}
-        <WellnessCard gradient={hasSubscription ? 'blue' : 'pink'} className="mb-6">
+        <WellnessCard gradient={hasSubscription ? 'blue' : 'lavender'} className="mb-6">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
               <Crown className={`w-6 h-6 ${hasSubscription ? 'text-[#a8d8ea]' : 'text-[#ffb5c5]'}`} />
@@ -179,7 +179,7 @@ export function ProfileScreen({
               {onUpgrade && (
                 <PillButton
                   onClick={() => onUpgrade()}
-                  variant="gradientMesh"
+                  variant="gradientMeshOrange"
                   className="w-full"
                 >
                   <TrendingUp className="w-4 h-4 mr-2" />

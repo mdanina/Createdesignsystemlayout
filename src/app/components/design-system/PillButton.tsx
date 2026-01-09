@@ -34,7 +34,7 @@ const gradientMeshStyles = {
     colors: ['#E8D5F2', '#D4C5F0', '#C9E4F5', '#C9E4F5', '#A8D4EB', '#FFD1DC', '#FFD1DC', '#FFC9DF', '#FFF4CC', '#FFF4CC', '#FFE5D9', '#E8D5F2'],
   },
   gradientMeshPeach: {
-    colors: ['#FFE5D9', '#E8D5F2', '#D9C2E8', '#D9C2E8', '#FFE5D9', '#FFD7BA'],
+    colors: ['#FFD7BA', '#FFC9A3', '#FFB88C', '#FFB88C', '#FFA675', '#FFD7BA', '#FFD7BA', '#FFC9A3', '#FFB88C', '#FFB88C', '#FFA675', '#FFD7BA'],
   },
   gradientMeshMint: {
     colors: ['#D5F2E3', '#C2E8D4', '#C9E4F5', '#C9E4F5', '#B3D9F0', '#D5F2E3'],

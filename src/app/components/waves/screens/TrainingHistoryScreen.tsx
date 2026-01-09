@@ -49,7 +49,7 @@ export function TrainingHistoryScreen({ onBack, sessions: propSessions }: Traini
         <SerifHeading size="xl">История тренировок</SerifHeading>
       </div>
 
-      <div className="flex-1 px-6 py-6">
+      <div className="flex-1 px-16 py-6">
         {/* Фильтры */}
         <div className="mb-6 space-y-3">
           <div className="flex items-center gap-2">

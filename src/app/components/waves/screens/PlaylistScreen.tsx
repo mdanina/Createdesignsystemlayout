@@ -269,7 +269,7 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <div className="px-12 py-6">
+      <div className="px-16 py-6">
         <div className="flex items-center justify-between mb-6">
           <SerifHeading size="2xl">Плейлист</SerifHeading>
           <div className="flex items-center gap-2">
@@ -490,10 +490,10 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
 
         {/* Пустое состояние */}
         {!selectedPlaylist && (
-          <WellnessCard className="p-8 text-center">
+          <WellnessCard gradient="lavender" className="p-8 text-center">
             <Music className="w-16 h-16 text-[#1a1a1a]/20 mx-auto mb-4" />
             <p className="text-[#1a1a1a]/70 mb-4">Создайте свой первый плейлист</p>
-            <PillButton onClick={handleAddItem} variant="gradientMesh">
+            <PillButton onClick={handleAddItem} variant="gradientMeshPeach">
               <Plus className="w-4 h-4 mr-2" />
               Добавить контент
             </PillButton>

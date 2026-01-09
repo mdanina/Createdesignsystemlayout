@@ -51,8 +51,8 @@ export function HomeScreen({
         )}
         {/* Центральный заголовок */}
         <div className="flex justify-center">
-          <SerifHeading size="3xl" className="text-center">
-            Привет, {childName}, хороший день для тренировки!
+          <SerifHeading size="3xl" className="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+            Привет, {childName}!<br />Хороший день для тренировки
           </SerifHeading>
         </div>
 

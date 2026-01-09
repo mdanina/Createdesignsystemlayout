@@ -22,7 +22,7 @@ export function ForgotPasswordScreen({ onBack, onSend }: ForgotPasswordScreenPro
 
   return (
     <div className="flex flex-col bg-white min-h-screen">
-      <div className="flex-1 flex items-center justify-center px-6 py-12">
+      <div className="flex-1 flex items-center justify-center px-16 py-12">
         <div className="w-full max-w-sm">
           <button
             onClick={onBack}

@@ -47,7 +47,7 @@ export function DeviceConnectedScreen({
         )}
         {!onHome && !onClose && <div></div>}
       </div>
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
+      <div className="flex-1 flex flex-col items-center justify-center px-16 py-12">
         <div className="w-full max-w-sm text-center">
           <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-[#a8d8ea]/30 to-[#a8d8ea]/50 rounded-full flex items-center justify-center">
             <CheckCircle2 className="w-16 h-16 text-[#a8d8ea]" />

@@ -11,7 +11,7 @@ interface FirstTrainingScreenProps {
 export function FirstTrainingScreen({ onStartTutorial }: FirstTrainingScreenProps) {
   return (
     <div className="flex flex-col bg-white min-h-screen">
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
+      <div className="flex-1 flex flex-col items-center justify-center px-16 py-12">
         <div className="w-full max-w-sm text-center">
           <div className="text-6xl mb-6">🎉</div>
 

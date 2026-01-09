@@ -98,7 +98,7 @@ export function SignalCheckScreen({ onBack, onAllGood }: SignalCheckScreenProps)
         </button>
       </div>
 
-      <div className="flex-1 px-12 py-8">
+      <div className="flex-1 px-16 py-8">
         {/* Схема головы */}
         <div className="relative w-64 h-64 mx-auto mb-8">
           <div className="absolute inset-0 flex items-center justify-center">

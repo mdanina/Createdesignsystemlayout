@@ -25,7 +25,7 @@ export function NotificationsSettingsScreen({ onBack }: NotificationsSettingsScr
         <SerifHeading size="xl">Уведомления</SerifHeading>
       </div>
 
-      <div className="flex-1 px-6 py-8">
+      <div className="flex-1 px-16 py-8">
         <div className="space-y-6">
           {/* Напоминания о тренировках */}
           <WellnessCard className="p-4">

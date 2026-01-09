@@ -61,7 +61,7 @@ export function SettingsScreen({
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <div className="px-12 py-6">
+      <div className="px-16 py-6">
         <div className="flex items-center justify-between mb-6">
           <SerifHeading size="2xl">Настройки</SerifHeading>
         </div>

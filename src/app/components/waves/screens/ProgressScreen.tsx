@@ -45,7 +45,7 @@ export function ProgressScreen({ userName, onBack, sessions, onSessionClick }: P
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <div className="px-12 py-6">
+      <div className="px-16 py-6">
         <div className="mb-6">
           <SerifHeading size="2xl">Прогресс</SerifHeading>
         </div>

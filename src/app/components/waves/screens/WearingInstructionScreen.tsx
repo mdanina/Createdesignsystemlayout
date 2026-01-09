@@ -19,7 +19,7 @@ export function WearingInstructionScreen({ onBack, onReady }: WearingInstruction
         <SerifHeading size="xl">Инструкция</SerifHeading>
       </div>
 
-      <div className="flex-1 px-6 py-8">
+      <div className="flex-1 px-16 py-8">
         {/* Видео/GIF placeholder */}
         <div className="w-full h-64 bg-gradient-to-br from-[#a8d8ea]/30 to-[#b8a0d6]/30 rounded-2xl mb-6 flex items-center justify-center">
           <span className="text-6xl">📹</span>

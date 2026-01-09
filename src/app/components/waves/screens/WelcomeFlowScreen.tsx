@@ -184,7 +184,7 @@ export function WelcomeFlowScreen({ step, childName = 'ребёнка', parentNa
 
   return (
     <div 
-      className="flex items-center justify-center px-10 py-12 min-h-screen"
+      className="flex items-center justify-center px-16 py-12 min-h-screen"
       style={{
         backgroundImage: 'url(/bg2.png)',
         backgroundSize: 'cover',

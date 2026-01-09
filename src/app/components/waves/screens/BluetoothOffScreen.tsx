@@ -10,7 +10,7 @@ interface BluetoothOffScreenProps {
 
 export function BluetoothOffScreen({ onEnable, onCancel }: BluetoothOffScreenProps) {
   return (
-    <div className="flex flex-col items-center justify-center px-6 py-12 bg-white min-h-screen">
+    <div className="flex flex-col items-center justify-center px-16 py-12 bg-white min-h-screen">
       <div className="w-full max-w-sm text-center">
         <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-[#ff8a65]/30 to-[#ff8a65]/50 rounded-full flex items-center justify-center relative">
           <Bluetooth className="w-16 h-16 text-[#ff8a65]" />

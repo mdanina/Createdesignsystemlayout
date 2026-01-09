@@ -32,7 +32,7 @@ export function TrainingSelectionScreen({
 }: TrainingSelectionScreenProps) {
   return (
     <div className="flex flex-col bg-white min-h-screen">
-      <div className="flex-1 px-12 py-8">
+      <div className="flex-1 px-16 py-8">
         {/* Изображение головы с Flex4 */}
         <div className="w-48 h-48 mx-auto mb-6 bg-gradient-to-br from-[#a8d8ea]/30 to-[#b8a0d6]/30 rounded-full flex flex-col items-center justify-center relative">
           <span className="text-6xl mb-2">🧠</span>

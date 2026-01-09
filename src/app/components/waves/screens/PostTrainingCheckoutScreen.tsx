@@ -37,7 +37,7 @@ export function PostTrainingCheckoutScreen({
 
   return (
     <div className="flex flex-col bg-white min-h-screen">
-      <div className="flex-1 px-6 py-8">
+      <div className="flex-1 px-16 py-8">
         <div className="flex items-center justify-between mb-8">
           <SerifHeading size="2xl">
             Как {childName} себя чувствует после тренировки?

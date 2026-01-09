@@ -64,7 +64,7 @@ export function TrainingTipsScreen({ onBack, onContinue }: TrainingTipsScreenPro
         <SerifHeading size="xl">Советы</SerifHeading>
       </div>
 
-      <div className="flex-1 px-6 py-8 overflow-y-auto">
+      <div className="flex-1 px-16 py-8 overflow-y-auto">
         <div className="mb-6">
           <p className="text-sm text-[#666666] text-center mb-6">
             Прокрутите карточки, чтобы узнать все советы для эффективной тренировки

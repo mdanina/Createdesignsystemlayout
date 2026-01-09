@@ -43,8 +43,8 @@ export function DeviceConnectionScreen({
         </button>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
-        <SerifHeading size="2xl" className="mb-2">Подключите устройство</SerifHeading>
+      <div className="flex-1 flex flex-col items-center justify-center px-16 py-12">
+        <SerifHeading size="2xl" className="mb-2 text-center">Подключите устройство</SerifHeading>
         <p className="text-[#1a1a1a]/70 mb-8 text-center">
           Нажмите кнопку питания на Flex4
         </p>

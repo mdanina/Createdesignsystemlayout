@@ -65,7 +65,7 @@ export function TrainingDetailScreen({ session, onBack }: TrainingDetailScreenPr
           </button>
           <SerifHeading size="xl">Детали тренировки</SerifHeading>
         </div>
-        <div className="flex-1 flex items-center justify-center px-12">
+        <div className="flex-1 flex items-center justify-center px-16">
           <p className="text-[#1a1a1a]/70">Тренировка не найдена</p>
         </div>
       </div>
@@ -89,7 +89,7 @@ export function TrainingDetailScreen({ session, onBack }: TrainingDetailScreenPr
         <SerifHeading size="xl">Детали тренировки</SerifHeading>
       </div>
 
-      <div className="flex-1 px-12 py-6 overflow-y-auto">
+      <div className="flex-1 px-16 py-6 overflow-y-auto">
         {/* Основная информация */}
         <WellnessCard className="mb-6">
           <div className="space-y-4">

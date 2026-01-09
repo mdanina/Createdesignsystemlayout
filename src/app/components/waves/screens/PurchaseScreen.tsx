@@ -61,7 +61,7 @@ export function PurchaseScreen({ onPurchase, onBack }: PurchaseScreenProps) {
         </div>
       )}
 
-      <div className="flex-1 px-6 py-8">
+      <div className="flex-1 px-16 py-8">
         <div className="max-w-md mx-auto">
           <div className="text-center mb-8">
             <SerifHeading size="2xl" className="mb-2">
@@ -83,7 +83,7 @@ export function PurchaseScreen({ onPurchase, onBack }: PurchaseScreenProps) {
                     Рекомендуется
                   </div>
                 )}
-                <WellnessCard gradient={pkg.recommended ? 'coral' : undefined} hover>
+                <WellnessCard gradient={pkg.recommended ? 'lavender' : undefined} hover>
                   <div className="mb-4">
                     <h3 className="text-xl font-semibold text-[#1a1a1a] mb-1">{pkg.name}</h3>
                     <div className="flex items-baseline gap-2 mb-2">
@@ -106,7 +106,7 @@ export function PurchaseScreen({ onPurchase, onBack }: PurchaseScreenProps) {
                   </ul>
                   <PillButton
                     onClick={() => setIsPurchaseModalOpen(true)}
-                    variant={pkg.recommended ? 'coral' : 'secondary'}
+                    variant={pkg.recommended ? 'gradientMeshOrange' : 'secondary'}
                     className="w-full"
                   >
                     Выбрать пакет

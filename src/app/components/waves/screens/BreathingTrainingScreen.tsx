@@ -153,7 +153,7 @@ export function BreathingTrainingScreen({
       >
         <X className="w-4 h-4" />
       </button>
-      <div className="flex flex-col items-center justify-center px-6 relative bg-white min-h-screen">
+      <div className="flex flex-col items-center justify-center px-16 relative bg-white min-h-screen">
         <div className="relative z-10">
           <div className="text-center mb-8">
             <SerifHeading size="2xl" className="mb-2">{getPhaseText(phase)}</SerifHeading>
