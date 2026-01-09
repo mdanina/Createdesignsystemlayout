@@ -60,7 +60,7 @@ export function ProfileScreen({
           </button>
           <SerifHeading size="xl">Профиль</SerifHeading>
         </div>
-        <div className="flex-1 flex items-center justify-center px-6">
+        <div className="flex-1 flex items-center justify-center px-12">
           <p className="text-[#1a1a1a]/70">Профиль не выбран</p>
         </div>
       </div>
@@ -85,7 +85,7 @@ export function ProfileScreen({
         )}
       </div>
 
-      <div className="flex-1 px-6 py-8">
+      <div className="flex-1 px-12 py-8">
         {/* Информация о профиле */}
         <WellnessCard className="mb-6">
           <div className="space-y-4">

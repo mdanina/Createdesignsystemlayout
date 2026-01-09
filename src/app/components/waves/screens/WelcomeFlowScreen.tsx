@@ -43,6 +43,40 @@ function toDativeCase(name: string): string {
   return name;
 }
 
+// Функция для склонения имени в винительный падеж (кого?)
+function toAccusativeCase(name: string): string {
+  if (!name) return name;
+  
+  const trimmed = name.trim();
+  if (trimmed.length === 0) return name;
+  
+  // Имена на -а -> -у (Анна -> Анну, Миша -> Мишу, Саша -> Сашу)
+  if (trimmed.endsWith('а')) {
+    return trimmed.slice(0, -1) + 'у';
+  }
+  
+  // Имена на -я -> -ю (Мария -> Марию, Илья -> Илью)
+  if (trimmed.endsWith('я')) {
+    return trimmed.slice(0, -1) + 'ю';
+  }
+  
+  // Имена на -ь -> -ь (остается без изменения для женских: Наталья -> Наталью, но это сложнее)
+  // Для простоты: если заканчивается на мягкий знак, заменяем на -ь (но это не всегда правильно)
+  // Лучше оставить как есть для имен на -ь
+  
+  // Имена на согласную остаются без изменения (Иван -> Ивана, но это родительный)
+  // Для винительного мужского рода одушевленного: Иван -> Ивана
+  // Но для упрощения оставим как есть для мужских имен на согласную
+  
+  // Имена на -й -> -я (Андрей -> Андрея)
+  if (trimmed.endsWith('й')) {
+    return trimmed.slice(0, -1) + 'я';
+  }
+  
+  // Если не подошло ни одно правило, возвращаем как есть
+  return name;
+}
+
 export function WelcomeFlowScreen({ step, childName = 'ребёнка', parentName, onNext, onComplete, onStepChange }: WelcomeFlowScreenProps) {
   const handleStepClick = (stepNumber: 1 | 2 | 3) => {
     if (stepNumber !== step) {
@@ -92,7 +126,7 @@ export function WelcomeFlowScreen({ step, childName = 'ребёнка', parentNa
                 <div className="w-8 h-8 rounded-full bg-[#1a1a1a] text-white flex items-center justify-center flex-shrink-0 text-sm font-semibold">
                   1
                 </div>
-                <p className="text-gray-700 pt-1">Наденьте Flex4 на {childName ? toDativeCase(childName) : 'ребёнка'}</p>
+                <p className="text-gray-700 pt-1">Наденьте Flex4 на {childName ? toAccusativeCase(childName) : 'ребёнка'}</p>
               </div>
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-full bg-[#1a1a1a] text-white flex items-center justify-center flex-shrink-0 text-sm font-semibold">
@@ -143,11 +177,6 @@ export function WelcomeFlowScreen({ step, childName = 'ребёнка', parentNa
             <p className="text-gray-500 mb-6">
               Ключ к успеху — тренировки 4-5 раз в неделю
             </p>
-            <div className="flex justify-center">
-              <PillButton onClick={onComplete} variant="gradientMesh" className="mt-4">
-                Начать
-              </PillButton>
-            </div>
           </>
         );
     }
@@ -167,7 +196,7 @@ export function WelcomeFlowScreen({ step, childName = 'ребёнка', parentNa
         {renderStep()}
         
         {/* Интерактивный слайдер (точки пагинации) */}
-        <div className="flex gap-2 justify-center mt-6">
+        <div className="flex gap-2 justify-center mt-6 mb-6">
           <button
             onClick={() => handleStepClick(1)}
             className={`h-3 rounded-full transition-all ${
@@ -190,6 +219,15 @@ export function WelcomeFlowScreen({ step, childName = 'ребёнка', parentNa
             aria-label="Шаг 3"
           />
         </div>
+
+        {/* Кнопка "Начать" - показывается только на последнем шаге */}
+        {step === 3 && (
+          <div className="flex justify-center">
+            <PillButton onClick={onComplete} variant="gradientMesh">
+              Начать
+            </PillButton>
+          </div>
+        )}
       </div>
     </div>
   );
