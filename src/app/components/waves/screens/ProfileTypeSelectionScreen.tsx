@@ -8,8 +8,16 @@ interface ProfileTypeSelectionScreenProps {
 
 export function ProfileTypeSelectionScreen({ onSelect }: ProfileTypeSelectionScreenProps) {
   return (
-    <div className="flex flex-col bg-white min-h-screen">
-      <div className="flex-1 flex items-center justify-center px-16 py-12">
+    <div 
+      className="flex flex-col min-h-screen"
+      style={{
+        backgroundImage: 'url(/bg.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'top center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      <div className="flex-1 flex items-start justify-center px-16" style={{ paddingTop: '77px' }}>
         <div className="w-full max-w-md">
           <SerifHeading size="2xl" className="mb-8 text-center">
             Выберите профиль
@@ -20,7 +28,7 @@ export function ProfileTypeSelectionScreen({ onSelect }: ProfileTypeSelectionScr
               onClick={() => onSelect('waves')}
               className="w-full text-left transition-all hover:scale-[1.02]"
             >
-              <WellnessCard gradient="blue" hover>
+              <WellnessCard hover>
                 <div className="flex items-center justify-between">
                   <div>
                     <h2 className="text-xl font-semibold text-[#1a1a1a] mb-2">Waves</h2>
@@ -34,7 +42,7 @@ export function ProfileTypeSelectionScreen({ onSelect }: ProfileTypeSelectionScr
               onClick={() => onSelect('waves-kids')}
               className="w-full text-left transition-all hover:scale-[1.02]"
             >
-              <WellnessCard gradient="pink" hover>
+              <WellnessCard hover>
                 <div className="flex items-center justify-between">
                   <div>
                     <h2 className="text-xl font-semibold text-[#1a1a1a] mb-2">Waves Kids</h2>

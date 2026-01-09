@@ -30,8 +30,16 @@ export function SubProfileSelectionScreen({
   canAdd = false,
 }: SubProfileSelectionScreenProps) {
   return (
-    <div className="flex flex-col bg-white min-h-screen">
-      <div className="flex-1 flex items-center justify-center px-16 py-12">
+    <div 
+      className="flex flex-col min-h-screen"
+      style={{
+        backgroundImage: 'url(/bg.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'top center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      <div className="flex-1 flex items-start justify-center px-16" style={{ paddingTop: '77px' }}>
         <div className="w-full max-w-md">
           <SerifHeading size="2xl" className="mb-8 text-center">
             Выберите пользователя
