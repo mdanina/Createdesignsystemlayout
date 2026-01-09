@@ -78,11 +78,23 @@ export function SignalCheckScreen({ onBack, onAllGood }: SignalCheckScreenProps)
   const getSignalStatus = (quality: SignalQuality) => {
     switch (quality) {
       case 'good':
-        return { color: 'text-green-600', bg: 'bg-green-50', dot: 'bg-green-500' };
+        return { 
+          color: 'text-[#7dd3a0]', 
+          bg: 'bg-[#D5F2E3]', 
+          dot: 'bg-[#7dd3a0]' 
+        };
       case 'medium':
-        return { color: 'text-yellow-600', bg: 'bg-yellow-50', dot: 'bg-yellow-500' };
+        return { 
+          color: 'text-[#F3B83A]', 
+          bg: 'bg-[#FFF4CC]', 
+          dot: 'bg-[#F3B83A]' 
+        };
       case 'poor':
-        return { color: 'text-red-600', bg: 'bg-red-50', dot: 'bg-red-500' };
+        return { 
+          color: 'text-[#ff8a65]', 
+          bg: 'bg-[#ffd4c4]', 
+          dot: 'bg-[#ff8a65]' 
+        };
     }
   };
 

@@ -28,6 +28,7 @@ import {
   ProfileScreen,
   TrainingDetailScreen,
   TutorialScreen,
+  ProgramSelectionModal,
 } from './screens';
 import { BottomNavigation } from '../design-system/BottomNavigation';
 import { PillButton } from '../design-system/PillButton';
@@ -84,6 +85,13 @@ export function WavesAppFlow() {
   const [selectedTrainingType, setSelectedTrainingType] = useState<string>('tbr');
   const [connectedDevice, setConnectedDevice] = useState<string | null>(null);
   const [lastTrainingSessionId, setLastTrainingSessionId] = useState<string | null>(null);
+  
+  // Список доступных программ тренировок
+  const availablePrograms = [
+    { id: 'tbr', name: 'Концентрация', eyesOpen: true, waves: 'Theta/Beta (4-7 / 15-20 Hz)' },
+    { id: 'alpha', name: 'Спокойствие', eyesOpen: false, waves: 'Alpha (8-12 Hz)' },
+    { id: 'smr', name: 'Фокус', eyesOpen: true, waves: 'Low-Beta (12-15 Hz)' },
+  ];
   // Состояние устройства и подписки
   const [hasDevice, setHasDevice] = useState(false);
   const [hasSubscription, setHasSubscription] = useState(false);
@@ -126,6 +134,7 @@ export function WavesAppFlow() {
     concentration?: number;
   } | null>(null);
   const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
+  const [isProgramSelectionModalOpen, setIsProgramSelectionModalOpen] = useState(false);
 
   // Mock данные для субпрофилей
   const [allSubProfiles, setAllSubProfiles] = useState<SubProfile[]>([
@@ -285,17 +294,23 @@ export function WavesAppFlow() {
     // Обновляем последнюю тренировку данными из чек-аута
     if (data && lastTrainingSessionId) {
       setTrainingHistory((prev) => {
-        return prev.map((session) => {
+        const updated = prev.map((session) => {
           if (session.id === lastTrainingSessionId) {
-            return {
+            const updatedSession = {
               ...session,
               rating: data.rating,
               mood: data.mood,
               concentration: data.concentration,
             };
+            // Также обновляем selectedTrainingSession, если она открыта
+            if (selectedTrainingSession?.id === lastTrainingSessionId) {
+              setSelectedTrainingSession(updatedSession);
+            }
+            return updatedSession;
           }
           return session;
         });
+        return updated;
       });
     }
     // После check-out → главный экран
@@ -523,16 +538,16 @@ export function WavesAppFlow() {
           <TrainingSelectionScreen
             currentProgram={{
               id: selectedTrainingType,
-              name: 'Концентрация',
+              name: availablePrograms.find(p => p.id === selectedTrainingType)?.name || 'Концентрация',
               description: 'Тренировка внимания',
-              waves: 'Theta/Beta (4-7 / 15-20 Hz)',
+              waves: availablePrograms.find(p => p.id === selectedTrainingType)?.waves || 'Theta/Beta (4-7 / 15-20 Hz)',
               duration: 16,
-              eyesOpen: true,
+              eyesOpen: availablePrograms.find(p => p.id === selectedTrainingType)?.eyesOpen ?? true,
               current: true,
             }}
             onStart={handleTrainingStart}
             onChangeProgram={() => {
-              // Можно добавить модальное окно выбора программы
+              setIsProgramSelectionModalOpen(true);
             }}
             onBack={() => {
               // Возвращаемся на предыдущий экран в зависимости от контекста
@@ -611,8 +626,8 @@ export function WavesAppFlow() {
               // Если не найдено в trainingHistory, создаем из mock данных
               if (!session) {
                 const defaultSessions = [
-                  { id: '1', date: '05.01.2026', type: 'Концентрация', duration: 16, timeElapsed: 960, timeInZone: 68, endReason: 'completed' as const, points: 850 },
-                  { id: '2', date: '04.01.2026', type: 'Спокойствие', duration: 16, timeElapsed: 960, timeInZone: 72, endReason: 'completed' as const, points: 920 },
+                  { id: '1', date: '05.01.2026', type: 'Концентрация', duration: 16, timeElapsed: 960, timeInZone: 68, endReason: 'completed' as const, points: 850, rating: 5, mood: 'better' as const, concentration: 4 },
+                  { id: '2', date: '04.01.2026', type: 'Спокойствие', duration: 16, timeElapsed: 960, timeInZone: 72, endReason: 'completed' as const, points: 920, rating: 4, mood: 'same' as const, concentration: 5 },
                   { id: '3', date: '03.01.2026', type: 'Фокус', duration: 16, timeElapsed: 960, timeInZone: 65, endReason: 'completed' as const, points: 780 },
                   { id: '4', date: '02.01.2026', type: 'Концентрация', duration: 16, timeElapsed: 960, timeInZone: 70, endReason: 'completed' as const, points: 880 },
                   { id: '5', date: '01.01.2026', type: 'Дыхание', duration: 10, timeElapsed: 600, timeInZone: 0, endReason: 'completed' as const },
@@ -755,6 +770,25 @@ export function WavesAppFlow() {
           </div>
         </div>
       </Modal>
+
+      {/* Модальное окно выбора программы */}
+      {isProgramSelectionModalOpen && (
+        <ProgramSelectionModal
+          programs={availablePrograms.map(p => ({
+            id: p.id,
+            name: p.name,
+            eyesOpen: p.eyesOpen,
+            waves: p.waves,
+            current: p.id === selectedTrainingType,
+          }))}
+          currentProgramId={selectedTrainingType}
+          onSelect={(programId) => {
+            setSelectedTrainingType(programId);
+            setIsProgramSelectionModalOpen(false);
+          }}
+          onClose={() => setIsProgramSelectionModalOpen(false)}
+        />
+      )}
     </div>
   );
 }
