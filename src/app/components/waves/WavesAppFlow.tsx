@@ -83,6 +83,7 @@ export function WavesAppFlow() {
   const [isFirstLaunch, setIsFirstLaunch] = useState(true);
   const [selectedTrainingType, setSelectedTrainingType] = useState<string>('tbr');
   const [connectedDevice, setConnectedDevice] = useState<string | null>(null);
+  const [lastTrainingSessionId, setLastTrainingSessionId] = useState<string | null>(null);
   // Состояние устройства и подписки
   const [hasDevice, setHasDevice] = useState(false);
   const [hasSubscription, setHasSubscription] = useState(false);
@@ -106,6 +107,9 @@ export function WavesAppFlow() {
     endReason: 'completed' | 'early' | 'technical';
     technicalIssue?: string;
     points?: number;
+    rating?: number; // оценка тренировки (1-5)
+    mood?: string; // изменение настроения (better/same/worse)
+    concentration?: number; // уровень концентрации после тренировки (1-5)
   }>>([]);
   const [selectedTrainingSession, setSelectedTrainingSession] = useState<{
     id: string;
@@ -117,6 +121,9 @@ export function WavesAppFlow() {
     endReason: 'completed' | 'early' | 'technical';
     technicalIssue?: string;
     points?: number;
+    rating?: number;
+    mood?: string;
+    concentration?: number;
   } | null>(null);
   const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
 
@@ -248,8 +255,9 @@ export function WavesAppFlow() {
     setLastTrainingData(trainingData);
     
     // Сохраняем в историю тренировок с правильной пометкой причины завершения
+    const sessionId = Date.now().toString();
     const newSession = {
-      id: Date.now().toString(),
+      id: sessionId,
       date: new Date().toLocaleDateString('ru-RU'),
       type: selectedTrainingType === 'tbr' ? 'Концентрация' : 
             selectedTrainingType === 'alpha' ? 'Спокойствие' : 
@@ -262,6 +270,7 @@ export function WavesAppFlow() {
       technicalIssue,
       points: endReason === 'completed' ? Math.round(timeElapsed / 60) * 50 : undefined, // очки только за завершенные
     };
+    setLastTrainingSessionId(sessionId);
     setTrainingHistory((prev) => [newSession, ...prev]);
     
     setCurrentScreen('training-complete');
@@ -272,7 +281,23 @@ export function WavesAppFlow() {
     setCurrentScreen('post-training-checkout');
   };
 
-  const handlePostTrainingCheckoutComplete = () => {
+  const handlePostTrainingCheckoutComplete = (data?: { mood: string; concentration: number; rating: number }) => {
+    // Обновляем последнюю тренировку данными из чек-аута
+    if (data && lastTrainingSessionId) {
+      setTrainingHistory((prev) => {
+        return prev.map((session) => {
+          if (session.id === lastTrainingSessionId) {
+            return {
+              ...session,
+              rating: data.rating,
+              mood: data.mood,
+              concentration: data.concentration,
+            };
+          }
+          return session;
+        });
+      });
+    }
     // После check-out → главный экран
     // TODO: Здесь можно добавить проверку на первую тренировку и показать запрос push-уведомлений (M28d)
     setCurrentScreen('home');
@@ -566,8 +591,8 @@ export function WavesAppFlow() {
         return (
           <PostTrainingCheckoutScreen
             childName={selectedSubProfile?.name}
-            onComplete={handlePostTrainingCheckoutComplete}
-            onSkip={handlePostTrainingCheckoutComplete}
+            onComplete={(data) => handlePostTrainingCheckoutComplete(data)}
+            onSkip={() => handlePostTrainingCheckoutComplete()}
           />
         );
 

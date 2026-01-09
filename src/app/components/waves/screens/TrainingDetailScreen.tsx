@@ -14,6 +14,9 @@ interface TrainingSession {
   endReason: 'completed' | 'early' | 'technical';
   technicalIssue?: string;
   points?: number;
+  rating?: number; // оценка тренировки (1-5)
+  mood?: string; // изменение настроения (better/same/worse)
+  concentration?: number; // уровень концентрации после тренировки (1-5)
 }
 
 interface TrainingDetailScreenProps {
@@ -121,6 +124,73 @@ export function TrainingDetailScreen({ session, onBack }: TrainingDetailScreenPr
             )}
           </div>
         </WellnessCard>
+
+        {/* Оценка и изменения состояния */}
+        {(session.rating || session.mood || session.concentration) && (
+          <WellnessCard className="mb-6">
+            <h3 className="text-lg font-semibold text-[#1a1a1a] mb-4">Оценка тренировки</h3>
+            <div className="space-y-4">
+              {session.rating && (
+                <div>
+                  <p className="text-sm text-[#1a1a1a]/70 mb-2">Оценка тренировки</p>
+                  <div className="flex items-center gap-2">
+                    <div className="flex gap-1">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <span
+                          key={star}
+                          className={`text-2xl ${
+                            star <= session.rating!
+                              ? 'text-[#F3B83A]'
+                              : 'text-[#1a1a1a]/20'
+                          }`}
+                        >
+                          ★
+                        </span>
+                      ))}
+                    </div>
+                    <span className="text-sm text-[#1a1a1a]/70">
+                      {session.rating} из 5
+                    </span>
+                  </div>
+                </div>
+              )}
+              
+              {session.mood && (
+                <div>
+                  <p className="text-sm text-[#1a1a1a]/70 mb-2">Изменение настроения</p>
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl">
+                      {session.mood === 'better' ? '😊' : session.mood === 'same' ? '😐' : '😟'}
+                    </span>
+                    <span className="text-[#1a1a1a] font-medium">
+                      {session.mood === 'better' ? 'Лучше' : session.mood === 'same' ? 'Так же' : 'Хуже'}
+                    </span>
+                  </div>
+                </div>
+              )}
+              
+              {session.concentration && (
+                <div>
+                  <p className="text-sm text-[#1a1a1a]/70 mb-2">Уровень концентрации после тренировки</p>
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl">
+                      {session.concentration === 1 ? '😵' :
+                       session.concentration === 2 ? '😐' :
+                       session.concentration === 3 ? '🙂' :
+                       session.concentration === 4 ? '😊' : '🤓'}
+                    </span>
+                    <span className="text-[#1a1a1a] font-medium">
+                      {session.concentration === 1 ? 'Рассеян' :
+                       session.concentration === 2 ? 'Немного' :
+                       session.concentration === 3 ? 'Нормально' :
+                       session.concentration === 4 ? 'Хорошо' : 'Отлично'}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </WellnessCard>
+        )}
 
         {/* График динамики */}
         {session.timeInZone > 0 && (

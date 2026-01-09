@@ -51,9 +51,11 @@ export function HomeScreen({
         )}
         {/* Центральный заголовок */}
         <div className="flex justify-center">
-          <SerifHeading size="3xl" className="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
-            Привет, {childName}!<br />Хороший день для тренировки
-          </SerifHeading>
+          <h1 className="font-serif font-medium leading-tight tracking-tight text-[#1a1a1a] text-center" style={{ fontFamily: 'var(--font-serif)' }}>
+            <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl">Привет, {childName}!</span>
+            <br />
+            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl">Хороший день для тренировки</span>
+          </h1>
         </div>
 
         {/* Карточка инструктажа для новых */}
