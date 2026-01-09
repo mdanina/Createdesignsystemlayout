@@ -42,7 +42,7 @@ export function HomeScreen({
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <div className="px-12 py-6 space-y-6">
+      <div className="px-16 py-6 space-y-6">
         {/* Streak */}
         {streak > 0 && (
           <div className="flex items-center justify-center pt-6">
@@ -62,7 +62,14 @@ export function HomeScreen({
             onClick={onTutorial}
             className="w-full text-left transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
-            <WellnessCard className="relative">
+            <div 
+              className="relative p-6 shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
+              style={{
+                borderRadius: '20px',
+                background: 'linear-gradient(108deg, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0.07) 100%)',
+                backdropFilter: 'blur(10px)',
+              }}
+            >
               <button
                 onClick={(e) => {
                   e.stopPropagation();
@@ -79,7 +86,7 @@ export function HomeScreen({
                   <p className="text-sm text-[#1a1a1a]/70">Узнайте, как работает нейрофидбек</p>
                 </div>
               </div>
-            </WellnessCard>
+            </div>
           </button>
         )}
 
@@ -89,7 +96,7 @@ export function HomeScreen({
           <p className="text-sm text-[#1a1a1a]/70 mb-4">{recommendedTraining.type}</p>
           <PillButton
             onClick={() => onStartTraining('tbr')}
-            variant="gradientMesh"
+            variant="gradientMeshOrange"
             className="w-full"
           >
             <Play className="w-4 h-4 mr-2" />

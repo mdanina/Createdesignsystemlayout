@@ -25,8 +25,8 @@ export function StreakBadge({
   return (
     <div className={cn(showWeekDays ? 'flex flex-col items-center gap-3' : 'inline-flex', className)}>
       {/* Streak badge */}
-      <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#F3B83A] to-[#FFD54F] text-white px-4 py-2 rounded-full shadow-md">
-        <Flame className="w-4 h-4" />
+      <div className="inline-flex items-center gap-2 bg-white text-[#1a1a1a] px-4 py-2 rounded-full shadow-md">
+        <Flame className="w-4 h-4 text-[#1a1a1a]" />
         <span className="text-xs font-medium uppercase tracking-wider">{days} ДНЕЙ ПОДРЯД</span>
       </div>
 

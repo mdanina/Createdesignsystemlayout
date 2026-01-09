@@ -6,7 +6,7 @@ import { motion } from 'motion/react';
 
 interface PillButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  variant?: 'primary' | 'secondary' | 'coral' | 'yellow' | 'outline' | 'black' | 'gradientMesh' | 'gradientMeshPeach' | 'gradientMeshMint' | 'gradientMeshRose' | 'gradientMeshCoral';
+  variant?: 'primary' | 'secondary' | 'coral' | 'yellow' | 'outline' | 'black' | 'gradientMesh' | 'gradientMeshPeach' | 'gradientMeshMint' | 'gradientMeshRose' | 'gradientMeshCoral' | 'gradientMeshOrange';
   size?: 'sm' | 'md' | 'lg';
   className?: string;
   onClick?: () => void;
@@ -44,6 +44,9 @@ const gradientMeshStyles = {
   },
   gradientMeshCoral: {
     colors: ['#FFCBB3', '#FFE5D9', '#C9E4F5', '#C9E4F5', '#B3D9F0', '#FFCBB3'],
+  },
+  gradientMeshOrange: {
+    colors: ['#FFE5D9', '#FFD7BA', '#FFCBB3', '#FFCBB3', '#FFB8A3', '#FFE5D9', '#FFE5D9', '#FFD7BA', '#FFCBB3', '#FFCBB3', '#FFB8A3', '#FFE5D9'],
   },
 };
 

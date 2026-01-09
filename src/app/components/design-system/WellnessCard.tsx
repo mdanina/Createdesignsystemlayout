@@ -10,9 +10,9 @@ interface WellnessCardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const gradientClasses = {
   coral: 'bg-gradient-to-br from-[#ffd4c4] via-[#ffb299] to-[#ff8a65]',
-  blue: 'bg-gradient-to-br from-[#47BDF7]/20 via-[#6ab9e7]/25 to-[#47BDF7]/30',
-  pink: 'bg-gradient-to-br from-[#ffd6e8]/30 to-[#ffb5d5]/40',
-  lavender: 'bg-gradient-to-br from-[#d4c5f0]/30 to-[#b8a0d6]/40',
+  blue: 'bg-gradient-to-br from-[#E8F5FE] via-[#D4EDFC] to-[#C0E5FA]',
+  pink: 'bg-gradient-to-br from-[#FFE8F0] via-[#FFD6E8] to-[#FFC4E0]',
+  lavender: 'bg-[#F0E8F8]',
 };
 
 export function WellnessCard({ children, className, gradient, hover = false, ...props }: WellnessCardProps) {
