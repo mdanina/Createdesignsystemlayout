@@ -3,7 +3,6 @@ import { ArrowLeft, Volume2 } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
-import { GradientBackground } from '../../design-system/GradientBackground';
 
 type SignalQuality = 'good' | 'medium' | 'poor';
 
@@ -71,34 +70,24 @@ export function SignalCheckScreen({ onBack, onAllGood }: SignalCheckScreenProps)
     }
   }, [allGood, countdown, onAllGood]);
 
-  const getSignalColor = (quality: SignalQuality) => {
-    switch (quality) {
-      case 'good':
-        return 'bg-green-500';
-      case 'medium':
-        return 'bg-yellow-500';
-      case 'poor':
-        return 'bg-red-500';
-    }
-  };
-
-  const getSignalEmoji = (quality: SignalQuality) => {
-    switch (quality) {
-      case 'good':
-        return '🟢';
-      case 'medium':
-        return '🟡';
-      case 'poor':
-        return '🔴';
-    }
-  };
 
   const sensorNames = ['Левый висок', 'Правый висок', 'За левым ухом', 'За правым ухом'];
   const needsAdjustment = signals.some((s) => s !== 'good');
   const poorSensorIndex = signals.findIndex((s) => s === 'poor');
 
+  const getSignalStatus = (quality: SignalQuality) => {
+    switch (quality) {
+      case 'good':
+        return { color: 'text-green-600', bg: 'bg-green-50', dot: 'bg-green-500' };
+      case 'medium':
+        return { color: 'text-yellow-600', bg: 'bg-yellow-50', dot: 'bg-yellow-500' };
+      case 'poor':
+        return { color: 'text-red-600', bg: 'bg-red-50', dot: 'bg-red-500' };
+    }
+  };
+
   return (
-    <GradientBackground variant="cream" className="flex flex-col">
+    <div className="flex flex-col bg-white min-h-screen">
       <div className="flex items-center justify-between px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
         <button onClick={onBack} className="text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
           <ArrowLeft className="w-6 h-6" />
@@ -109,36 +98,46 @@ export function SignalCheckScreen({ onBack, onAllGood }: SignalCheckScreenProps)
         </button>
       </div>
 
-      <div className="flex-1 px-6 py-8">
+      <div className="flex-1 px-12 py-8">
         {/* Схема головы */}
         <div className="relative w-64 h-64 mx-auto mb-8">
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-32 h-32 bg-gray-100 rounded-full"></div>
+            <div className="w-32 h-32 bg-[#1a1a1a]/5 rounded-full"></div>
           </div>
           {/* Датчики */}
-          {[0, 1, 2, 3].map((index) => (
-            <div
-              key={index}
-              className={`absolute w-8 h-8 rounded-full border-2 border-white ${getSignalColor(signals[index])}`}
-              style={{
-                top: index < 2 ? '20%' : '60%',
-                left: index % 2 === 0 ? '20%' : '70%',
-              }}
-            >
-              <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-xs">
-                {getSignalEmoji(signals[index])}
-              </span>
-            </div>
-          ))}
+          {[0, 1, 2, 3].map((index) => {
+            const status = getSignalStatus(signals[index]);
+            // Симметричное расположение относительно центра (128px = половина от 256px)
+            const positions = [
+              { top: '15%', left: '15%' }, // Левый висок
+              { top: '15%', left: '85%' }, // Правый висок
+              { top: '85%', left: '15%' }, // За левым ухом
+              { top: '85%', left: '85%' }, // За правым ухом
+            ];
+            return (
+              <div
+                key={index}
+                className="absolute"
+                style={{
+                  ...positions[index],
+                  transform: 'translate(-50%, -50%)',
+                }}
+              >
+                <div className={`w-10 h-10 rounded-full ${status.bg} border-2 border-white flex items-center justify-center shadow-md`}>
+                  <div className={`w-4 h-4 rounded-full ${status.dot}`}></div>
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         {/* Динамическая подсказка */}
         {needsAdjustment && poorSensorIndex !== -1 && (
-          <WellnessCard gradient="coral" className="p-4 mb-6">
-            <p className="font-semibold text-[#1a1a1a] mb-1">
+          <WellnessCard gradient="blue" className="p-4 mb-6">
+            <p className="font-semibold text-[#1a1a1a] mb-2">
               Поправьте датчик {sensorNames[poorSensorIndex].toLowerCase()}
             </p>
-            <button className="text-sm text-[#a8d8ea] hover:text-[#8bc9e0]">
+            <button className="text-sm text-[#1a1a1a]/70 hover:text-[#1a1a1a] underline">
               Как улучшить контакт?
             </button>
           </WellnessCard>
@@ -146,29 +145,37 @@ export function SignalCheckScreen({ onBack, onAllGood }: SignalCheckScreenProps)
 
         {allGood && (
           <WellnessCard gradient="blue" className="p-4 mb-6 text-center">
-            <p className="font-semibold text-[#1a1a1a]">Все датчики подключены!</p>
+            <p className="font-semibold text-[#1a1a1a] mb-1">Все датчики подключены!</p>
             {countdown !== null && countdown > 0 ? (
-              <p className="text-sm text-[#1a1a1a]/70 mt-1">
+              <p className="text-sm text-[#1a1a1a]/70">
                 Начинаем тренировку через {countdown}...
               </p>
             ) : (
-              <p className="text-sm text-[#1a1a1a]/70 mt-1">Начинаем тренировку...</p>
+              <p className="text-sm text-[#1a1a1a]/70">Начинаем тренировку...</p>
             )}
           </WellnessCard>
         )}
 
         {/* Список датчиков */}
-        <div className="space-y-2 mb-6">
-          {sensorNames.map((name, index) => (
-            <WellnessCard key={index} className="p-3">
-              <div className="flex items-center justify-between">
-                <span className="text-[#1a1a1a]">{name}</span>
-                <span className="text-2xl">{getSignalEmoji(signals[index])}</span>
-              </div>
-            </WellnessCard>
-          ))}
+        <div className="space-y-3 mb-6">
+          {sensorNames.map((name, index) => {
+            const status = getSignalStatus(signals[index]);
+            return (
+              <WellnessCard key={index} className="p-4">
+                <div className="flex items-center justify-between">
+                  <span className="font-medium text-[#1a1a1a]">{name}</span>
+                  <div className="flex items-center gap-2">
+                    <div className={`w-3 h-3 rounded-full ${status.dot}`}></div>
+                    <span className={`text-sm font-medium ${status.color}`}>
+                      {signals[index] === 'good' ? 'Хорошо' : signals[index] === 'medium' ? 'Средне' : 'Плохо'}
+                    </span>
+                  </div>
+                </div>
+              </WellnessCard>
+            );
+          })}
         </div>
       </div>
-    </GradientBackground>
+    </div>
   );
 }

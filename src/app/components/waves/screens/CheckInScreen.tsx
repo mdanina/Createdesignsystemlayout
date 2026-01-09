@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { PillButton } from '../../design-system/PillButton';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
-import { GradientBackground } from '../../design-system/GradientBackground';
 import { EmojiSelector } from '../../design-system/EmojiSelector';
 
 interface CheckInScreenProps {
@@ -39,7 +38,7 @@ export function CheckInScreen({ childName = 'ребёнок', onContinue, onBack
   const canContinue = selectedEmotion !== null && concentration !== null;
 
   return (
-    <GradientBackground variant="cream" className="flex flex-col">
+    <div className="flex flex-col bg-white min-h-screen">
       <div className="flex-1 px-6 py-8">
         <SerifHeading size="2xl" className="mb-8">
           Как {childName} себя чувствует сейчас?
@@ -132,7 +131,7 @@ export function CheckInScreen({ childName = 'ребёнок', onContinue, onBack
               });
             }
           }}
-          variant="coral"
+          variant="gradientMesh"
           className="w-full mb-3"
           disabled={!canContinue}
         >
@@ -148,7 +147,7 @@ export function CheckInScreen({ childName = 'ребёнок', onContinue, onBack
           </button>
         )}
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

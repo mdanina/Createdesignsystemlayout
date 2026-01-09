@@ -4,7 +4,6 @@ import { PillButton } from '../../design-system/PillButton';
 import { StreakBadge } from '../../design-system/StreakBadge';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
-import { GradientBackground } from '../../design-system/GradientBackground';
 
 type TrainingEndReason = 'completed' | 'early' | 'technical';
 
@@ -49,7 +48,7 @@ export function TrainingCompleteScreen({
   };
 
   return (
-    <GradientBackground variant="lavender" className="flex flex-col items-center justify-center px-6 py-12">
+    <div className="flex flex-col items-center justify-center px-6 py-12 bg-white min-h-screen">
       <div className="w-full max-w-sm text-center">
         {/* Анимация */}
         {isCompleted ? (
@@ -117,11 +116,11 @@ export function TrainingCompleteScreen({
           </WellnessCard>
         )}
 
-        <PillButton onClick={onComplete} variant="coral" className="w-full">
+        <PillButton onClick={onComplete} variant="gradientMesh" className="w-full">
           Готово
         </PillButton>
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

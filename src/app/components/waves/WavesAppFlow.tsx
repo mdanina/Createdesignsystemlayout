@@ -183,6 +183,10 @@ export function WavesAppFlow() {
     setCurrentScreen('home');
   };
 
+  const handlePermissionsBack = () => {
+    setCurrentScreen('welcome-3');
+  };
+
   const handleStartTraining = (type: string) => {
     setSelectedTrainingType(type);
     if (type === 'breathing') {
@@ -247,9 +251,9 @@ export function WavesAppFlow() {
     const newSession = {
       id: Date.now().toString(),
       date: new Date().toLocaleDateString('ru-RU'),
-      type: selectedTrainingType === 'tbr' ? 'TBR' : 
-            selectedTrainingType === 'alpha' ? 'Alpha' : 
-            selectedTrainingType === 'smr' ? 'SMR' : 
+      type: selectedTrainingType === 'tbr' ? 'Концентрация' : 
+            selectedTrainingType === 'alpha' ? 'Спокойствие' : 
+            selectedTrainingType === 'smr' ? 'Фокус' : 
             selectedTrainingType === 'breathing' ? 'Дыхание' : 'Тренировка',
       duration: Math.round(timeElapsed / 60), // в минутах для отображения
       timeElapsed, // в секундах для точности
@@ -335,10 +339,23 @@ export function WavesAppFlow() {
       case 'welcome-1':
       case 'welcome-2':
       case 'welcome-3':
+        // Определяем имя родителя для приветствия
+        let parentName: string | undefined;
+        if (profileType === 'waves') {
+          // Если это профиль взрослого, то selectedSubProfile - это и есть родитель
+          parentName = selectedSubProfile?.name;
+        } else {
+          // Если это профиль ребенка, находим родителя из списка
+          const parentProfile = allSubProfiles.find((p) => 
+            (p.type === 'adult' || (p.age && p.age >= 18))
+          );
+          parentName = parentProfile?.name;
+        }
         return (
           <WelcomeFlowScreen
             step={welcomeStep}
             childName={selectedSubProfile?.name}
+            parentName={parentName}
             onNext={handleWelcomeNext}
             onComplete={handleWelcomeComplete}
             onStepChange={(newStep) => {
@@ -349,7 +366,7 @@ export function WavesAppFlow() {
         );
 
       case 'permissions':
-        return <PermissionsExplanationScreen onContinue={handlePermissionsContinue} />;
+        return <PermissionsExplanationScreen onContinue={handlePermissionsContinue} onBack={handlePermissionsBack} />;
 
       case 'home':
         return (
@@ -560,10 +577,10 @@ export function WavesAppFlow() {
               // Если не найдено в trainingHistory, создаем из mock данных
               if (!session) {
                 const defaultSessions = [
-                  { id: '1', date: '05.01.2026', type: 'TBR', duration: 16, timeElapsed: 960, timeInZone: 68, endReason: 'completed' as const, points: 850 },
-                  { id: '2', date: '04.01.2026', type: 'Alpha', duration: 16, timeElapsed: 960, timeInZone: 72, endReason: 'completed' as const, points: 920 },
-                  { id: '3', date: '03.01.2026', type: 'SMR', duration: 16, timeElapsed: 960, timeInZone: 65, endReason: 'completed' as const, points: 780 },
-                  { id: '4', date: '02.01.2026', type: 'TBR', duration: 16, timeElapsed: 960, timeInZone: 70, endReason: 'completed' as const, points: 880 },
+                  { id: '1', date: '05.01.2026', type: 'Концентрация', duration: 16, timeElapsed: 960, timeInZone: 68, endReason: 'completed' as const, points: 850 },
+                  { id: '2', date: '04.01.2026', type: 'Спокойствие', duration: 16, timeElapsed: 960, timeInZone: 72, endReason: 'completed' as const, points: 920 },
+                  { id: '3', date: '03.01.2026', type: 'Фокус', duration: 16, timeElapsed: 960, timeInZone: 65, endReason: 'completed' as const, points: 780 },
+                  { id: '4', date: '02.01.2026', type: 'Концентрация', duration: 16, timeElapsed: 960, timeInZone: 70, endReason: 'completed' as const, points: 880 },
                   { id: '5', date: '01.01.2026', type: 'Дыхание', duration: 10, timeElapsed: 600, timeInZone: 0, endReason: 'completed' as const },
                 ];
                 session = defaultSessions.find((s) => s.id === sessionId);
@@ -660,7 +677,7 @@ export function WavesAppFlow() {
       {showBottomNav && (
         <BottomNavigation
           items={[
-            { icon: <Home className="w-5 h-5" />, label: 'Сегодня', value: 'home' },
+            { icon: <Home className="w-5 h-5" />, label: 'Главная', value: 'home' },
             { icon: <BarChart3 className="w-5 h-5" />, label: 'Прогресс', value: 'progress' },
             { icon: <Music2 className="w-5 h-5" />, label: 'Плейлист', value: 'training' },
             { icon: <Settings className="w-5 h-5" />, label: 'Настройки', value: 'settings' },
@@ -688,7 +705,7 @@ export function WavesAppFlow() {
                 window.open('https://t.me/waves_support', '_blank');
                 setIsSupportModalOpen(false);
               }}
-              variant="coral"
+              variant="gradientMesh"
               className="flex-1"
             >
               <MessageCircle className="w-4 h-4 mr-2" />

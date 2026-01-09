@@ -52,8 +52,16 @@ export function SettingsScreen({
   }, [isProfileDropdownOpen]);
 
   return (
-    <div className="min-h-screen bg-white pb-20">
-      <div className="px-4 py-6">
+    <div 
+      className="min-h-screen pb-20"
+      style={{
+        backgroundImage: 'url(/bg2.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'top center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      <div className="px-12 py-6">
         <div className="flex items-center justify-between mb-6">
           <SerifHeading size="2xl">Настройки</SerifHeading>
         </div>
@@ -136,7 +144,7 @@ export function SettingsScreen({
                   window.open('https://waves.ru/account', '_blank');
                   setIsAddUserModalOpen(false);
                 }}
-                variant="coral"
+                variant="gradientMesh"
                 className="flex-1"
               >
                 <ExternalLink className="w-4 h-4 mr-2" />

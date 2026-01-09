@@ -20,7 +20,7 @@ export function AppUpdateScreen({ isMandatory = false, onUpdate, onLater }: AppU
         </p>
 
         <div className="space-y-3">
-          <PillButton onClick={onUpdate} variant="coral" className="w-full">
+          <PillButton onClick={onUpdate} variant="gradientMesh" className="w-full">
             <Download className="w-4 h-4 mr-2" />
             Обновить
           </PillButton>

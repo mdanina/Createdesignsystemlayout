@@ -2,7 +2,6 @@ import React from 'react';
 import { Bell } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
 import { SerifHeading } from '../../design-system/SerifHeading';
-import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface PushNotificationsRequestScreenProps {
   childName?: string;
@@ -16,7 +15,7 @@ export function PushNotificationsRequestScreen({
   onSkip,
 }: PushNotificationsRequestScreenProps) {
   return (
-    <GradientBackground variant="lavender" className="flex flex-col items-center justify-center px-6 py-12">
+    <div className="flex flex-col items-center justify-center px-6 py-12 bg-white min-h-screen">
       <div className="w-full max-w-sm text-center">
         <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-[#a8d8ea]/30 to-[#a8d8ea]/50 rounded-full flex items-center justify-center">
           <Bell className="w-16 h-16 text-[#a8d8ea]" />
@@ -30,7 +29,7 @@ export function PushNotificationsRequestScreen({
         </p>
 
         <div className="space-y-3">
-          <PillButton onClick={onEnable} variant="coral" className="w-full">
+          <PillButton onClick={onEnable} variant="gradientMesh" className="w-full">
             Включить уведомления
           </PillButton>
           <button onClick={onSkip} className="w-full text-[#1a1a1a]/50 hover:text-[#1a1a1a]/70 text-sm">
@@ -38,7 +37,7 @@ export function PushNotificationsRequestScreen({
           </button>
         </div>
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

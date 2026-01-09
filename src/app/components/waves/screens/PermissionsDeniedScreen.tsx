@@ -2,7 +2,6 @@ import React from 'react';
 import { Settings } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
 import { SerifHeading } from '../../design-system/SerifHeading';
-import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface PermissionsDeniedScreenProps {
   onOpenSettings: () => void;
@@ -11,7 +10,7 @@ interface PermissionsDeniedScreenProps {
 
 export function PermissionsDeniedScreen({ onOpenSettings, onCancel }: PermissionsDeniedScreenProps) {
   return (
-    <GradientBackground variant="pink" className="flex flex-col items-center justify-center px-6 py-12">
+    <div className="flex flex-col items-center justify-center px-6 py-12 bg-white min-h-screen">
       <div className="w-full max-w-sm text-center">
         <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-[#ff8a65]/30 to-[#ff8a65]/50 rounded-full flex items-center justify-center">
           <Settings className="w-16 h-16 text-[#ff8a65]" />
@@ -24,7 +23,7 @@ export function PermissionsDeniedScreen({ onOpenSettings, onCancel }: Permission
         </p>
 
         <div className="space-y-3">
-          <PillButton onClick={onOpenSettings} variant="coral" className="w-full">
+          <PillButton onClick={onOpenSettings} variant="gradientMesh" className="w-full">
             <Settings className="w-4 h-4 mr-2" />
             Открыть настройки
           </PillButton>
@@ -33,7 +32,7 @@ export function PermissionsDeniedScreen({ onOpenSettings, onCancel }: Permission
           </PillButton>
         </div>
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

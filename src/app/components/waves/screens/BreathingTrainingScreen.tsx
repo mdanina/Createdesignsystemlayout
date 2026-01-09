@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { SerifHeading } from '../../design-system/SerifHeading';
-import { GradientBackground } from '../../design-system/GradientBackground';
 import { GradientMesh } from '../../design-system/GradientMesh';
 
 type BreathingPhase = 'inhale' | 'hold' | 'exhale' | 'hold2';
@@ -154,7 +153,7 @@ export function BreathingTrainingScreen({
       >
         <X className="w-4 h-4" />
       </button>
-      <GradientBackground variant="lavender" className="flex flex-col items-center justify-center px-6 relative">
+      <div className="flex flex-col items-center justify-center px-6 relative bg-white min-h-screen">
         <div className="relative z-10">
           <div className="text-center mb-8">
             <SerifHeading size="2xl" className="mb-2">{getPhaseText(phase)}</SerifHeading>
@@ -182,7 +181,7 @@ export function BreathingTrainingScreen({
             </div>
           </div>
         </div>
-      </GradientBackground>
+      </div>
     </>
   );
 }

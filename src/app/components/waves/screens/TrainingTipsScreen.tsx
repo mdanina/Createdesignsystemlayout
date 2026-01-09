@@ -3,7 +3,6 @@ import { ArrowLeft } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { CardStack } from '../../design-system/CardStack';
-import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface TrainingTipsScreenProps {
   onBack: () => void;
@@ -57,7 +56,7 @@ export function TrainingTipsScreen({ onBack, onContinue }: TrainingTipsScreenPro
   ];
 
   return (
-    <GradientBackground variant="cream" className="flex flex-col">
+    <div className="flex flex-col bg-white min-h-screen">
       <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
         <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
           <ArrowLeft className="w-6 h-6" />
@@ -75,7 +74,7 @@ export function TrainingTipsScreen({ onBack, onContinue }: TrainingTipsScreenPro
           </div>
         </div>
 
-        <PillButton onClick={onContinue} variant="coral" className="w-full mb-3">
+        <PillButton onClick={onContinue} variant="gradientMesh" className="w-full mb-3">
           Понятно
         </PillButton>
         
@@ -86,7 +85,7 @@ export function TrainingTipsScreen({ onBack, onContinue }: TrainingTipsScreenPro
           Назад
         </button>
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

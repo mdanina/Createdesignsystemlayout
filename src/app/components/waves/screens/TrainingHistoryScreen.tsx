@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { ArrowLeft, Filter, TrendingUp } from 'lucide-react';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
-import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface TrainingSession {
   id: string;
@@ -27,10 +26,10 @@ export function TrainingHistoryScreen({ onBack, sessions: propSessions }: Traini
 
   // Используем переданные данные или mock данные для демо
   const defaultSessions: TrainingSession[] = [
-    { id: '1', date: '05.01.2026', type: 'TBR', duration: 16, timeElapsed: 960, timeInZone: 68, endReason: 'completed', points: 850 },
-    { id: '2', date: '04.01.2026', type: 'Alpha', duration: 16, timeElapsed: 960, timeInZone: 72, endReason: 'completed', points: 920 },
-    { id: '3', date: '03.01.2026', type: 'SMR', duration: 16, timeElapsed: 960, timeInZone: 65, endReason: 'completed', points: 780 },
-    { id: '4', date: '02.01.2026', type: 'TBR', duration: 16, timeElapsed: 960, timeInZone: 70, endReason: 'completed', points: 880 },
+    { id: '1', date: '05.01.2026', type: 'Концентрация', duration: 16, timeElapsed: 960, timeInZone: 68, endReason: 'completed', points: 850 },
+    { id: '2', date: '04.01.2026', type: 'Спокойствие', duration: 16, timeElapsed: 960, timeInZone: 72, endReason: 'completed', points: 920 },
+    { id: '3', date: '03.01.2026', type: 'Фокус', duration: 16, timeElapsed: 960, timeInZone: 65, endReason: 'completed', points: 780 },
+    { id: '4', date: '02.01.2026', type: 'Концентрация', duration: 16, timeElapsed: 960, timeInZone: 70, endReason: 'completed', points: 880 },
     { id: '5', date: '01.01.2026', type: 'Дыхание', duration: 10, timeElapsed: 600, timeInZone: 0, endReason: 'completed' },
   ];
   
@@ -42,7 +41,7 @@ export function TrainingHistoryScreen({ onBack, sessions: propSessions }: Traini
   });
 
   return (
-    <GradientBackground variant="cream" className="flex flex-col">
+    <div className="flex flex-col bg-white min-h-screen">
       <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
         <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
           <ArrowLeft className="w-6 h-6" />
@@ -61,9 +60,9 @@ export function TrainingHistoryScreen({ onBack, sessions: propSessions }: Traini
               className="flex-1 px-4 py-2 bg-white/50 border border-[#1a1a1a]/10 rounded-lg"
             >
               <option value="all">Все типы</option>
-              <option value="tbr">TBR</option>
-              <option value="alpha">Alpha</option>
-              <option value="smr">SMR</option>
+              <option value="tbr">Концентрация</option>
+              <option value="alpha">Спокойствие</option>
+              <option value="smr">Фокус</option>
               <option value="breathing">Дыхание</option>
             </select>
           </div>
@@ -127,7 +126,7 @@ export function TrainingHistoryScreen({ onBack, sessions: propSessions }: Traini
           ))}
         </div>
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

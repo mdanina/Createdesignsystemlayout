@@ -4,7 +4,6 @@ import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
 import { PillButton } from '../../design-system/PillButton';
 import { Input } from '../../design-system/Input';
-import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface SubProfile {
   id: string;
@@ -54,7 +53,7 @@ export function ProfileScreen({
 
   if (!profile) {
     return (
-      <GradientBackground variant="cream" className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen bg-white">
         <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
           <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
             <ArrowLeft className="w-6 h-6" />
@@ -64,12 +63,12 @@ export function ProfileScreen({
         <div className="flex-1 flex items-center justify-center px-6">
           <p className="text-[#1a1a1a]/70">Профиль не выбран</p>
         </div>
-      </GradientBackground>
+      </div>
     );
   }
 
   return (
-    <GradientBackground variant="cream" className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
         <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
           <ArrowLeft className="w-6 h-6" />
@@ -164,7 +163,7 @@ export function ProfileScreen({
               {onUpgrade && subscriptionType === 'basic' && (
                 <PillButton
                   onClick={() => onUpgrade()}
-                  variant="coral"
+                  variant="gradientMesh"
                   className="w-full mt-3"
                 >
                   <TrendingUp className="w-4 h-4 mr-2" />
@@ -180,7 +179,7 @@ export function ProfileScreen({
               {onUpgrade && (
                 <PillButton
                   onClick={() => onUpgrade()}
-                  variant="coral"
+                  variant="gradientMesh"
                   className="w-full"
                 >
                   <TrendingUp className="w-4 h-4 mr-2" />
@@ -196,7 +195,7 @@ export function ProfileScreen({
           <div className="flex gap-3">
             <PillButton
               onClick={handleSave}
-              variant="coral"
+              variant="gradientMesh"
               className="flex-1"
             >
               <Save className="w-4 h-4 mr-2" />
@@ -213,7 +212,7 @@ export function ProfileScreen({
           </div>
         )}
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

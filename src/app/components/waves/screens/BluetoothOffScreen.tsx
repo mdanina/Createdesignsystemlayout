@@ -1,6 +1,7 @@
 import React from 'react';
 import { Bluetooth } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
+import { SerifHeading } from '../../design-system/SerifHeading';
 
 interface BluetoothOffScreenProps {
   onEnable: () => void;
@@ -9,7 +10,7 @@ interface BluetoothOffScreenProps {
 
 export function BluetoothOffScreen({ onEnable, onCancel }: BluetoothOffScreenProps) {
   return (
-    <GradientBackground variant="pink" className="flex flex-col items-center justify-center px-6 py-12">
+    <div className="flex flex-col items-center justify-center px-6 py-12 bg-white min-h-screen">
       <div className="w-full max-w-sm text-center">
         <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-[#ff8a65]/30 to-[#ff8a65]/50 rounded-full flex items-center justify-center relative">
           <Bluetooth className="w-16 h-16 text-[#ff8a65]" />
@@ -24,7 +25,7 @@ export function BluetoothOffScreen({ onEnable, onCancel }: BluetoothOffScreenPro
         </p>
 
         <div className="space-y-3">
-          <PillButton onClick={onEnable} variant="coral" className="w-full">
+          <PillButton onClick={onEnable} variant="gradientMesh" className="w-full">
             Включить
           </PillButton>
           <PillButton onClick={onCancel} variant="secondary" className="w-full">
@@ -32,7 +33,7 @@ export function BluetoothOffScreen({ onEnable, onCancel }: BluetoothOffScreenPro
           </PillButton>
         </div>
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

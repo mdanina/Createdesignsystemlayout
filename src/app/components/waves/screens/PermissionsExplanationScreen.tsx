@@ -2,22 +2,17 @@ import React from 'react';
 import { PillButton } from '../../design-system/PillButton';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
-import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface PermissionsExplanationScreenProps {
   onContinue: () => void;
+  onBack?: () => void;
 }
 
-export function PermissionsExplanationScreen({ onContinue }: PermissionsExplanationScreenProps) {
+export function PermissionsExplanationScreen({ onContinue, onBack }: PermissionsExplanationScreenProps) {
   return (
-    <GradientBackground variant="peach" className="flex flex-col">
+    <div className="flex flex-col bg-white min-h-screen">
       <div className="flex-1 flex items-center justify-center px-6 py-12">
         <div className="w-full max-w-sm text-center">
-          {/* Изображение Flex4 */}
-          <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-[#a8d8ea]/30 to-[#b8a0d6]/30 rounded-full flex items-center justify-center">
-            <span className="text-5xl">📱</span>
-          </div>
-
           <SerifHeading size="xl" className="mb-4">
             Для подключения устройства нужны разрешения
           </SerifHeading>
@@ -44,12 +39,21 @@ export function PermissionsExplanationScreen({ onContinue }: PermissionsExplanat
             </WellnessCard>
           </div>
 
-          <PillButton onClick={onContinue} variant="coral" className="w-full">
+          <PillButton onClick={onContinue} variant="gradientMesh" className="w-full mb-3">
             Понятно
           </PillButton>
+          
+          {onBack && (
+            <button
+              onClick={onBack}
+              className="w-full text-center text-[#1a1a1a]/70 hover:text-[#1a1a1a] py-3 text-sm transition-colors"
+            >
+              Назад
+            </button>
+          )}
         </div>
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

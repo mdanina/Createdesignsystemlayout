@@ -3,7 +3,6 @@ import { Eye, EyeOff } from 'lucide-react';
 import { Input } from '../../design-system/Input';
 import { PillButton } from '../../design-system/PillButton';
 import { SerifHeading } from '../../design-system/SerifHeading';
-import { GradientBackground } from '../../design-system/GradientBackground';
 import { Logo } from '../../design-system/Logo';
 
 interface LoginScreenProps {
@@ -22,40 +21,19 @@ export function LoginScreen({ onLogin, onForgotPassword }: LoginScreenProps) {
   };
 
   return (
-    <GradientBackground variant="peach" className="flex flex-col relative">
-      {/* Дополнительные слои градиента */}
-      <div 
-        className="absolute inset-0 pointer-events-none flex items-center justify-center"
-        style={{
-          zIndex: 1,
-        }}
-      >
-        {/* Первый слой */}
-        <div
-          style={{
-            borderRadius: '608px',
-            background: '#FFB457',
-            filter: 'blur(100px)',
-            width: '100%',
-            height: '100%',
-            position: 'absolute',
-            opacity: 0.25,
-          }}
-        />
-        {/* Второй слой */}
-        <div
-          style={{
-            borderRadius: '388px',
-            background: 'linear-gradient(180deg, #FF6A42 29.14%, rgba(255, 106, 66, 0.00) 152.91%)',
-            filter: 'blur(50px)',
-            width: '100%',
-            height: '100%',
-            position: 'absolute',
-            opacity: 0.25,
-          }}
-        />
-      </div>
-      <div className="flex-1 flex items-center justify-center px-6 pt-24 pb-12 relative z-10">
+    <div 
+      className="fixed inset-0 flex flex-col"
+      style={{
+        backgroundImage: 'url(/bg.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'top center',
+        backgroundRepeat: 'no-repeat',
+        zIndex: 1,
+      }}
+    >
+      {/* Контейнер для позиционирования формы - можно свободно перемещать */}
+      <div className="flex-1 flex items-start justify-center px-6" style={{ paddingTop: '77px' }}>
+        {/* Независимый блок формы */}
         <div className="w-full max-w-sm">
           {/* Логотип */}
           <div className="text-center mb-8">
@@ -120,7 +98,7 @@ export function LoginScreen({ onLogin, onForgotPassword }: LoginScreenProps) {
           </a>
         </div>
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

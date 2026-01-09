@@ -1,11 +1,18 @@
 import React from 'react';
 import { SerifHeading } from '../../design-system/SerifHeading';
-import { GradientBackground } from '../../design-system/GradientBackground';
 import { Logo } from '../../design-system/Logo';
 
 export function SplashScreen() {
   return (
-    <GradientBackground variant="lavender" className="flex items-center justify-center">
+    <div 
+      className="flex items-center justify-center min-h-screen"
+      style={{
+        backgroundImage: 'url(/bg.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'top center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       <div className="text-center">
         <div className="mb-8">
           {/* Логотип Waves */}
@@ -15,7 +22,7 @@ export function SplashScreen() {
           <SerifHeading size="4xl" className="text-white">Waves</SerifHeading>
         </div>
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Plus, Music, Video, MoreVertical, Edit2, Trash2, GripVertical, ChevronDown, ChevronUp, FolderPlus } from 'lucide-react';
+import { Plus, Music, Video, MoreVertical, Edit2, Trash2, GripVertical, ChevronDown, ChevronUp, FolderPlus, X } from 'lucide-react';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
 import { PillButton } from '../../design-system/PillButton';
-import { GradientBackground } from '../../design-system/GradientBackground';
 
 export type MediaType = 'video' | 'audio';
 export type MediaSource = 'youtube' | 'spotify' | 'apple-music' | 'vimeo' | 'other';
@@ -87,6 +86,9 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
   const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(playlists[0]);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(['default-section']));
   const [editingItem, setEditingItem] = useState<string | null>(null);
+  const [editingItemTitle, setEditingItemTitle] = useState<string>('');
+  const [editingSection, setEditingSection] = useState<string | null>(null);
+  const [editingSectionName, setEditingSectionName] = useState<string>('');
   const [draggedItem, setDraggedItem] = useState<{ itemId: string; sectionId: string } | null>(null);
 
   // Сортировка: новый контент выше
@@ -99,9 +101,40 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
     alert('Функция добавления контента будет доступна после интеграции с мультимедийными приложениями');
   };
 
-  const handleEditItem = (itemId: string) => {
-    setEditingItem(itemId);
-    // TODO: Открыть модальное окно редактирования
+  const handleEditItem = (itemId: string, sectionId: string) => {
+    if (selectedPlaylist) {
+      const section = selectedPlaylist.sections.find((s) => s.id === sectionId);
+      const item = section?.items.find((i) => i.id === itemId);
+      if (item) {
+        setEditingItem(itemId);
+        setEditingItemTitle(item.title);
+      }
+    }
+  };
+
+  const handleSaveItemTitle = (itemId: string, sectionId: string) => {
+    if (selectedPlaylist && editingItemTitle.trim()) {
+      const updatedPlaylist = { ...selectedPlaylist };
+      const section = updatedPlaylist.sections.find((s) => s.id === sectionId);
+      if (section) {
+        const item = section.items.find((i) => i.id === itemId);
+        if (item) {
+          item.title = editingItemTitle.trim();
+          updatedPlaylist.updatedAt = new Date();
+          setPlaylists((prev) =>
+            prev.map((p) => (p.id === updatedPlaylist.id ? updatedPlaylist : p))
+          );
+          setSelectedPlaylist(updatedPlaylist);
+        }
+      }
+    }
+    setEditingItem(null);
+    setEditingItemTitle('');
+  };
+
+  const handleCancelEditItem = () => {
+    setEditingItem(null);
+    setEditingItemTitle('');
   };
 
   const handleDeleteItem = (itemId: string, sectionId: string) => {
@@ -172,6 +205,33 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
     });
   };
 
+  const handleStartEditSection = (sectionId: string, currentName: string) => {
+    setEditingSection(sectionId);
+    setEditingSectionName(currentName);
+  };
+
+  const handleSaveSectionName = (sectionId: string) => {
+    if (selectedPlaylist && editingSectionName.trim()) {
+      const updatedPlaylist = { ...selectedPlaylist };
+      const section = updatedPlaylist.sections.find((s) => s.id === sectionId);
+      if (section) {
+        section.name = editingSectionName.trim();
+        updatedPlaylist.updatedAt = new Date();
+        setPlaylists((prev) =>
+          prev.map((p) => (p.id === updatedPlaylist.id ? updatedPlaylist : p))
+        );
+        setSelectedPlaylist(updatedPlaylist);
+      }
+    }
+    setEditingSection(null);
+    setEditingSectionName('');
+  };
+
+  const handleCancelEditSection = () => {
+    setEditingSection(null);
+    setEditingSectionName('');
+  };
+
   const getSourceIcon = (source: MediaSource) => {
     switch (source) {
       case 'youtube':
@@ -200,8 +260,16 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
   };
 
   return (
-    <GradientBackground variant="cream" className="flex flex-col min-h-screen pb-20">
-      <div className="px-4 py-6">
+    <div 
+      className="flex flex-col min-h-screen pb-20"
+      style={{
+        backgroundImage: 'url(/bg2.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'top center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      <div className="px-12 py-6">
         <div className="flex items-center justify-between mb-6">
           <SerifHeading size="2xl">Плейлист</SerifHeading>
           <div className="flex items-center gap-2">
@@ -255,18 +323,44 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
                 <WellnessCard key={section.id} className="p-4">
                   {/* Заголовок раздела */}
                   <div className="flex items-center justify-between mb-4">
-                    <button
-                      onClick={() => toggleSection(section.id)}
-                      className="flex items-center gap-2 flex-1 text-left"
-                    >
-                      {isExpanded ? (
-                        <ChevronDown className="w-5 h-5 text-[#1a1a1a]/70" />
+                    <div className="flex items-center gap-2 flex-1">
+                      <button
+                        onClick={() => toggleSection(section.id)}
+                        className="flex items-center"
+                      >
+                        {isExpanded ? (
+                          <ChevronDown className="w-5 h-5 text-[#1a1a1a]/70" />
+                        ) : (
+                          <ChevronUp className="w-5 h-5 text-[#1a1a1a]/70" />
+                        )}
+                      </button>
+                      {editingSection === section.id ? (
+                        <input
+                          type="text"
+                          value={editingSectionName}
+                          onChange={(e) => setEditingSectionName(e.target.value)}
+                          onBlur={() => handleSaveSectionName(section.id)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              handleSaveSectionName(section.id);
+                            } else if (e.key === 'Escape') {
+                              handleCancelEditSection();
+                            }
+                          }}
+                          className="flex-1 font-semibold text-[#1a1a1a] bg-white/80 border border-[#1a1a1a]/20 rounded px-2 py-1 focus:outline-none focus:border-[#1a1a1a]/40"
+                          autoFocus
+                        />
                       ) : (
-                        <ChevronUp className="w-5 h-5 text-[#1a1a1a]/70" />
+                        <h3
+                          onDoubleClick={() => handleStartEditSection(section.id, section.name)}
+                          className="font-semibold text-[#1a1a1a] cursor-text select-none"
+                          title="Двойной клик для редактирования"
+                        >
+                          {section.name}
+                        </h3>
                       )}
-                      <h3 className="font-semibold text-[#1a1a1a]">{section.name}</h3>
                       <span className="text-sm text-[#1a1a1a]/50">({section.items.length})</span>
-                    </button>
+                    </div>
                   </div>
 
                   {/* Список элементов */}
@@ -307,7 +401,25 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
 
                             {/* Информация */}
                             <div className="flex-1 min-w-0">
-                              <p className="font-medium text-[#1a1a1a] truncate">{item.title}</p>
+                              {editingItem === item.id ? (
+                                <input
+                                  type="text"
+                                  value={editingItemTitle}
+                                  onChange={(e) => setEditingItemTitle(e.target.value)}
+                                  onBlur={() => handleSaveItemTitle(item.id, section.id)}
+                                  onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                      handleSaveItemTitle(item.id, section.id);
+                                    } else if (e.key === 'Escape') {
+                                      handleCancelEditItem();
+                                    }
+                                  }}
+                                  className="w-full font-medium text-[#1a1a1a] bg-white/80 border border-[#1a1a1a]/20 rounded px-2 py-1 focus:outline-none focus:border-[#1a1a1a]/40"
+                                  autoFocus
+                                />
+                              ) : (
+                                <p className="font-medium text-[#1a1a1a] truncate">{item.title}</p>
+                              )}
                               <div className="flex items-center gap-2 mt-1">
                                 <span className="text-xs text-[#1a1a1a]/50">
                                   {getSourceIcon(item.source)} {item.source}
@@ -324,14 +436,36 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
                             </div>
 
                             {/* Действия */}
-                            <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                              <button
-                                onClick={() => handleEditItem(item.id)}
-                                className="p-2 text-[#1a1a1a]/50 hover:text-[#1a1a1a] hover:bg-white/50 rounded transition-colors"
-                                title="Редактировать"
-                              >
-                                <Edit2 className="w-4 h-4" />
-                              </button>
+                            <div className={`flex items-center gap-1 transition-opacity ${editingItem === item.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+                              {editingItem !== item.id && (
+                                <button
+                                  onClick={() => handleEditItem(item.id, section.id)}
+                                  className="p-2 text-[#1a1a1a]/50 hover:text-[#1a1a1a] hover:bg-white/50 rounded transition-colors"
+                                  title="Редактировать"
+                                >
+                                  <Edit2 className="w-4 h-4" />
+                                </button>
+                              )}
+                              {editingItem === item.id && (
+                                <>
+                                  <button
+                                    onClick={() => handleSaveItemTitle(item.id, section.id)}
+                                    className="p-2 text-green-600 hover:bg-white/50 rounded transition-colors"
+                                    title="Сохранить"
+                                  >
+                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                    </svg>
+                                  </button>
+                                  <button
+                                    onClick={handleCancelEditItem}
+                                    className="p-2 text-red-600 hover:bg-white/50 rounded transition-colors"
+                                    title="Отмена"
+                                  >
+                                    <X className="w-4 h-4" />
+                                  </button>
+                                </>
+                              )}
                               <button
                                 onClick={() => handleDeleteItem(item.id, section.id)}
                                 className="p-2 text-[#1a1a1a]/50 hover:text-red-600 hover:bg-white/50 rounded transition-colors"
@@ -359,14 +493,14 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
           <WellnessCard className="p-8 text-center">
             <Music className="w-16 h-16 text-[#1a1a1a]/20 mx-auto mb-4" />
             <p className="text-[#1a1a1a]/70 mb-4">Создайте свой первый плейлист</p>
-            <PillButton onClick={handleAddItem} variant="coral">
+            <PillButton onClick={handleAddItem} variant="gradientMesh">
               <Plus className="w-4 h-4 mr-2" />
               Добавить контент
             </PillButton>
           </WellnessCard>
         )}
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

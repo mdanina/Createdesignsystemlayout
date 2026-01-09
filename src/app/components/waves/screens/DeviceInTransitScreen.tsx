@@ -3,7 +3,6 @@ import { Package, Wind, Video, ArrowLeft } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
-import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface DeviceInTransitScreenProps {
   deliveryDate?: string;
@@ -21,7 +20,7 @@ export function DeviceInTransitScreen({
   onBack,
 }: DeviceInTransitScreenProps) {
   return (
-    <GradientBackground variant="peach" className="flex flex-col">
+    <div className="flex flex-col bg-white min-h-screen">
       {/* Шапка с кнопкой назад */}
       {onBack && (
         <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
@@ -75,7 +74,7 @@ export function DeviceInTransitScreen({
           </WellnessCard>
         </div>
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

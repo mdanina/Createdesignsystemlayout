@@ -24,10 +24,10 @@ interface ProgressScreenProps {
 export function ProgressScreen({ userName, onBack, sessions, onSessionClick }: ProgressScreenProps) {
   // Mock данные, если не переданы
   const defaultSessions: TrainingSession[] = [
-    { id: '1', date: '05.01.2026', type: 'TBR', duration: 16, timeElapsed: 960, timeInZone: 68, endReason: 'completed', points: 850 },
-    { id: '2', date: '04.01.2026', type: 'Alpha', duration: 16, timeElapsed: 960, timeInZone: 72, endReason: 'completed', points: 920 },
-    { id: '3', date: '03.01.2026', type: 'SMR', duration: 16, timeElapsed: 960, timeInZone: 65, endReason: 'completed', points: 780 },
-    { id: '4', date: '02.01.2026', type: 'TBR', duration: 16, timeElapsed: 960, timeInZone: 70, endReason: 'completed', points: 880 },
+    { id: '1', date: '05.01.2026', type: 'Концентрация', duration: 16, timeElapsed: 960, timeInZone: 68, endReason: 'completed', points: 850 },
+    { id: '2', date: '04.01.2026', type: 'Спокойствие', duration: 16, timeElapsed: 960, timeInZone: 72, endReason: 'completed', points: 920 },
+    { id: '3', date: '03.01.2026', type: 'Фокус', duration: 16, timeElapsed: 960, timeInZone: 65, endReason: 'completed', points: 780 },
+    { id: '4', date: '02.01.2026', type: 'Концентрация', duration: 16, timeElapsed: 960, timeInZone: 70, endReason: 'completed', points: 880 },
     { id: '5', date: '01.01.2026', type: 'Дыхание', duration: 10, timeElapsed: 600, timeInZone: 0, endReason: 'completed' },
   ];
 
@@ -36,8 +36,16 @@ export function ProgressScreen({ userName, onBack, sessions, onSessionClick }: P
   const totalMinutes = displaySessions.reduce((sum, s) => sum + s.duration, 0);
 
   return (
-    <div className="min-h-screen bg-white pb-20">
-      <div className="px-4 py-6">
+    <div 
+      className="min-h-screen pb-20"
+      style={{
+        backgroundImage: 'url(/bg2.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'top center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      <div className="px-12 py-6">
         <div className="mb-6">
           <SerifHeading size="2xl">Прогресс</SerifHeading>
         </div>

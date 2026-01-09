@@ -60,7 +60,7 @@ export default function App() {
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <SerifHeading size="xl">Component Library</SerifHeading>
           <div className="flex gap-3">
-            <PillButton variant="coral" onClick={() => setViewMode('app')}>
+            <PillButton variant="gradientMesh" onClick={() => setViewMode('app')}>
               <Smartphone className="w-4 h-4" />
               App Preview
             </PillButton>

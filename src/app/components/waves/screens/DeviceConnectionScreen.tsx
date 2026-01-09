@@ -3,7 +3,6 @@ import { X, MessageCircle, Loader2 } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
-import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface DeviceConnectionScreenProps {
   onClose: () => void;
@@ -32,7 +31,7 @@ export function DeviceConnectionScreen({
   }, []);
 
   return (
-    <GradientBackground variant="peach" className="flex flex-col">
+    <div className="flex flex-col bg-white min-h-screen">
       {/* Шапка */}
       <div className="flex items-center justify-between px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
         <button onClick={onClose} className="p-2 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
@@ -45,15 +44,6 @@ export function DeviceConnectionScreen({
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
-        {/* Изображение Flex4 */}
-        <div className="w-48 h-48 mb-8 bg-gradient-to-br from-[#a8d8ea]/30 to-[#b8a0d6]/30 rounded-3xl flex items-center justify-center relative">
-          <span className="text-8xl">📱</span>
-          {/* Кнопка питания */}
-          <div className="absolute bottom-4 right-4 w-12 h-12 bg-[#a8d8ea] rounded-full flex items-center justify-center shadow-lg">
-            <span className="text-white text-xl">⚡</span>
-          </div>
-        </div>
-
         <SerifHeading size="2xl" className="mb-2">Подключите устройство</SerifHeading>
         <p className="text-[#1a1a1a]/70 mb-8 text-center">
           Нажмите кнопку питания на Flex4
@@ -106,7 +96,7 @@ export function DeviceConnectionScreen({
           У меня нет устройства
         </button>
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

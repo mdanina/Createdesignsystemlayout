@@ -3,7 +3,6 @@ import { CheckCircle2, X, Home } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
-import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface DeviceConnectedScreenProps {
   deviceId: string;
@@ -23,7 +22,7 @@ export function DeviceConnectedScreen({
   onBack,
 }: DeviceConnectedScreenProps) {
   return (
-    <GradientBackground variant="peach" className="flex flex-col">
+    <div className="flex flex-col bg-white min-h-screen">
       {/* Шапка с кнопками */}
       <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-sm flex items-center justify-between px-4 py-4 border-b border-[#1a1a1a]/10">
         {onClose ? (
@@ -75,7 +74,7 @@ export function DeviceConnectedScreen({
             </div>
           </WellnessCard>
 
-          <PillButton onClick={onContinue} variant="coral" className="w-full mb-3">
+          <PillButton onClick={onContinue} variant="gradientMesh" className="w-full mb-3">
             Продолжить
           </PillButton>
           
@@ -99,7 +98,7 @@ export function DeviceConnectedScreen({
           )}
         </div>
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

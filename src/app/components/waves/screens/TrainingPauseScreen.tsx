@@ -20,7 +20,7 @@ export function TrainingPauseScreen({ reason, onResume, onFinish }: TrainingPaus
         )}
 
         <div className="space-y-3">
-          <PillButton onClick={onResume} variant="coral" className="w-full">
+          <PillButton onClick={onResume} variant="gradientMesh" className="w-full">
             <Play className="w-4 h-4 mr-2" />
             Продолжить
           </PillButton>

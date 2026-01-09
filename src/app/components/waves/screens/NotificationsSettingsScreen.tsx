@@ -3,7 +3,6 @@ import { ArrowLeft } from 'lucide-react';
 import { Toggle } from '../../design-system/Toggle';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
-import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface NotificationsSettingsScreenProps {
   onBack: () => void;
@@ -18,7 +17,7 @@ export function NotificationsSettingsScreen({ onBack }: NotificationsSettingsScr
   const [tipsAndArticles, setTipsAndArticles] = useState(false);
 
   return (
-    <GradientBackground variant="cream" className="flex flex-col">
+    <div className="flex flex-col bg-white min-h-screen">
       <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
         <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
           <ArrowLeft className="w-6 h-6" />
@@ -82,7 +81,7 @@ export function NotificationsSettingsScreen({ onBack }: NotificationsSettingsScr
           </WellnessCard>
         </div>
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

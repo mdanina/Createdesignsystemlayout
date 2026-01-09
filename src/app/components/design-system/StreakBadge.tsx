@@ -27,7 +27,7 @@ export function StreakBadge({
       {/* Streak badge */}
       <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#F3B83A] to-[#FFD54F] text-white px-4 py-2 rounded-full shadow-md">
         <Flame className="w-4 h-4" />
-        <span className="text-xs font-medium uppercase tracking-wider">{days} DAY STREAK</span>
+        <span className="text-xs font-medium uppercase tracking-wider">{days} ДНЕЙ ПОДРЯД</span>
       </div>
 
       {/* Week days indicator */}

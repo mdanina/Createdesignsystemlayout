@@ -26,20 +26,29 @@ export function HomeScreen({
   onTutorial,
   streak = 5,
   recommendedTraining = {
-    type: 'TBR (Theta/Beta 4-7 / 15-20 Hz)',
+    type: 'Концентрация (Theta/Beta 4-7 / 15-20 Hz)',
     frequency: '15-20 мин',
   },
 }: HomeScreenProps) {
   const [showTutorial, setShowTutorial] = useState(true);
 
   return (
-    <div className="min-h-screen bg-white pb-20">
-      {/* Шапка */}
-      <div className="sticky top-0 z-10 bg-white border-b border-[#1a1a1a]/10 px-4 py-3">
-        <SerifHeading size="xl">Сегодня</SerifHeading>
-      </div>
-
-      <div className="px-4 py-6 space-y-6">
+    <div 
+      className="min-h-screen pb-20"
+      style={{
+        backgroundImage: 'url(/bg.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'top center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      <div className="px-12 py-6 space-y-6">
+        {/* Центральный заголовок */}
+        <div className="flex justify-center pt-6">
+          <SerifHeading size="3xl" className="text-center">
+            Привет, {childName}, хороший день для тренировки!
+          </SerifHeading>
+        </div>
         {/* Streak */}
         {streak > 0 && (
           <div className="flex items-center justify-center">
@@ -49,28 +58,29 @@ export function HomeScreen({
 
         {/* Карточка инструктажа для новых */}
         {showTutorial && onTutorial && (
-          <WellnessCard gradient="blue" className="relative">
-            <button
-              onClick={() => setShowTutorial(false)}
-              className="absolute top-2 right-2 text-[#1a1a1a]/40 hover:text-[#1a1a1a]/60"
-            >
-              ×
-            </button>
-            <div className="flex items-center gap-3">
-              <Info className="w-5 h-5 text-[#a8d8ea]" />
-              <div className="flex-1">
-                <h3 className="font-semibold text-[#1a1a1a]">Пройти инструктаж</h3>
-                <p className="text-sm text-[#1a1a1a]/70">Узнайте, как работает нейрофидбек</p>
-              </div>
-              <PillButton
-                onClick={onTutorial}
-                variant="coral"
-                size="sm"
+          <button
+            onClick={onTutorial}
+            className="w-full text-left transition-all hover:scale-[1.02] active:scale-[0.98]"
+          >
+            <WellnessCard className="relative">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowTutorial(false);
+                }}
+                className="absolute top-2 right-2 text-[#1a1a1a]/40 hover:text-[#1a1a1a]/60 z-10"
               >
-                Начать
-              </PillButton>
-            </div>
-          </WellnessCard>
+                ×
+              </button>
+              <div className="flex items-center gap-3">
+                <Info className="w-5 h-5 text-[#1a1a1a]/70" />
+                <div className="flex-1">
+                  <h3 className="font-semibold text-[#1a1a1a]">Пройти инструктаж</h3>
+                  <p className="text-sm text-[#1a1a1a]/70">Узнайте, как работает нейрофидбек</p>
+                </div>
+              </div>
+            </WellnessCard>
+          </button>
         )}
 
         {/* Рекомендуемая тренировка */}
@@ -79,7 +89,7 @@ export function HomeScreen({
           <p className="text-sm text-[#1a1a1a]/70 mb-4">{recommendedTraining.type}</p>
           <PillButton
             onClick={() => onStartTraining('tbr')}
-            variant="coral"
+            variant="gradientMesh"
             className="w-full"
           >
             <Play className="w-4 h-4 mr-2" />
@@ -97,7 +107,7 @@ export function HomeScreen({
             >
               <WellnessCard gradient="blue" hover>
                 <h3 className="font-semibold text-[#1a1a1a] mb-1">Концентрация</h3>
-                <p className="text-xs text-[#1a1a1a]/50">TBR</p>
+                <p className="text-xs text-[#1a1a1a]/50">Theta/Beta (4-7 / 15-20 Hz)</p>
               </WellnessCard>
             </button>
             <button
@@ -106,7 +116,7 @@ export function HomeScreen({
             >
               <WellnessCard gradient="lavender" hover>
                 <h3 className="font-semibold text-[#1a1a1a] mb-1">Спокойствие</h3>
-                <p className="text-xs text-[#1a1a1a]/50">Alpha</p>
+                <p className="text-xs text-[#1a1a1a]/50">Alpha (8-12 Hz)</p>
               </WellnessCard>
             </button>
             <button
@@ -115,7 +125,7 @@ export function HomeScreen({
             >
               <WellnessCard gradient="pink" hover>
                 <h3 className="font-semibold text-[#1a1a1a] mb-1">Фокус</h3>
-                <p className="text-xs text-[#1a1a1a]/50">SMR</p>
+                <p className="text-xs text-[#1a1a1a]/50">Low-Beta (12-15 Hz)</p>
               </WellnessCard>
             </button>
             <button

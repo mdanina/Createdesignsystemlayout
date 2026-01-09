@@ -4,7 +4,6 @@ import { Input } from '../../design-system/Input';
 import { PillButton } from '../../design-system/PillButton';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
-import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface ForgotPasswordScreenProps {
   onBack: () => void;
@@ -22,7 +21,7 @@ export function ForgotPasswordScreen({ onBack, onSend }: ForgotPasswordScreenPro
   };
 
   return (
-    <GradientBackground variant="peach" className="flex flex-col">
+    <div className="flex flex-col bg-white min-h-screen">
       <div className="flex-1 flex items-center justify-center px-6 py-12">
         <div className="w-full max-w-sm">
           <button
@@ -44,7 +43,7 @@ export function ForgotPasswordScreen({ onBack, onSend }: ForgotPasswordScreenPro
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
-                <PillButton type="submit" variant="coral" className="w-full">
+                <PillButton type="submit" variant="gradientMesh" className="w-full">
                   Отправить ссылку
                 </PillButton>
               </form>
@@ -68,7 +67,7 @@ export function ForgotPasswordScreen({ onBack, onSend }: ForgotPasswordScreenPro
           )}
         </div>
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

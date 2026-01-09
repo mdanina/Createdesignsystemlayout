@@ -115,8 +115,8 @@ export function ComponentShowcase() {
             <div className="space-y-3">
               <p className="text-xs opacity-50">Coral Variant</p>
               <div className="flex flex-wrap gap-3">
-                <PillButton variant="coral" size="md">Coral Button</PillButton>
-                <PillButton variant="coral" size="md" icon={<ArrowRight className="w-4 h-4" />}>
+                <PillButton variant="gradientMesh" size="md">Coral Button</PillButton>
+                <PillButton variant="gradientMesh" size="md" icon={<ArrowRight className="w-4 h-4" />}>
                   With Icon
                 </PillButton>
               </div>
@@ -126,6 +126,26 @@ export function ComponentShowcase() {
               <div className="flex flex-wrap gap-3">
                 <PillButton variant="secondary" size="md">Secondary</PillButton>
                 <PillButton variant="outline" size="md">Outline</PillButton>
+              </div>
+            </div>
+            <div className="space-y-3 border-t pt-6">
+              <p className="text-xs opacity-50">Gradient Mesh Buttons</p>
+              <p className="text-xs opacity-70 mb-4">
+                Кнопки с эффектом переливающихся градиентов (holographic mesh effect). Анимированные цвета создают красивый визуальный эффект.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <PillButton variant="gradientMesh" size="md">Iridescent</PillButton>
+                <PillButton variant="gradientMeshPeach" size="md">Peach Lavender</PillButton>
+                <PillButton variant="gradientMeshMint" size="md">Mint Sky</PillButton>
+                <PillButton variant="gradientMeshRose" size="md">Rose Yellow</PillButton>
+                <PillButton variant="gradientMeshCoral" size="md">Coral Blue</PillButton>
+              </div>
+              <div className="flex flex-wrap gap-3 mt-3">
+                <PillButton variant="gradientMesh" size="md" icon={<ArrowRight className="w-4 h-4" />}>
+                  With Icon
+                </PillButton>
+                <PillButton variant="gradientMeshPeach" size="sm">Small</PillButton>
+                <PillButton variant="gradientMeshMint" size="lg">Large</PillButton>
               </div>
             </div>
           </div>

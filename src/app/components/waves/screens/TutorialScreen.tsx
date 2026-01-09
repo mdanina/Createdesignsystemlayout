@@ -3,8 +3,8 @@ import { ArrowLeft, Play, CheckCircle2 } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
-import { GradientBackground } from '../../design-system/GradientBackground';
 import { Logo } from '../../design-system/Logo';
+import { CardStack } from '../../design-system/CardStack';
 
 interface TutorialScreenProps {
   onBack: () => void;
@@ -17,7 +17,7 @@ export function TutorialScreen({ onBack, onComplete }: TutorialScreenProps) {
 
   if (step === 'video') {
     return (
-      <GradientBackground variant="lavender" className="flex flex-col">
+      <div className="flex flex-col bg-white min-h-screen">
         <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
           <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
             <ArrowLeft className="w-6 h-6" />
@@ -32,17 +32,38 @@ export function TutorialScreen({ onBack, onComplete }: TutorialScreenProps) {
           <p className="text-center text-[#1a1a1a]/70 mb-6">
             Видео: что такое нейрофидбек (1-2 мин)
           </p>
-          <PillButton onClick={() => setStep('explanation')} variant="coral" className="w-full">
+          <PillButton onClick={() => setStep('explanation')} variant="gradientMesh" className="w-full">
             Далее
           </PillButton>
         </div>
-      </GradientBackground>
+      </div>
     );
   }
 
   if (step === 'explanation') {
+    const explanationCards = [
+      {
+        id: 1,
+        title: 'Будем тренировать волну Фокус (Low-Beta)',
+        gradient: 'blue' as const,
+        tag: 'Фокус',
+      },
+      {
+        id: 2,
+        title: 'Линия идёт вверх, когда ты сосредоточен',
+        gradient: 'lavender' as const,
+        tag: 'Сосредоточенность',
+      },
+      {
+        id: 3,
+        title: 'Расслабься и наблюдай',
+        gradient: 'pink' as const,
+        tag: 'Расслабление',
+      },
+    ];
+
     return (
-      <GradientBackground variant="lavender" className="flex flex-col">
+      <div className="flex flex-col bg-white min-h-screen">
         <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
           <button onClick={() => setStep('video')} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
             <ArrowLeft className="w-6 h-6" />
@@ -50,29 +71,26 @@ export function TutorialScreen({ onBack, onComplete }: TutorialScreenProps) {
           <SerifHeading size="xl">Объяснение</SerifHeading>
         </div>
 
-        <div className="flex-1 px-6 py-8">
-          <div className="space-y-4 mb-6">
-            <WellnessCard gradient="blue" className="p-4">
-              <p className="font-semibold text-[#1a1a1a] mb-2">Будем тренировать волну SMR</p>
-            </WellnessCard>
-            <WellnessCard gradient="lavender" className="p-4">
-              <p className="font-semibold text-[#1a1a1a] mb-2">Линия идёт вверх, когда ты сосредоточен</p>
-            </WellnessCard>
-            <WellnessCard gradient="pink" className="p-4">
-              <p className="font-semibold text-[#1a1a1a] mb-2">Расслабься и наблюдай</p>
-            </WellnessCard>
+        <div className="flex-1 px-6 py-8 overflow-y-auto">
+          <div className="mb-6">
+            <p className="text-sm text-[#666666] text-center mb-6">
+              Прокрутите карточки, чтобы узнать, как работает нейрофидбек
+            </p>
+            <div className="flex justify-center">
+              <CardStack items={explanationCards} />
+            </div>
           </div>
-          <PillButton onClick={() => setStep('demo')} variant="coral" className="w-full">
+          <PillButton onClick={() => setStep('demo')} variant="gradientMesh" className="w-full">
             Далее
           </PillButton>
         </div>
-      </GradientBackground>
+      </div>
     );
   }
 
   if (step === 'demo') {
     return (
-      <GradientBackground variant="lavender" className="flex flex-col">
+      <div className="flex flex-col bg-white min-h-screen">
         <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
           <button onClick={() => setStep('explanation')} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
             <ArrowLeft className="w-6 h-6" />
@@ -90,19 +108,19 @@ export function TutorialScreen({ onBack, onComplete }: TutorialScreenProps) {
               setDemoCompleted(true);
               setTimeout(() => setStep('complete'), 2000);
             }}
-            variant="coral"
+            variant="gradientMesh"
             className="w-full"
           >
             <Play className="w-4 h-4 mr-2" />
             Начать демо
           </PillButton>
         </div>
-      </GradientBackground>
+      </div>
     );
   }
 
   return (
-    <GradientBackground variant="peach" className="flex flex-col items-center justify-center px-6 py-12">
+    <div className="flex flex-col items-center justify-center px-6 py-12 bg-white min-h-screen">
       <div className="w-full max-w-sm text-center">
         <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-[#a8d8ea]/30 to-[#a8d8ea]/50 rounded-full flex items-center justify-center">
           <CheckCircle2 className="w-16 h-16 text-[#a8d8ea]" />
@@ -110,11 +128,11 @@ export function TutorialScreen({ onBack, onComplete }: TutorialScreenProps) {
         <SerifHeading size="2xl" className="mb-4">
           Отлично! Теперь ты готов к настоящим тренировкам 👏
         </SerifHeading>
-        <PillButton onClick={onComplete} variant="coral" className="w-full">
+        <PillButton onClick={onComplete} variant="gradientMesh" className="w-full">
           Начать тренировку
         </PillButton>
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

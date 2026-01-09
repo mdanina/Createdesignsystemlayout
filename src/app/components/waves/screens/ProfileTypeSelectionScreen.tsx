@@ -1,7 +1,6 @@
 import React from 'react';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
-import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface ProfileTypeSelectionScreenProps {
   onSelect: (type: 'waves' | 'waves-kids') => void;
@@ -9,7 +8,7 @@ interface ProfileTypeSelectionScreenProps {
 
 export function ProfileTypeSelectionScreen({ onSelect }: ProfileTypeSelectionScreenProps) {
   return (
-    <GradientBackground variant="cream" className="flex flex-col">
+    <div className="flex flex-col bg-white min-h-screen">
       <div className="flex-1 flex items-center justify-center px-6 py-12">
         <div className="w-full max-w-md">
           <SerifHeading size="2xl" className="mb-8 text-center">
@@ -47,7 +46,7 @@ export function ProfileTypeSelectionScreen({ onSelect }: ProfileTypeSelectionScr
           </div>
         </div>
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

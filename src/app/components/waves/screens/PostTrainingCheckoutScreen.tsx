@@ -3,7 +3,6 @@ import { X } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
-import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface PostTrainingCheckoutScreenProps {
   childName?: string;
@@ -37,7 +36,7 @@ export function PostTrainingCheckoutScreen({
   const canComplete = mood !== null && concentration !== null;
 
   return (
-    <GradientBackground variant="lavender" className="flex flex-col">
+    <div className="flex flex-col bg-white min-h-screen">
       <div className="flex-1 px-6 py-8">
         <div className="flex items-center justify-between mb-8">
           <SerifHeading size="2xl">
@@ -173,7 +172,7 @@ export function PostTrainingCheckoutScreen({
               });
             }
           }}
-          variant="coral"
+          variant="gradientMesh"
           className="w-full mb-4"
           disabled={!canComplete}
         >
@@ -184,7 +183,7 @@ export function PostTrainingCheckoutScreen({
           Пропустить
         </button>
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

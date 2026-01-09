@@ -3,7 +3,6 @@ import { ArrowLeft } from 'lucide-react';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
 import { MoodChart } from '../../design-system/MoodChart';
-import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface TrainingSession {
   id: string;
@@ -51,22 +50,38 @@ export function TrainingDetailScreen({ session, onBack }: TrainingDetailScreenPr
 
   if (!session) {
     return (
-      <GradientBackground variant="cream" className="flex flex-col min-h-screen">
+      <div 
+        className="flex flex-col min-h-screen"
+        style={{
+          backgroundImage: 'url(/bg2.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'top center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
         <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
           <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
             <ArrowLeft className="w-6 h-6" />
           </button>
           <SerifHeading size="xl">Детали тренировки</SerifHeading>
         </div>
-        <div className="flex-1 flex items-center justify-center px-6">
+        <div className="flex-1 flex items-center justify-center px-12">
           <p className="text-[#1a1a1a]/70">Тренировка не найдена</p>
         </div>
-      </GradientBackground>
+      </div>
     );
   }
 
   return (
-    <GradientBackground variant="cream" className="flex flex-col min-h-screen">
+    <div 
+      className="flex flex-col min-h-screen"
+      style={{
+        backgroundImage: 'url(/bg2.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'top center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
         <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
           <ArrowLeft className="w-6 h-6" />
@@ -74,7 +89,7 @@ export function TrainingDetailScreen({ session, onBack }: TrainingDetailScreenPr
         <SerifHeading size="xl">Детали тренировки</SerifHeading>
       </div>
 
-      <div className="flex-1 px-6 py-6 overflow-y-auto">
+      <div className="flex-1 px-12 py-6 overflow-y-auto">
         {/* Основная информация */}
         <WellnessCard className="mb-6">
           <div className="space-y-4">
@@ -146,7 +161,7 @@ export function TrainingDetailScreen({ session, onBack }: TrainingDetailScreenPr
           </WellnessCard>
         )}
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

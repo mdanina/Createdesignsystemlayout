@@ -3,7 +3,6 @@ import { CheckCircle2, Circle, Play } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
-import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface FirstTrainingScreenProps {
   onStartTutorial: () => void;
@@ -11,7 +10,7 @@ interface FirstTrainingScreenProps {
 
 export function FirstTrainingScreen({ onStartTutorial }: FirstTrainingScreenProps) {
   return (
-    <GradientBackground variant="peach" className="flex flex-col">
+    <div className="flex flex-col bg-white min-h-screen">
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
         <div className="w-full max-w-sm text-center">
           <div className="text-6xl mb-6">🎉</div>
@@ -37,13 +36,13 @@ export function FirstTrainingScreen({ onStartTutorial }: FirstTrainingScreenProp
             </div>
           </WellnessCard>
 
-          <PillButton onClick={onStartTutorial} variant="coral" className="w-full">
+          <PillButton onClick={onStartTutorial} variant="gradientMesh" className="w-full">
             <Play className="w-4 h-4 mr-2" />
             Начать инструктаж
           </PillButton>
         </div>
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

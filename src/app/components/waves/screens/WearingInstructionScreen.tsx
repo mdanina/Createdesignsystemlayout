@@ -3,7 +3,6 @@ import { ArrowLeft } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
-import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface WearingInstructionScreenProps {
   onBack: () => void;
@@ -12,7 +11,7 @@ interface WearingInstructionScreenProps {
 
 export function WearingInstructionScreen({ onBack, onReady }: WearingInstructionScreenProps) {
   return (
-    <GradientBackground variant="cream" className="flex flex-col">
+    <div className="flex flex-col bg-white min-h-screen">
       <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
         <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
           <ArrowLeft className="w-6 h-6" />
@@ -49,7 +48,7 @@ export function WearingInstructionScreen({ onBack, onReady }: WearingInstruction
           </WellnessCard>
         </div>
 
-        <PillButton onClick={onReady} variant="coral" className="w-full mb-3">
+        <PillButton onClick={onReady} variant="gradientMesh" className="w-full mb-3">
           Готово
         </PillButton>
         
@@ -60,7 +59,7 @@ export function WearingInstructionScreen({ onBack, onReady }: WearingInstruction
           Назад
         </button>
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

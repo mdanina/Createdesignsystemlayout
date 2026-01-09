@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Clock, X } from 'lucide-react';
 import { Logo } from '../../design-system/Logo';
+import { GradientMesh } from '../../design-system/GradientMesh';
 
 type TrainingEndReason = 'completed' | 'early' | 'technical';
 
@@ -62,14 +63,35 @@ export function ActiveTrainingScreen({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900 flex flex-col items-center justify-center relative overflow-hidden">
+    <div 
+      className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden"
+      style={{
+        background: `
+          radial-gradient(circle at 20% 30%, rgba(232, 213, 242, 0.4) 0%, transparent 50%),
+          radial-gradient(circle at 80% 70%, rgba(201, 228, 245, 0.4) 0%, transparent 50%),
+          radial-gradient(circle at 50% 50%, rgba(255, 209, 220, 0.3) 0%, transparent 50%),
+          radial-gradient(circle at 10% 80%, rgba(255, 244, 204, 0.3) 0%, transparent 50%),
+          radial-gradient(circle at 90% 20%, rgba(255, 229, 217, 0.3) 0%, transparent 50%),
+          linear-gradient(135deg, #E8D5F2 0%, #C9E4F5 25%, #FFD1DC 50%, #FFF4CC 75%, #FFE5D9 100%)
+        `,
+        backgroundSize: '200% 200%',
+        animation: 'gradientShift 15s ease infinite',
+      }}
+    >
+      <style>{`
+        @keyframes gradientShift {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+      `}</style>
+      
       {/* Визуальная обратная связь - видео/анимация */}
-      <div className="absolute inset-0 flex items-center justify-center">
+      <div className="absolute inset-0 flex items-center justify-center z-10">
         <Logo size="xl" variant="white" />
       </div>
 
       {/* Закладки вверху */}
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
         {/* Закладка с часами */}
         <button
           onClick={handleTimerClick}

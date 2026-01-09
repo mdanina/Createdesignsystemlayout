@@ -3,7 +3,6 @@ import { TrendingUp, Play } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
-import { GradientBackground } from '../../design-system/GradientBackground';
 
 interface InsightsEmptyScreenProps {
   onStartTraining: () => void;
@@ -11,7 +10,7 @@ interface InsightsEmptyScreenProps {
 
 export function InsightsEmptyScreen({ onStartTraining }: InsightsEmptyScreenProps) {
   return (
-    <GradientBackground variant="cream" className="flex flex-col">
+    <div className="flex flex-col bg-white min-h-screen">
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
         <div className="w-full max-w-sm text-center">
           <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-[#1a1a1a]/10 to-[#1a1a1a]/5 rounded-full flex items-center justify-center">
@@ -30,13 +29,13 @@ export function InsightsEmptyScreen({ onStartTraining }: InsightsEmptyScreenProp
             </ul>
           </WellnessCard>
 
-          <PillButton onClick={onStartTraining} variant="coral" className="w-full">
+          <PillButton onClick={onStartTraining} variant="gradientMesh" className="w-full">
             <Play className="w-4 h-4 mr-2" />
             Начать тренировку
           </PillButton>
         </div>
       </div>
-    </GradientBackground>
+    </div>
   );
 }
 

@@ -22,7 +22,7 @@ export function PurchaseScreen({ onPurchase, onBack }: PurchaseScreenProps) {
       includes: [
         'Flex4 устройство',
         'Программа без ограничений',
-        'Все типы тренировок (TBR, Alpha, SMR)',
+        'Все типы тренировок (Концентрация, Спокойствие, Фокус)',
         'Персональный прогресс и аналитика',
         'Поддержка 24/7',
         'Гарантия на устройство',
@@ -38,7 +38,7 @@ export function PurchaseScreen({ onPurchase, onBack }: PurchaseScreenProps) {
         'Flex4 устройство',
         'Программы для обоих (взрослые + дети)',
         'Профили для родителя и ребёнка',
-        'Все типы тренировок (TBR, Alpha, SMR)',
+        'Все типы тренировок (Концентрация, Спокойствие, Фокус)',
         'Персональный прогресс для каждого',
         'Поддержка 24/7',
         'Гарантия на устройство',
@@ -143,7 +143,7 @@ export function PurchaseScreen({ onPurchase, onBack }: PurchaseScreenProps) {
                 window.open('https://waves.ru/account', '_blank');
                 setIsPurchaseModalOpen(false);
               }}
-              variant="coral"
+              variant="gradientMesh"
               className="flex-1"
             >
               <ExternalLink className="w-4 h-4 mr-2" />
