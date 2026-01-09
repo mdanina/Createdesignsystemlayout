@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { GradientBackground } from '../../design-system/GradientBackground';
-import { DecorativeShaderCircle } from '../../design-system/DecorativeShaderCircle';
+import { GradientMesh } from '../../design-system/GradientMesh';
 
 type BreathingPhase = 'inhale' | 'hold' | 'exhale' | 'hold2';
 
@@ -169,7 +169,12 @@ export function BreathingTrainingScreen({
                 transition: 'transform 0.1s cubic-bezier(0.4, 0, 0.2, 1)'
               }}
             >
-              <DecorativeShaderCircle size={200} enableHoverEffect={false} />
+              <GradientMesh 
+                size={200} 
+                variant="iridescent" 
+                animated 
+                opacity={0.8}
+              />
             </div>
             {/* Счетчик в центре круга */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">

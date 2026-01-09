@@ -32,6 +32,7 @@ import { DayGreeting } from './DayGreeting';
 import { FloatingActionButton } from './FloatingActionButton';
 import { CardStack } from './CardStack';
 import { DecorativeShaderCircle } from './DecorativeShaderCircle';
+import { GradientMesh } from './GradientMesh';
 import { ArrowRight, Smile, Clock, Mail, Search, Heart, Calendar, CheckCircle, Activity, Home, TrendingUp } from 'lucide-react';
 
 const mockMoodData = [
@@ -157,37 +158,62 @@ export function ComponentShowcase() {
       {/* Card Stack */}
       <section className="space-y-6">
         <h2 className="text-2xl font-medium">Card Stack</h2>
-        <p className="text-sm opacity-70 mb-4">Swipeable card stack with drag interactions</p>
-        <div className="flex justify-center">
-          <CardStack
-            items={[
-              {
-                id: 1,
-                title: "Morning Meditation",
-                description: "Start your day with peace",
-                gradient: "coral"
-              },
-              {
-                id: 2,
-                title: "Evening Reflection",
-                description: "Wind down and reflect",
-                gradient: "lavender"
-              },
-              {
-                id: 3,
-                title: "Breathing Exercise",
-                description: "Calm your mind",
-                gradient: "blue"
-              },
-              {
-                id: 4,
-                title: "Mindful Walk",
-                description: "Connect with nature",
-                gradient: "pink"
-              },
-            ]}
-          />
-        </div>
+        <p className="text-sm opacity-70 mb-4">Swipeable card stack with drag interactions and gradient backgrounds</p>
+        <WellnessCard>
+          <div className="space-y-6">
+            <div className="flex justify-center py-8">
+              <CardStack
+                items={[
+                  {
+                    id: 1,
+                    title: "Morning Meditation",
+                    description: "Start your day with peace and mindfulness",
+                    gradient: "coral",
+                    tag: "Meditation"
+                  },
+                  {
+                    id: 2,
+                    title: "Evening Reflection",
+                    description: "Wind down and reflect on your day",
+                    gradient: "lavender",
+                    tag: "Reflection"
+                  },
+                  {
+                    id: 3,
+                    title: "Breathing Exercise",
+                    description: "Calm your mind with deep breaths",
+                    gradient: "blue",
+                    tag: "Breathing"
+                  },
+                  {
+                    id: 4,
+                    title: "Mindful Walk",
+                    description: "Connect with nature and find clarity",
+                    gradient: "pink",
+                    tag: "Exercise"
+                  },
+                  {
+                    id: 5,
+                    title: "Gratitude Practice",
+                    description: "Acknowledge what brings you joy today",
+                    gradient: "coral",
+                    tag: "Gratitude"
+                  },
+                ]}
+              />
+            </div>
+            <div className="border-t pt-4">
+              <p className="text-xs opacity-50 mb-2">Features:</p>
+              <ul className="text-xs opacity-70 space-y-1 list-disc list-inside">
+                <li>Drag and swipe to navigate cards</li>
+                <li>Spring animations for smooth interactions</li>
+                <li>Customizable gradient backgrounds</li>
+                <li>Support for images or gradient cards</li>
+                <li>Configurable animation settings</li>
+              </ul>
+            </div>
+          </div>
+        </WellnessCard>
       </section>
 
       {/* Stat Cards */}
@@ -508,6 +534,94 @@ export function ComponentShowcase() {
       {/* Decorative Components */}
       <section className="space-y-6">
         <h2 className="text-2xl font-medium">Decorative Components</h2>
+        
+        {/* Gradient Mesh */}
+        <WellnessCard>
+          <div className="space-y-6">
+            <div>
+              <p className="text-xs opacity-50 mb-2">Gradient Mesh</p>
+              <p className="text-sm opacity-70 mb-6">
+                Декоративные градиентные круги в стиле "Light Mesh Holographic Gradients". Поддерживают анимацию, пульсацию и вращение.
+              </p>
+              <div className="flex flex-wrap items-center gap-8 justify-center py-8">
+                <div className="flex flex-col items-center gap-2">
+                  <GradientMesh size={150} variant="iridescent" animated />
+                  <p className="text-xs opacity-50">Iridescent (Animated)</p>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <GradientMesh size={150} variant="peachLavender" />
+                  <p className="text-xs opacity-50">Peach Lavender</p>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <GradientMesh size={150} variant="mintSky" />
+                  <p className="text-xs opacity-50">Mint Sky</p>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <GradientMesh size={150} variant="roseYellow" />
+                  <p className="text-xs opacity-50">Rose Yellow</p>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <GradientMesh size={150} variant="coralBlue" />
+                  <p className="text-xs opacity-50">Coral Blue</p>
+                </div>
+              </div>
+            </div>
+            <div className="border-t pt-6">
+              <p className="text-xs opacity-50 mb-4">Варианты с анимацией</p>
+              <div className="flex flex-wrap items-center gap-8 justify-center py-4">
+                <div className="flex flex-col items-center gap-2">
+                  <GradientMesh size={120} variant="iridescent" pulsing animated />
+                  <p className="text-xs opacity-50">Pulsing</p>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <GradientMesh size={120} variant="iridescent" rotating animated />
+                  <p className="text-xs opacity-50">Rotating</p>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <GradientMesh size={120} variant="iridescent" pulsing rotating animated animationSpeed={1.5} />
+                  <p className="text-xs opacity-50">Pulsing + Rotating</p>
+                </div>
+              </div>
+            </div>
+            <div className="border-t pt-6">
+              <p className="text-xs opacity-50 mb-4">Различные размеры</p>
+              <div className="flex flex-wrap items-center gap-6 justify-center">
+                <GradientMesh size={80} variant="peachLavender" />
+                <GradientMesh size={120} variant="mintSky" />
+                <GradientMesh size={160} variant="roseYellow" />
+                <GradientMesh size={100} variant="coralBlue" />
+                <GradientMesh size={200} variant="iridescent" animated opacity={0.8} />
+              </div>
+            </div>
+            <div className="border-t pt-6">
+              <p className="text-xs opacity-50 mb-4">Кастомные цвета</p>
+              <div className="flex flex-wrap items-center gap-6 justify-center">
+                <GradientMesh 
+                  size={130} 
+                  variant="custom" 
+                  colors={['#FF6B9D', '#C44569', '#F8B500']} 
+                  animated 
+                />
+                <GradientMesh 
+                  size={130} 
+                  variant="custom" 
+                  colors={['#A8E6CF', '#FFD3B6', '#FFAAA5']} 
+                  pulsing 
+                  animated 
+                />
+                <GradientMesh 
+                  size={130} 
+                  variant="custom" 
+                  colors={['#B8B5FF', '#7868E6', '#EDEEF7']} 
+                  rotating 
+                  animated 
+                />
+              </div>
+            </div>
+          </div>
+        </WellnessCard>
+
+        {/* Decorative Shader Circle */}
         <WellnessCard>
           <div className="space-y-6">
             <div>

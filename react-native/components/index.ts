@@ -7,6 +7,7 @@
 export * from './GradientBackground';
 export * from './WellnessCard';
 export * from './MobileScreen';
+export * from './GradientMesh';
 
 // Typography
 export * from './SerifHeading';
@@ -36,6 +37,7 @@ export * from './StreakBadge';
 // Cards
 export * from './ActionCard';
 export * from './QuestionCard';
+export * from './CardStack';
 
 // Navigation
 export * from './BottomNavigation';

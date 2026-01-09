@@ -59,3 +59,5 @@ export type { CardItem, CardStackSettings, GradientType } from './CardStack';
 
 // Decorative Components
 export { DecorativeShaderCircle } from './DecorativeShaderCircle';
+export { GradientMesh } from './GradientMesh';
+export type { GradientMeshVariant, GradientMeshProps } from './GradientMesh';
