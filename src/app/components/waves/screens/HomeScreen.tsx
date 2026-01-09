@@ -103,39 +103,79 @@ export function HomeScreen({
           <div className="grid grid-cols-2 gap-3">
             <button
               onClick={() => onStartTraining('tbr')}
-              className="text-left transition-all hover:scale-[1.02]"
+              className="text-left transition-all hover:scale-[1.02] relative overflow-hidden rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0_6px_30px_rgba(0,0,0,0.1)]"
             >
-              <WellnessCard gradient="blue" hover>
-                <h3 className="font-semibold text-[#1a1a1a] mb-1">Концентрация</h3>
-                <p className="text-xs text-[#1a1a1a]/50">Theta/Beta (4-7 / 15-20 Hz)</p>
-              </WellnessCard>
+              <img 
+                src="/card1.png?v=2" 
+                alt="Концентрация" 
+                className="w-full h-auto"
+              />
+              <div className="absolute inset-0 p-6 flex flex-col justify-between items-start">
+                <span className="inline-block bg-white/80 backdrop-blur-sm text-[#1a1a1a] text-xs font-medium px-3 py-1 rounded-full self-start">
+                  16 МИН
+                </span>
+                <div className="flex flex-col">
+                  <SerifHeading size="xl" className="mb-1 text-2xl">Концентрация</SerifHeading>
+                  <p className="text-sm text-[#1a1a1a]/70 leading-relaxed">Theta/Beta (4-7 / 15-20 Hz)</p>
+                </div>
+              </div>
             </button>
             <button
               onClick={() => onStartTraining('alpha')}
-              className="text-left transition-all hover:scale-[1.02]"
+              className="text-left transition-all hover:scale-[1.02] relative overflow-hidden rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0_6px_30px_rgba(0,0,0,0.1)]"
             >
-              <WellnessCard gradient="lavender" hover>
-                <h3 className="font-semibold text-[#1a1a1a] mb-1">Спокойствие</h3>
-                <p className="text-xs text-[#1a1a1a]/50">Alpha (8-12 Hz)</p>
-              </WellnessCard>
+              <img 
+                src="/card2.png" 
+                alt="Спокойствие" 
+                className="w-full h-auto"
+              />
+              <div className="absolute inset-0 p-6 flex flex-col justify-between items-start">
+                <span className="inline-block bg-white/80 backdrop-blur-sm text-[#1a1a1a] text-xs font-medium px-3 py-1 rounded-full self-start">
+                  16 МИН
+                </span>
+                <div className="flex flex-col">
+                  <SerifHeading size="xl" className="mb-1 text-2xl">Спокойствие</SerifHeading>
+                  <p className="text-sm text-[#1a1a1a]/70 leading-relaxed">Alpha (8-12 Hz)</p>
+                </div>
+              </div>
             </button>
             <button
               onClick={() => onStartTraining('smr')}
-              className="text-left transition-all hover:scale-[1.02]"
+              className="text-left transition-all hover:scale-[1.02] relative overflow-hidden rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0_6px_30px_rgba(0,0,0,0.1)]"
             >
-              <WellnessCard gradient="pink" hover>
-                <h3 className="font-semibold text-[#1a1a1a] mb-1">Фокус</h3>
-                <p className="text-xs text-[#1a1a1a]/50">Low-Beta (12-15 Hz)</p>
-              </WellnessCard>
+              <img 
+                src="/card3.png" 
+                alt="Фокус" 
+                className="w-full h-auto"
+              />
+              <div className="absolute inset-0 p-6 flex flex-col justify-between items-start">
+                <span className="inline-block bg-white/80 backdrop-blur-sm text-[#1a1a1a] text-xs font-medium px-3 py-1 rounded-full self-start">
+                  16 МИН
+                </span>
+                <div className="flex flex-col">
+                  <SerifHeading size="xl" className="mb-1 text-2xl">Фокус</SerifHeading>
+                  <p className="text-sm text-[#1a1a1a]/70 leading-relaxed">Low-Beta (12-15 Hz)</p>
+                </div>
+              </div>
             </button>
             <button
               onClick={() => onStartTraining('breathing')}
-              className="text-left transition-all hover:scale-[1.02]"
+              className="text-left transition-all hover:scale-[1.02] relative overflow-hidden rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0_6px_30px_rgba(0,0,0,0.1)]"
             >
-              <WellnessCard gradient="coral" hover>
-                <h3 className="font-semibold text-[#1a1a1a] mb-1">Дыхание</h3>
-                <p className="text-xs text-[#1a1a1a]/50">Без устройства</p>
-              </WellnessCard>
+              <img 
+                src="/card1.png" 
+                alt="Дыхание" 
+                className="w-full h-auto"
+              />
+              <div className="absolute inset-0 p-6 flex flex-col justify-between items-start">
+                <span className="inline-block bg-white/80 backdrop-blur-sm text-[#1a1a1a] text-xs font-medium px-3 py-1 rounded-full self-start">
+                  10 МИН
+                </span>
+                <div className="flex flex-col">
+                  <SerifHeading size="xl" className="mb-1 text-2xl">Дыхание</SerifHeading>
+                  <p className="text-sm text-[#1a1a1a]/70 leading-relaxed">Без устройства</p>
+                </div>
+              </div>
             </button>
           </div>
         </div>
