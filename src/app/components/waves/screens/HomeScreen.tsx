@@ -172,9 +172,10 @@ export function HomeScreen({
               className="text-left transition-all hover:scale-[1.02] relative overflow-hidden rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0_6px_30px_rgba(0,0,0,0.1)]"
             >
               <img 
-                src="/card1.png" 
+                src="/card4.png" 
                 alt="Дыхание" 
-                className="w-full h-auto"
+                className="w-full h-auto scale-102"
+                style={{ transform: 'scale(1.02)' }}
               />
               <div className="absolute inset-0 p-6 pl-4 flex flex-col justify-between items-start">
                 <span className="inline-block bg-white/80 backdrop-blur-sm text-[#1a1a1a] text-[10px] sm:text-xs font-medium px-2 sm:px-3 py-1 rounded-full self-start -ml-1">
