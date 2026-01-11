@@ -15,6 +15,7 @@ interface DeviceConnectionScreenProps {
   onSupport: () => void;
   onConnected: (deviceId: string, batteryLevel: number) => void;
   onNoDevice: () => void;
+  returnToHome?: boolean; // Если true, после подключения возвращаемся на главную
 }
 
 // Mock данные устройств с уровнем заряда
@@ -28,6 +29,7 @@ export function DeviceConnectionScreen({
   onSupport,
   onConnected,
   onNoDevice,
+  returnToHome = false,
 }: DeviceConnectionScreenProps) {
   const [isSearching, setIsSearching] = useState(true);
   const [foundDevices, setFoundDevices] = useState<Device[]>([]);

@@ -17,6 +17,7 @@ import {
   SignalCheckScreen,
   TrainingTipsScreen,
   TrainingSelectionScreen,
+  TrainingPlaylistSelectionScreen,
   ActiveTrainingScreen,
   BreathingTrainingScreen,
   TrainingCompleteScreen,
@@ -54,6 +55,7 @@ type WavesScreen =
   | 'purchase'
   | 'wearing-instruction'
   | 'signal-check'
+  | 'training-playlist-selection'
   | 'training-tips'
   | 'training-selection'
   | 'active-training'
@@ -86,18 +88,28 @@ export function WavesAppFlow() {
   const [connectedDevice, setConnectedDevice] = useState<string | null>(null);
   const [connectedDeviceBattery, setConnectedDeviceBattery] = useState<number | null>(null);
   const [lastTrainingSessionId, setLastTrainingSessionId] = useState<string | null>(null);
+  const [deviceConnectionReturnToHome, setDeviceConnectionReturnToHome] = useState<boolean>(false);
   
   // Список доступных устройств (mock данные)
   const availableDevices = [
     { id: 'Flex4-12345', name: 'Flex4', batteryLevel: 85 },
     { id: 'Flex4-67890', name: 'Flex4', batteryLevel: 15 },
   ];
+
+  // Mock плейлист пользователя (в реальном приложении будет загружаться из API)
+  const userPlaylist = [
+    { id: '1', title: 'Успокаивающая музыка для концентрации', artist: 'Meditation Music', duration: 930 }, // 15:30
+    { id: '2', title: 'Медитация для детей - Лес', artist: 'Nature Sounds', duration: 765 }, // 12:45
+    { id: '3', title: 'Дыхательные упражнения - Анимация', artist: 'Relaxing Sounds', duration: 620 }, // 10:20
+    { id: '4', title: 'Бинауральные биты Alpha', artist: 'Binaural Beats', duration: 1200 }, // 20:00
+    { id: '5', title: 'Тихая музыка для фокуса', artist: 'Focus Music', duration: 600 }, // 10:00
+  ];
   
   // Список доступных программ тренировок
   const availablePrograms = [
-    { id: 'tbr', name: 'Концентрация', eyesOpen: true, waves: 'Theta/Beta (4-7 / 15-20 Hz)' },
-    { id: 'alpha', name: 'Спокойствие', eyesOpen: false, waves: 'Alpha (8-12 Hz)' },
-    { id: 'smr', name: 'Фокус', eyesOpen: true, waves: 'Low-Beta (12-15 Hz)' },
+    { id: 'tbr', name: 'Концентрация', eyesOpen: true, waves: 'Theta/Beta (4-7 / 15-20 Hz)', duration: 16 },
+    { id: 'alpha', name: 'Спокойствие', eyesOpen: false, waves: 'Alpha (8-12 Hz)', duration: 16 },
+    { id: 'smr', name: 'Фокус', eyesOpen: true, waves: 'Low-Beta (12-15 Hz)', duration: 16 },
   ];
   // Состояние устройства и подписки
   const [hasDevice, setHasDevice] = useState(false);
@@ -220,8 +232,8 @@ export function WavesAppFlow() {
       if (!connectedDevice) {
         setCurrentScreen('device-connection');
       } else {
-        // Если устройство уже подключено, переходим сразу к советам
-        setCurrentScreen('training-tips');
+        // Если устройство уже подключено, переходим сразу к выбору плейлиста
+        setCurrentScreen('training-playlist-selection');
       }
     }
   };
@@ -243,7 +255,13 @@ export function WavesAppFlow() {
   };
 
   const handleDeviceContinue = () => {
-    // После подключения устройства переходим к советам в карточках
+    // После подключения устройства переходим к выбору плейлиста
+    setCurrentScreen('training-playlist-selection');
+  };
+
+  const handlePlaylistSelectionComplete = (selectedTrackIds: string[]) => {
+    // Сохраняем выбранные треки (можно использовать для воспроизведения во время тренировки)
+    // После выбора плейлиста переходим к советам
     setCurrentScreen('training-tips');
   };
 
@@ -454,13 +472,20 @@ export function WavesAppFlow() {
           <DeviceConnectionScreen
             onClose={() => {
               setConnectedDevice(null);
+              setDeviceConnectionReturnToHome(false);
               setCurrentScreen('home');
             }}
             onSupport={() => setIsSupportModalOpen(true)}
+            returnToHome={deviceConnectionReturnToHome}
             onConnected={(deviceId, batteryLevel) => {
               handleDeviceConnected(deviceId, batteryLevel);
-              // Переходим сразу к советам (убрали промежуточный экран device-connected)
-              setCurrentScreen('training-tips');
+              // Если пришли из настроек, возвращаемся на главную, иначе продолжаем flow тренировки
+              if (deviceConnectionReturnToHome) {
+                setDeviceConnectionReturnToHome(false);
+                setCurrentScreen('home');
+              } else {
+                setCurrentScreen('training-playlist-selection');
+              }
             }}
             onNoDevice={() => {
               // Проверяем статус устройства и подписки
@@ -544,12 +569,25 @@ export function WavesAppFlow() {
           />
         );
 
+      case 'training-playlist-selection':
+        return (
+          <TrainingPlaylistSelectionScreen
+            playlist={userPlaylist}
+            trainingDuration={availablePrograms.find(p => p.id === selectedTrainingType)?.duration || 16}
+            onContinue={handlePlaylistSelectionComplete}
+            onBack={() => {
+              // Возвращаемся на экран подключения устройства
+              setCurrentScreen('device-connection');
+            }}
+          />
+        );
+
       case 'training-tips':
         return (
           <TrainingTipsScreen
             onBack={() => {
-              // Возвращаемся на home (так как training-tips может быть первым экраном после "Начать тренировку", если устройство уже подключено)
-              setCurrentScreen('home');
+              // Возвращаемся на выбор плейлиста
+              setCurrentScreen('training-playlist-selection');
             }}
             onContinue={handleTrainingTipsContinue}
           />
@@ -706,7 +744,10 @@ export function WavesAppFlow() {
                 setConnectedDeviceBattery(device.batteryLevel);
               }
             }}
-            onAddDevice={() => setCurrentScreen('device-connection')}
+            onAddDevice={() => {
+              setDeviceConnectionReturnToHome(true);
+              setCurrentScreen('device-connection');
+            }}
             onLogout={() => setCurrentScreen('login')}
           />
         );

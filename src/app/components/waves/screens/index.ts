@@ -20,6 +20,8 @@ export { DeviceNotFoundScreen } from './DeviceNotFoundScreen';
 export { WearingInstructionScreen } from './WearingInstructionScreen';
 export { SignalCheckScreen } from './SignalCheckScreen';
 export { TrainingTipsScreen } from './TrainingTipsScreen';
+export { TrainingPlaylistSelectionScreen } from './TrainingPlaylistSelectionScreen';
+export type { Track } from './TrainingPlaylistSelectionScreen';
 export { TrainingSelectionScreen } from './TrainingSelectionScreen';
 export { ProgramSelectionModal } from './ProgramSelectionModal';
 export { ActiveTrainingScreen } from './ActiveTrainingScreen';
