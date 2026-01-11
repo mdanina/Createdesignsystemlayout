@@ -184,7 +184,7 @@ export function DeviceConnectionScreen({
                   Низкий заряд устройства
                 </p>
                 <p className="text-xs text-[#1a1a1a]/80">
-                  Рекомендуется дозарядить устройство перед началом тренировки. Текущий заряд: {connectedDevice.batteryLevel}%
+                  Рекомендуется дозарядить устройство перед началом тренировки.
                 </p>
               </div>
             </div>
