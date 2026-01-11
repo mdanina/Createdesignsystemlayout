@@ -2,7 +2,6 @@ import React from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
 import { SerifHeading } from '../../design-system/SerifHeading';
-import { WellnessCard } from '../../design-system/WellnessCard';
 
 interface WearingInstructionScreenProps {
   onBack: () => void;
@@ -11,8 +10,16 @@ interface WearingInstructionScreenProps {
 
 export function WearingInstructionScreen({ onBack, onReady }: WearingInstructionScreenProps) {
   return (
-    <div className="flex flex-col bg-white min-h-screen">
-      <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
+    <div 
+      className="flex flex-col min-h-screen"
+      style={{
+        backgroundImage: 'url(/bg3.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'top center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      <div className="flex items-center px-4 py-4">
         <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
           <ArrowLeft className="w-6 h-6" />
         </button>
@@ -21,21 +28,21 @@ export function WearingInstructionScreen({ onBack, onReady }: WearingInstruction
 
       <div className="flex-1 px-16 py-8">
         {/* Видео/GIF placeholder */}
-        <div className="w-full h-64 bg-gradient-to-br from-[#a8d8ea]/30 to-[#b8a0d6]/30 rounded-2xl mb-6 flex items-center justify-center">
+        <div className="w-full h-64 bg-white rounded-2xl mb-6 flex items-center justify-center">
           <span className="text-6xl">📹</span>
         </div>
 
         <SerifHeading size="xl" className="mb-4">Наденьте устройство на ребёнка</SerifHeading>
 
         <div className="space-y-4 mb-6">
-          <WellnessCard gradient="blue" className="p-4">
+          <div className="rounded-[20px] p-4 shadow-[0_4px_20px_rgba(0,0,0,0.1)] bg-white/30 backdrop-blur-md border border-white/30">
             <div className="flex items-start gap-3">
               <span className="text-2xl">👂</span>
               <p className="text-[#1a1a1a]/80">Датчики за ушами — на кожу</p>
             </div>
-          </WellnessCard>
+          </div>
 
-          <WellnessCard gradient="lavender" className="p-4">
+          <div className="rounded-[20px] p-4 shadow-[0_4px_20px_rgba(0,0,0,0.1)] bg-white/30 backdrop-blur-md border border-white/30">
             <div className="flex items-start gap-3">
               <span className="text-2xl">💇</span>
               <div>
@@ -45,7 +52,7 @@ export function WearingInstructionScreen({ onBack, onReady }: WearingInstruction
                 </button>
               </div>
             </div>
-          </WellnessCard>
+          </div>
         </div>
 
         <PillButton onClick={onReady} variant="gradientMesh" className="w-full mb-3">
