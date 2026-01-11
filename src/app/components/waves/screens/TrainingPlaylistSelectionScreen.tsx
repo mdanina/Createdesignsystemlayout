@@ -209,9 +209,17 @@ export function TrainingPlaylistSelectionScreen({
   };
 
   return (
-    <div className="flex flex-col bg-white min-h-screen">
+    <div 
+      className="flex flex-col min-h-screen"
+      style={{
+        backgroundImage: 'url(/bg3.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'top center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       {/* Шапка */}
-      <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
+      <div className="flex items-center px-4 py-4">
         <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
           <ArrowLeft className="w-6 h-6" />
         </button>
@@ -220,7 +228,7 @@ export function TrainingPlaylistSelectionScreen({
 
       <div className="flex-1 px-16 py-8 flex flex-col overflow-hidden">
         {/* Информация о длительности тренировки */}
-        <WellnessCard gradient="blue" className="mb-6 flex-shrink-0">
+        <div className="rounded-[20px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.1)] bg-white/40 backdrop-blur-md border-2 border-white/50 mb-6 flex-shrink-0">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <Clock className="w-5 h-5 text-[#1a1a1a]/70" />
@@ -260,7 +268,7 @@ export function TrainingPlaylistSelectionScreen({
               ✓ Достаточно треков для тренировки
             </p>
           )}
-        </WellnessCard>
+        </div>
 
         {/* Поиск и фильтры */}
         <div className="mb-6 space-y-4 flex-shrink-0">
@@ -323,8 +331,6 @@ export function TrainingPlaylistSelectionScreen({
 
         {/* Список треков по разделам */}
         <div className="flex-1 flex flex-col min-h-0 mb-6">
-          <h2 className="text-lg font-semibold text-[#1a1a1a] mb-4 flex-shrink-0">{playlist.name}</h2>
-          
           <div className="flex-1 overflow-y-auto min-h-0">
             {filteredSections.length === 0 ? (
               <WellnessCard gradient="lavender" className="p-8 text-center">
@@ -342,7 +348,7 @@ export function TrainingPlaylistSelectionScreen({
                 const isSectionFullySelected = section.items.length > 0 && sectionSelectedCount === section.items.length;
 
                 return (
-                  <WellnessCard key={section.id} className="p-4">
+                  <div key={section.id} className="rounded-[20px] p-4 shadow-[0_4px_20px_rgba(0,0,0,0.1)] bg-white/30 backdrop-blur-md border border-white/30">
                     {/* Заголовок раздела */}
                     <button
                       onClick={() => toggleSection(section.id)}
@@ -471,7 +477,7 @@ export function TrainingPlaylistSelectionScreen({
                         )}
                       </div>
                     )}
-                  </WellnessCard>
+                  </div>
                 );
               })}
               </div>

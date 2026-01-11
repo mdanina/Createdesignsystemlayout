@@ -56,8 +56,16 @@ export function TrainingTipsScreen({ onBack, onContinue }: TrainingTipsScreenPro
   ];
 
   return (
-    <div className="flex flex-col bg-white min-h-screen">
-      <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
+    <div 
+      className="flex flex-col min-h-screen"
+      style={{
+        backgroundImage: 'url(/bg3.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'top center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      <div className="flex items-center px-4 py-4">
         <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
           <ArrowLeft className="w-6 h-6" />
         </button>
@@ -66,7 +74,7 @@ export function TrainingTipsScreen({ onBack, onContinue }: TrainingTipsScreenPro
 
       <div className="flex-1 px-16 py-8 overflow-y-auto">
         <div className="mb-6">
-          <p className="text-sm text-[#666666] text-center mb-6">
+          <p className="text-sm text-[#1a1a1a] text-center mb-6">
             Прокрутите карточки, чтобы узнать все советы для эффективной тренировки
           </p>
           <div className="flex justify-center">
