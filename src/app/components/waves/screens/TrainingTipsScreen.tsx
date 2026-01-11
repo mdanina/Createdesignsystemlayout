@@ -73,12 +73,12 @@ export function TrainingTipsScreen({ onBack, onContinue }: TrainingTipsScreenPro
       </div>
 
       <div className="flex-1 px-16 py-8 overflow-y-auto">
-        <div className="mb-6">
+        <div className="rounded-[20px] px-6 py-6 shadow-[0_4px_20px_rgba(0,0,0,0.1)] bg-white/30 backdrop-blur-md border border-white/30 mb-6">
           <p className="text-sm text-[#1a1a1a] text-center mb-6">
             Прокрутите карточки, чтобы узнать все советы для эффективной тренировки
           </p>
           <div className="flex justify-center">
-            <CardStack items={tips} />
+            <CardStack items={tips} className="!w-[280px]" />
           </div>
         </div>
 

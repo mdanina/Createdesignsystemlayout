@@ -66,7 +66,7 @@ export function DeviceConnectionScreen({
     <div 
       className="flex flex-col bg-white min-h-screen relative"
       style={{
-        backgroundImage: 'url(/bg3.png)',
+        backgroundImage: 'url(/bg.png)',
         backgroundSize: 'cover',
         backgroundPosition: 'top center',
         backgroundRepeat: 'no-repeat',
