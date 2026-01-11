@@ -36,6 +36,99 @@ interface PlaylistScreenProps {
   onBack?: () => void;
 }
 
+// Функция для генерации моковых треков (та же, что используется в WavesAppFlow)
+const generateMockTracks = (): PlaylistItem[] => {
+  const audioTitles = [
+    'Успокаивающая музыка для концентрации',
+    'Бинауральные биты Alpha',
+    'Тихая музыка для фокуса',
+    'Медитативная музыка для релаксации',
+    'Фоновая музыка для работы',
+    'Классическая музыка для чтения',
+    'Амбиент звуки природы',
+    'Инструментальная музыка для размышлений',
+    'Дзен-музыка для утренней медитации',
+    'Лоу-фай хип-хоп для концентрации',
+    'Электронная медитация',
+    'Акустическая гитара для спокойствия',
+    'Звуки океана с музыкой',
+    'Флейта для глубокого дыхания',
+    'Поющие чаши - тибетская медитация',
+    'Белый шум для фокуса',
+    'Дождь и гром с фортепиано',
+    'Морские волны и скрипка',
+    'Лесные звуки с медитативной музыкой',
+    'Йога-музыка для практики',
+    'Тета-волны для сна',
+    'Дельта-волны для глубокой медитации',
+    'Альфа-волны для творчества',
+    'Гамма-волны для концентрации',
+    'Изохронические тоны',
+  ];
+
+  const videoTitles = [
+    'Медитация для детей - Лес',
+    'Дыхательные упражнения - Анимация',
+    'Йога для начинающих',
+    'Медитация с гидом - 10 минут',
+    'Анимация для концентрации',
+    'Визуализация природы',
+    'Практика осознанности',
+    'Техника дыхания 4-7-8',
+    'Утренняя зарядка и медитация',
+    'Растяжка перед сном',
+    'Йога-нидра для глубокого расслабления',
+    'Тай-чи для начинающих',
+    'Цигун - энергетическая практика',
+    'Медитация любящей доброты',
+    'Тело-сканирование для релаксации',
+    'Визуализация успеха',
+    'Практика благодарности',
+    'Работа с тревогой',
+    'Стресс-менеджмент техники',
+    'Энергетический баланс',
+    'Чакры и медитация',
+    'Лунная медитация',
+    'Солнечная практика',
+    'Элементы природы',
+    'Практика прощения',
+  ];
+
+  const durations = ['5:00', '7:30', '10:00', '10:20', '12:00', '12:45', '15:00', '15:30', '20:00', '25:00', '30:00'];
+  const sources: MediaSource[] = ['spotify', 'youtube', 'apple-music'];
+
+  const tracks: PlaylistItem[] = [];
+  
+  // 25 аудио треков
+  for (let i = 0; i < 25; i++) {
+    tracks.push({
+      id: `audio-${i + 1}`,
+      title: audioTitles[i],
+      type: 'audio',
+      source: sources[i % sources.length],
+      duration: durations[i % durations.length],
+      addedAt: new Date(2024, 0, 15 - i),
+      url: `https://example.com/track/${i + 1}`,
+    });
+  }
+
+  // 25 видео треков
+  for (let i = 0; i < 25; i++) {
+    tracks.push({
+      id: `video-${i + 1}`,
+      title: videoTitles[i],
+      type: 'video',
+      source: 'youtube',
+      thumbnail: `https://img.youtube.com/vi/example${i}/mqdefault.jpg`,
+      duration: durations[(i + 5) % durations.length],
+      addedAt: new Date(2024, 0, 15 - i - 25),
+      url: `https://youtube.com/watch?v=example${i}`,
+    });
+  }
+
+  return tracks;
+};
+
 export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
   const [playlists, setPlaylists] = useState<Playlist[]>([
     {
@@ -45,37 +138,7 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
         {
           id: 'default-section',
           name: 'Все',
-          items: [
-            {
-              id: '1',
-              title: 'Успокаивающая музыка для концентрации',
-              type: 'audio',
-              source: 'spotify',
-              duration: '15:30',
-              addedAt: new Date(2024, 0, 15),
-              url: 'https://open.spotify.com/track/example',
-            },
-            {
-              id: '2',
-              title: 'Медитация для детей - Лес',
-              type: 'video',
-              source: 'youtube',
-              thumbnail: 'https://img.youtube.com/vi/example/mqdefault.jpg',
-              duration: '12:45',
-              addedAt: new Date(2024, 0, 14),
-              url: 'https://youtube.com/watch?v=example',
-            },
-            {
-              id: '3',
-              title: 'Дыхательные упражнения - Анимация',
-              type: 'video',
-              source: 'youtube',
-              thumbnail: 'https://img.youtube.com/vi/example2/mqdefault.jpg',
-              duration: '10:20',
-              addedAt: new Date(2024, 0, 13),
-              url: 'https://youtube.com/watch?v=example2',
-            },
-          ],
+          items: generateMockTracks(),
         },
       ],
       createdAt: new Date(2024, 0, 1),
