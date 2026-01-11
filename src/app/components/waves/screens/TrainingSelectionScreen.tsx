@@ -33,9 +33,8 @@ export function TrainingSelectionScreen({
   return (
     <div className="flex flex-col bg-white min-h-screen">
       <div className="flex-1 px-16 py-8">
-        {/* Изображение головы с Flex4 */}
-        <div className="w-48 h-48 mx-auto mb-6 bg-gradient-to-br from-[#a8d8ea]/30 to-[#b8a0d6]/30 rounded-full flex flex-col items-center justify-center relative">
-          <span className="text-6xl mb-2">🧠</span>
+        {/* Бейдж состояния глаз */}
+        <div className="flex justify-center mb-6">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-white text-[#1a1a1a] font-medium px-3 py-1.5 text-sm shadow-sm">
             {currentProgram.eyesOpen ? '👁 Глаза открыты' : '👁 Глаза закрыты'}
           </span>

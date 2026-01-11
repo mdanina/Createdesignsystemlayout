@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { X, MessageCircle, Loader2, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { X, Loader2, CheckCircle2, AlertTriangle } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
 import { SerifHeading } from '../../design-system/SerifHeading';
-import { WellnessCard } from '../../design-system/WellnessCard';
 
 interface Device {
   id: string;
@@ -64,17 +63,22 @@ export function DeviceConnectionScreen({
   };
 
   return (
-    <div className="flex flex-col bg-white min-h-screen">
-      {/* Шапка */}
-      <div className="flex items-center justify-between px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
-        <button onClick={onClose} className="p-2 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
-          <X className="w-6 h-6" />
-        </button>
-        <SerifHeading size="xl">Подключение устройства</SerifHeading>
-        <button onClick={onSupport} className="p-2 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
-          <MessageCircle className="w-6 h-6" />
-        </button>
-      </div>
+    <div 
+      className="flex flex-col bg-white min-h-screen relative"
+      style={{
+        backgroundImage: 'url(/bg3.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'top center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      {/* Кнопка закрытия */}
+      <button 
+        onClick={onClose} 
+        className="absolute top-4 left-4 z-10 p-2 text-[#1a1a1a]/70 hover:text-[#1a1a1a] bg-white/80 backdrop-blur-sm rounded-full hover:bg-white/90 transition-colors"
+      >
+        <X className="w-6 h-6" />
+      </button>
 
       <div className="flex-1 flex flex-col items-center justify-center px-16 py-12">
         {connectedDevice ? (
@@ -122,20 +126,26 @@ export function DeviceConnectionScreen({
                         : 'cursor-not-allowed'
                     }`}
                   >
-                    <WellnessCard 
-                      gradient="blue" 
-                      hover={!isConnected && !isConnecting}
-                      className={isConnected ? "border-2 border-[#a8d8ea] opacity-100" : "opacity-70"}
+                    <div
+                      className={`rounded-[20px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.1)] transition-all duration-300 ${
+                        isConnected 
+                          ? 'bg-white/40 backdrop-blur-md border-2 border-white/50' 
+                          : 'bg-white/30 backdrop-blur-md border border-white/30'
+                      } ${
+                        !isConnected && !isConnecting 
+                          ? 'hover:bg-white/40 hover:shadow-[0_6px_30px_rgba(0,0,0,0.15)] hover:scale-[1.02]' 
+                          : ''
+                      }`}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
                             <h3 className="font-semibold text-[#1a1a1a]">{device.id}</h3>
                             {isConnected && (
-                              <CheckCircle2 className="w-5 h-5 text-[#a8d8ea] flex-shrink-0" />
+                              <CheckCircle2 className="w-5 h-5 text-[#1a1a1a] flex-shrink-0" />
                             )}
                             {isConnecting && (
-                              <Loader2 className="w-5 h-5 text-[#a8d8ea] animate-spin flex-shrink-0" />
+                              <Loader2 className="w-5 h-5 text-[#D4C5F0] animate-spin flex-shrink-0" />
                             )}
                           </div>
                           <p className="text-sm text-[#1a1a1a]/70 mb-2">{device.name}</p>
@@ -151,9 +161,9 @@ export function DeviceConnectionScreen({
                                   {device.batteryLevel}%
                                 </span>
                               </div>
-                              <div className="w-full bg-[#1a1a1a]/10 rounded-full h-1.5">
+                              <div className="w-full bg-[#1a1a1a]/10 rounded-full h-2">
                                 <div
-                                  className={`h-1.5 rounded-full transition-all ${
+                                  className={`h-2 rounded-full ${
                                     device.batteryLevel < 20 
                                       ? 'bg-orange-500' 
                                       : 'bg-[#a8d8ea]'
@@ -168,7 +178,7 @@ export function DeviceConnectionScreen({
                           <span className="text-2xl">📡</span>
                         )}
                       </div>
-                    </WellnessCard>
+                    </div>
                   </button>
                 </div>
               );
@@ -178,7 +188,7 @@ export function DeviceConnectionScreen({
 
         {/* Уведомление о низком заряде */}
         {connectedDevice && connectedDevice.batteryLevel < 20 && (
-          <WellnessCard gradient="lavender" className="w-full max-w-sm mb-4">
+          <div className="w-full max-w-sm mb-4 rounded-[20px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.1)] bg-white/40 backdrop-blur-md border border-white/50">
             <div className="flex items-start gap-3">
               <AlertTriangle className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" />
               <div>
@@ -190,7 +200,7 @@ export function DeviceConnectionScreen({
                 </p>
               </div>
             </div>
-          </WellnessCard>
+          </div>
         )}
 
         {/* Кнопка Продолжить после подключения */}

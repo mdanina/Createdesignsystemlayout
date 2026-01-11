@@ -46,7 +46,7 @@ export function TrainingHistoryScreen({ onBack, sessions: propSessions }: Traini
         <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
           <ArrowLeft className="w-6 h-6" />
         </button>
-        <SerifHeading size="xl">История тренировок</SerifHeading>
+        <SerifHeading size="xl" className="text-xl sm:text-2xl md:text-3xl">История тренировок</SerifHeading>
       </div>
 
       <div className="flex-1 px-16 py-6">
@@ -83,17 +83,17 @@ export function TrainingHistoryScreen({ onBack, sessions: propSessions }: Traini
             <WellnessCard key={session.id} className="p-4">
               <div className="flex items-center justify-between mb-2">
                 <div>
-                  <p className="font-semibold text-[#1a1a1a]">{session.date}</p>
-                  <p className="text-sm text-[#1a1a1a]/70">{session.type}</p>
+                  <p className="text-sm sm:text-base md:text-lg font-semibold text-[#1a1a1a]">{session.date}</p>
+                  <p className="text-xs sm:text-sm md:text-base text-[#1a1a1a]/70">{session.type}</p>
                 </div>
                 {session.points && (
                   <div className="text-right">
-                    <p className="text-sm text-[#1a1a1a]/70">Очки</p>
-                    <p className="font-semibold text-[#1a1a1a]">{session.points}</p>
+                    <p className="text-xs sm:text-sm md:text-base text-[#1a1a1a]/70">Очки</p>
+                    <p className="text-sm sm:text-base md:text-lg font-semibold text-[#1a1a1a]">{session.points}</p>
                   </div>
                 )}
               </div>
-              <div className="flex items-center gap-4 text-sm text-[#1a1a1a]/70 mb-2">
+              <div className="flex items-center gap-4 text-xs sm:text-sm md:text-base text-[#1a1a1a]/70 mb-2">
                 <span>{session.duration} мин</span>
                 {session.timeInZone > 0 && (
                   <>
@@ -110,7 +110,7 @@ export function TrainingHistoryScreen({ onBack, sessions: propSessions }: Traini
                 {session.endReason === 'technical' && (
                   <>
                     <span>•</span>
-                    <span className="text-red-600">Прервано</span>
+                    <span className="text-xs sm:text-sm md:text-base text-red-600">Прервано</span>
                   </>
                 )}
               </div>

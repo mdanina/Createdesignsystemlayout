@@ -62,7 +62,7 @@ export function TrainingDetailScreen({ session, onBack }: TrainingDetailScreenPr
           backgroundRepeat: 'no-repeat',
         }}
       >
-        <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
+        <div className="flex items-center px-4 py-4">
           <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
             <ArrowLeft className="w-6 h-6" />
           </button>
@@ -85,7 +85,7 @@ export function TrainingDetailScreen({ session, onBack }: TrainingDetailScreenPr
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
+      <div className="flex items-center px-4 py-4">
         <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
           <ArrowLeft className="w-6 h-6" />
         </button>

@@ -6,7 +6,7 @@ import { motion } from 'motion/react';
 
 interface PillButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  variant?: 'primary' | 'secondary' | 'coral' | 'yellow' | 'outline' | 'black' | 'gradientMesh' | 'gradientMeshPeach' | 'gradientMeshMint' | 'gradientMeshRose' | 'gradientMeshCoral' | 'gradientMeshOrange';
+  variant?: 'primary' | 'secondary' | 'coral' | 'yellow' | 'outline' | 'black' | 'gradientMesh' | 'gradientMeshPeach' | 'gradientMeshMint' | 'gradientMeshRose' | 'gradientMeshCoral' | 'gradientMeshOrange' | 'gradientMeshBlue';
   size?: 'sm' | 'md' | 'lg';
   className?: string;
   onClick?: () => void;
@@ -47,6 +47,9 @@ const gradientMeshStyles = {
   },
   gradientMeshOrange: {
     colors: ['#FFE5D9', '#FFD7BA', '#FFCBB3', '#FFCBB3', '#FFB8A3', '#FFE5D9', '#FFE5D9', '#FFD7BA', '#FFCBB3', '#FFCBB3', '#FFB8A3', '#FFE5D9'],
+  },
+  gradientMeshBlue: {
+    colors: ['#E8F5FE', '#D4EDFC', '#C0E5FA', '#A8D8EA', '#8BC9E0', '#E8F5FE', '#E8F5FE', '#D4EDFC', '#C0E5FA', '#A8D8EA', '#8BC9E0', '#E8F5FE'],
   },
 };
 
