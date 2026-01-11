@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Music, Video, MoreVertical, Edit2, Trash2, GripVertical, ChevronDown, ChevronUp, FolderPlus, X } from 'lucide-react';
+import { Plus, Music, Video, MoreVertical, Edit2, Trash2, ChevronDown, ChevronUp, FolderPlus, X } from 'lucide-react';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
 import { PillButton } from '../../design-system/PillButton';
@@ -37,7 +37,7 @@ interface PlaylistScreenProps {
 }
 
 // Функция для генерации моковых треков (та же, что используется в WavesAppFlow)
-const generateMockTracks = (): PlaylistItem[] => {
+function generateMockTracks(): PlaylistItem[] {
   const audioTitles = [
     'Успокаивающая музыка для концентрации',
     'Бинауральные биты Alpha',
@@ -152,7 +152,9 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
   const [editingItemTitle, setEditingItemTitle] = useState<string>('');
   const [editingSection, setEditingSection] = useState<string | null>(null);
   const [editingSectionName, setEditingSectionName] = useState<string>('');
-  const [draggedItem, setDraggedItem] = useState<{ itemId: string; sectionId: string } | null>(null);
+  const [draggedItemId, setDraggedItemId] = useState<string | null>(null);
+  const [draggedItemSectionId, setDraggedItemSectionId] = useState<string | null>(null);
+  const [itemOrderBySection, setItemOrderBySection] = useState<Map<string, string[]>>(new Map());
 
   // Сортировка: новый контент выше
   const sortItemsByDate = (items: PlaylistItem[]) => {
@@ -215,25 +217,147 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
     }
   };
 
-  const handleMoveItem = (itemId: string, fromSectionId: string, toSectionId: string, newIndex: number) => {
-    if (selectedPlaylist) {
-      const updatedPlaylist = { ...selectedPlaylist };
-      const fromSection = updatedPlaylist.sections.find((s) => s.id === fromSectionId);
-      const toSection = updatedPlaylist.sections.find((s) => s.id === toSectionId);
+  const handleDragStart = (e: React.DragEvent, itemId: string, sectionId: string) => {
+    setDraggedItemId(itemId);
+    setDraggedItemSectionId(sectionId);
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', itemId);
+    e.dataTransfer.setData('application/section-id', sectionId);
+    // Разрешаем перетаскивание даже если внутри есть интерактивные элементы
+    e.stopPropagation();
+  };
 
-      if (fromSection && toSection) {
-        const item = fromSection.items.find((i) => i.id === itemId);
-        if (item) {
-          fromSection.items = fromSection.items.filter((i) => i.id !== itemId);
-          toSection.items.splice(newIndex, 0, item);
-          updatedPlaylist.updatedAt = new Date();
-          setPlaylists((prev) =>
-            prev.map((p) => (p.id === updatedPlaylist.id ? updatedPlaylist : p))
-          );
-          setSelectedPlaylist(updatedPlaylist);
+
+  const handleDrop = (e: React.DragEvent, targetItemId: string | null, targetSectionId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!draggedItemId || !draggedItemSectionId || !selectedPlaylist) {
+      setDraggedItemId(null);
+      setDraggedItemSectionId(null);
+      return;
+    }
+
+    const sourceSectionId = draggedItemSectionId;
+    const sourceSection = selectedPlaylist.sections.find((s) => s.id === sourceSectionId);
+    const targetSection = selectedPlaylist.sections.find((s) => s.id === targetSectionId);
+
+    if (!sourceSection || !targetSection) {
+      setDraggedItemId(null);
+      setDraggedItemSectionId(null);
+      return;
+    }
+
+    const draggedItem = sourceSection.items.find(item => item.id === draggedItemId);
+    if (!draggedItem) {
+      setDraggedItemId(null);
+      setDraggedItemSectionId(null);
+      return;
+    }
+
+    const updatedPlaylist = { ...selectedPlaylist };
+    const updatedSourceSection = updatedPlaylist.sections.find((s) => s.id === sourceSectionId);
+    const updatedTargetSection = updatedPlaylist.sections.find((s) => s.id === targetSectionId);
+
+    if (!updatedSourceSection || !updatedTargetSection) {
+      setDraggedItemId(null);
+      setDraggedItemSectionId(null);
+      return;
+    }
+
+    // Если перетаскиваем в другой раздел
+    if (sourceSectionId !== targetSectionId) {
+      // Удаляем элемент из исходного раздела
+      updatedSourceSection.items = updatedSourceSection.items.filter(item => item.id !== draggedItemId);
+      
+      // Добавляем элемент в целевой раздел
+      if (targetItemId) {
+        // Вставляем перед целевым элементом
+        const targetIndex = updatedTargetSection.items.findIndex(item => item.id === targetItemId);
+        if (targetIndex !== -1) {
+          updatedTargetSection.items.splice(targetIndex, 0, draggedItem);
+        } else {
+          updatedTargetSection.items.push(draggedItem);
         }
+      } else {
+        // Если нет целевого элемента, добавляем в конец
+        updatedTargetSection.items.push(draggedItem);
+      }
+
+      // Обновляем порядок для обоих разделов
+      const sourceOrder = itemOrderBySection.get(sourceSectionId) || updatedSourceSection.items.map(item => item.id);
+      const newSourceOrder = sourceOrder.filter(id => id !== draggedItemId);
+      
+      const targetOrder = itemOrderBySection.get(targetSectionId) || updatedTargetSection.items.map(item => item.id);
+      let newTargetOrder: string[];
+      if (targetItemId) {
+        const targetIndex = targetOrder.indexOf(targetItemId);
+        newTargetOrder = [...targetOrder];
+        newTargetOrder.splice(targetIndex, 0, draggedItemId);
+      } else {
+        newTargetOrder = [...targetOrder, draggedItemId];
+      }
+
+      setItemOrderBySection(prev => {
+        const newMap = new Map(prev);
+        newMap.set(sourceSectionId, newSourceOrder);
+        newMap.set(targetSectionId, newTargetOrder);
+        return newMap;
+      });
+    } else {
+      // Перетаскивание внутри одного раздела
+      if (targetItemId && draggedItemId !== targetItemId) {
+        const currentOrder = itemOrderBySection.get(targetSectionId) || updatedTargetSection.items.map(item => item.id);
+        const draggedIndex = currentOrder.indexOf(draggedItemId);
+        const targetIndex = currentOrder.indexOf(targetItemId);
+
+        if (draggedIndex !== -1 && targetIndex !== -1) {
+          const newOrder = [...currentOrder];
+          newOrder.splice(draggedIndex, 1);
+          newOrder.splice(targetIndex, 0, draggedItemId);
+
+          setItemOrderBySection(prev => {
+            const newMap = new Map(prev);
+            newMap.set(targetSectionId, newOrder);
+            return newMap;
+          });
+
+          const orderedItems = newOrder
+            .map(id => updatedTargetSection.items.find(item => item.id === id))
+            .filter((item): item is PlaylistItem => item !== undefined);
+          const existingIds = new Set(newOrder);
+          const remainingItems = updatedTargetSection.items.filter(item => !existingIds.has(item.id));
+          updatedTargetSection.items = [...orderedItems, ...remainingItems];
+        }
+      } else {
+        setDraggedItemId(null);
+        setDraggedItemSectionId(null);
+        return;
       }
     }
+
+    updatedPlaylist.updatedAt = new Date();
+    setPlaylists((prev) =>
+      prev.map((p) => (p.id === updatedPlaylist.id ? updatedPlaylist : p))
+    );
+    setSelectedPlaylist(updatedPlaylist);
+
+    setDraggedItemId(null);
+    setDraggedItemSectionId(null);
+  };
+
+  const handleSectionDrop = (e: React.DragEvent, sectionId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!draggedItemId || !draggedItemSectionId) {
+      return;
+    }
+    // Если раздел пустой или просто добавляем в конец
+    handleDrop(e, null, sectionId);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedItemId(null);
+    setDraggedItemSectionId(null);
   };
 
   const handleAddSection = () => {
@@ -334,7 +458,7 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
     >
       <div className="px-16 py-6">
         <div className="flex items-center justify-between mb-6">
-          <SerifHeading size="2xl">Плейлист</SerifHeading>
+          <SerifHeading size="2xl" className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl">Плейлист</SerifHeading>
           <div className="flex items-center gap-2">
             <button
               onClick={handleAddItem}
@@ -379,11 +503,34 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
         {selectedPlaylist && (
           <div className="space-y-4">
             {selectedPlaylist.sections.map((section) => {
-              const sortedItems = sortItemsByDate(section.items);
+              // Применяем пользовательский порядок, если он есть, иначе сортируем по дате
+              const customOrder = itemOrderBySection.get(section.id);
+              const itemsToRender = customOrder && customOrder.length === section.items.length
+                ? customOrder
+                  .map(id => section.items.find(item => item.id === id))
+                  .filter((item): item is PlaylistItem => item !== undefined)
+                : sortItemsByDate(section.items);
               const isExpanded = expandedSections.has(section.id);
 
               return (
-                <WellnessCard key={section.id} className="p-4">
+                <WellnessCard 
+                  key={section.id} 
+                  className="p-4"
+                  onDragOver={(e) => {
+                    if (!isExpanded) {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      e.dataTransfer.dropEffect = 'move';
+                    }
+                  }}
+                  onDrop={(e) => {
+                    if (!isExpanded) {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleSectionDrop(e, section.id);
+                    }
+                  }}
+                >
                   {/* Заголовок раздела */}
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2 flex-1">
@@ -428,16 +575,57 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
 
                   {/* Список элементов */}
                   {isExpanded && (
-                    <div className="space-y-3">
-                      {sortedItems.length === 0 ? (
-                        <p className="text-sm text-[#1a1a1a]/50 text-center py-4">
+                    <div 
+                      className="space-y-3"
+                      onDragOver={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        e.dataTransfer.dropEffect = 'move';
+                      }}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleSectionDrop(e, section.id);
+                      }}
+                    >
+                      {itemsToRender.length === 0 ? (
+                        <div
+                          className="text-xs sm:text-sm md:text-base text-[#1a1a1a]/50 text-center py-4"
+                          onDragOver={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            e.dataTransfer.dropEffect = 'move';
+                          }}
+                          onDrop={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleSectionDrop(e, section.id);
+                          }}
+                        >
                           Раздел пуст. Добавьте контент из мультимедийных приложений.
-                        </p>
+                        </div>
                       ) : (
-                        sortedItems.map((item, index) => (
+                        itemsToRender.map((item, index) => {
+                          const isDragging = draggedItemId === item.id;
+                          return (
                           <div
                             key={item.id}
-                            className="flex items-center gap-3 p-3 bg-white/50 rounded-lg hover:bg-white/70 transition-colors group"
+                            draggable
+                            onDragStart={(e) => handleDragStart(e, item.id, section.id)}
+                            onDragOver={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              e.dataTransfer.dropEffect = 'move';
+                            }}
+                            onDrop={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handleDrop(e, item.id, section.id);
+                            }}
+                            onDragEnd={handleDragEnd}
+                            className={`flex items-center gap-3 p-3 bg-white/50 rounded-lg hover:bg-white/70 transition-colors group cursor-move ${
+                              isDragging ? 'opacity-50' : ''
+                            }`}
                           >
                             {/* Иконка типа */}
                             <div className="flex-shrink-0">
@@ -481,20 +669,20 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
                                   autoFocus
                                 />
                               ) : (
-                                <p className="font-medium text-[#1a1a1a] truncate">{item.title}</p>
+                                <p className="font-medium text-[#1a1a1a] truncate text-sm sm:text-base md:text-lg">{item.title}</p>
                               )}
                               <div className="flex items-center gap-2 mt-1">
-                                <span className="text-xs text-[#1a1a1a]/50">
+                                <span className="text-[10px] sm:text-xs md:text-sm text-[#1a1a1a]/50">
                                   {getSourceIcon(item.source)} {item.source}
                                 </span>
                                 {item.duration && (
                                   <>
-                                    <span className="text-xs text-[#1a1a1a]/30">•</span>
-                                    <span className="text-xs text-[#1a1a1a]/50">{item.duration}</span>
+                                    <span className="text-[10px] sm:text-xs md:text-sm text-[#1a1a1a]/30">•</span>
+                                    <span className="text-[10px] sm:text-xs md:text-sm text-[#1a1a1a]/50">{item.duration}</span>
                                   </>
                                 )}
-                                <span className="text-xs text-[#1a1a1a]/30">•</span>
-                                <span className="text-xs text-[#1a1a1a]/50">{formatDate(item.addedAt)}</span>
+                                <span className="text-[10px] sm:text-xs md:text-sm text-[#1a1a1a]/30">•</span>
+                                <span className="text-[10px] sm:text-xs md:text-sm text-[#1a1a1a]/50">{formatDate(item.addedAt)}</span>
                               </div>
                             </div>
 
@@ -502,7 +690,11 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
                             <div className={`flex items-center gap-1 transition-opacity ${editingItem === item.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
                               {editingItem !== item.id && (
                                 <button
-                                  onClick={() => handleEditItem(item.id, section.id)}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleEditItem(item.id, section.id);
+                                  }}
+                                  onMouseDown={(e) => e.stopPropagation()}
                                   className="p-2 text-[#1a1a1a]/50 hover:text-[#1a1a1a] hover:bg-white/50 rounded transition-colors"
                                   title="Редактировать"
                                 >
@@ -529,19 +721,23 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
                                   </button>
                                 </>
                               )}
-                              <button
-                                onClick={() => handleDeleteItem(item.id, section.id)}
-                                className="p-2 text-[#1a1a1a]/50 hover:text-red-600 hover:bg-white/50 rounded transition-colors"
-                                title="Удалить"
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </button>
-                              <div className="p-2 text-[#1a1a1a]/30 cursor-move" title="Переместить">
-                                <GripVertical className="w-4 h-4" />
-                              </div>
+                              {editingItem !== item.id && (
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDeleteItem(item.id, section.id);
+                                  }}
+                                  onMouseDown={(e) => e.stopPropagation()}
+                                  className="p-2 text-[#1a1a1a]/50 hover:text-red-600 hover:bg-white/50 rounded transition-colors"
+                                  title="Удалить"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              )}
                             </div>
                           </div>
-                        ))
+                          );
+                        })
                       )}
                     </div>
                   )}
@@ -555,7 +751,7 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
         {!selectedPlaylist && (
           <WellnessCard gradient="lavender" className="p-8 text-center">
             <Music className="w-16 h-16 text-[#1a1a1a]/20 mx-auto mb-4" />
-            <p className="text-[#1a1a1a]/70 mb-4">Создайте свой первый плейлист</p>
+            <p className="text-sm sm:text-base md:text-lg text-[#1a1a1a]/70 mb-4">Создайте свой первый плейлист</p>
             <PillButton onClick={handleAddItem} variant="gradientMeshPeach">
               <Plus className="w-4 h-4 mr-2" />
               Добавить контент

@@ -42,6 +42,7 @@ export function TrainingPlaylistSelectionScreen({
   const [contentTypeFilter, setContentTypeFilter] = useState<'all' | 'audio' | 'video'>('all');
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(playlist.sections.map(s => s.id)));
   const [draggedTrackId, setDraggedTrackId] = useState<string | null>(null);
+  const [visibleTracksCount, setVisibleTracksCount] = useState<number>(10);
   const [trackOrderBySection, setTrackOrderBySection] = useState<Map<string, string[]>>(() => {
     const orderMap = new Map<string, string[]>();
     playlist.sections.forEach(section => {
@@ -230,9 +231,7 @@ export function TrainingPlaylistSelectionScreen({
             </div>
             <div className="text-right">
               <p className="text-sm text-[#1a1a1a]/70">Выбрано</p>
-              <p className={`text-lg font-semibold ${
-                isDurationSufficient ? 'text-green-600' : 'text-[#1a1a1a]'
-              }`}>
+              <p className="text-lg font-semibold text-[#1a1a1a]">
                 {formatDuration(totalSelectedDuration)}
               </p>
             </div>
@@ -243,7 +242,7 @@ export function TrainingPlaylistSelectionScreen({
             <div
               className={`h-3 rounded-full transition-all ${
                 isDurationSufficient 
-                  ? 'bg-green-500' 
+                  ? 'bg-gradient-to-r from-[#ff8a65] to-[#ff6f4a]' 
                   : 'bg-[#a8d8ea]'
               }`}
               style={{ width: `${Math.min(100, (totalSelectedDuration / requiredDuration) * 100)}%` }}
@@ -257,8 +256,8 @@ export function TrainingPlaylistSelectionScreen({
             </p>
           )}
           {isDurationSufficient && (
-            <p className="text-xs text-green-600 mt-2 font-medium">
-              ✓ Достаточно музыки для тренировки
+            <p className="text-xs text-[#ff8a65] mt-2 font-medium">
+              ✓ Достаточно треков для тренировки
             </p>
           )}
         </WellnessCard>
@@ -377,7 +376,7 @@ export function TrainingPlaylistSelectionScreen({
                     {/* Список треков в разделе */}
                     {isExpanded && (
                       <div className="space-y-2">
-                        {section.items.map((track) => {
+                        {section.items.slice(0, visibleTracksCount).map((track) => {
                           const isSelected = selectedTrackIds.has(track.id);
                           const isDragging = draggedTrackId === track.id;
                           return (
@@ -396,9 +395,9 @@ export function TrainingPlaylistSelectionScreen({
                                 onClick={() => toggleTrack(track.id)}
                                 className="w-full text-left transition-all hover:scale-[1.01] active:scale-[0.99]"
                               >
-                                <WellnessCard 
+                                <WellnessCard
                                   gradient={isSelected ? "blue" : undefined}
-                                  className={`${isSelected ? "border-2 border-[#a8d8ea]" : ""} p-3`}
+                                  className="p-3"
                                   hover={!isSelected && !isDragging}
                                 >
                                 <div className="flex items-center gap-4">
@@ -445,6 +444,31 @@ export function TrainingPlaylistSelectionScreen({
                             </div>
                           );
                         })}
+                        {(section.items.length > visibleTracksCount || visibleTracksCount > 10) && (
+                          <div className="flex items-center justify-center gap-4 mt-2 py-2">
+                            {section.items.length > visibleTracksCount && (
+                              <button
+                                onClick={() => setVisibleTracksCount(prev => Math.min(prev + 10, section.items.length))}
+                                className="text-sm text-[#1a1a1a]/70 hover:text-[#1a1a1a] transition-colors font-medium py-2"
+                              >
+                                Показать 10 ({section.items.length - visibleTracksCount})
+                              </button>
+                            )}
+                            {visibleTracksCount > 10 && (
+                              <>
+                                {section.items.length > visibleTracksCount && (
+                                  <div className="w-px h-4 bg-[#1a1a1a]/20" />
+                                )}
+                                <button
+                                  onClick={() => setVisibleTracksCount(10)}
+                                  className="text-sm text-[#1a1a1a]/50 hover:text-[#1a1a1a] transition-colors py-2"
+                                >
+                                  Скрыть
+                                </button>
+                              </>
+                            )}
+                          </div>
+                        )}
                       </div>
                     )}
                   </WellnessCard>
