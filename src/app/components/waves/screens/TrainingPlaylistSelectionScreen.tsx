@@ -217,9 +217,9 @@ export function TrainingPlaylistSelectionScreen({
         <SerifHeading size="xl">Выберите треки</SerifHeading>
       </div>
 
-      <div className="flex-1 px-16 py-8 overflow-y-auto">
+      <div className="flex-1 px-16 py-8 flex flex-col overflow-hidden">
         {/* Информация о длительности тренировки */}
-        <WellnessCard gradient="blue" className="mb-6">
+        <WellnessCard gradient="blue" className="mb-6 flex-shrink-0">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <Clock className="w-5 h-5 text-[#1a1a1a]/70" />
@@ -264,7 +264,7 @@ export function TrainingPlaylistSelectionScreen({
         </WellnessCard>
 
         {/* Поиск и фильтры */}
-        <div className="mb-6 space-y-4">
+        <div className="mb-6 space-y-4 flex-shrink-0">
           {/* Поиск */}
           <div className="relative">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[#1a1a1a]/40" />
@@ -323,19 +323,20 @@ export function TrainingPlaylistSelectionScreen({
         </div>
 
         {/* Список треков по разделам */}
-        <div className="mb-6">
-          <h2 className="text-lg font-semibold text-[#1a1a1a] mb-4">{playlist.name}</h2>
+        <div className="flex-1 flex flex-col min-h-0 mb-6">
+          <h2 className="text-lg font-semibold text-[#1a1a1a] mb-4 flex-shrink-0">{playlist.name}</h2>
           
-          {filteredSections.length === 0 ? (
-            <WellnessCard gradient="lavender" className="p-8 text-center">
-              <p className="text-[#1a1a1a]/70">
-                {searchQuery 
-                  ? 'Ничего не найдено по запросу' 
-                  : 'Нет доступных треков'}
-              </p>
-            </WellnessCard>
-          ) : (
-            <div className="space-y-4">
+          <div className="flex-1 overflow-y-auto min-h-0">
+            {filteredSections.length === 0 ? (
+              <WellnessCard gradient="lavender" className="p-8 text-center">
+                <p className="text-[#1a1a1a]/70">
+                  {searchQuery 
+                    ? 'Ничего не найдено по запросу' 
+                    : 'Нет доступных треков'}
+                </p>
+              </WellnessCard>
+            ) : (
+              <div className="space-y-4 pr-2">
               {filteredSections.map((section) => {
                 const isExpanded = expandedSections.has(section.id);
                 const sectionSelectedCount = section.items.filter(item => selectedTrackIds.has(item.id)).length;
@@ -449,27 +450,30 @@ export function TrainingPlaylistSelectionScreen({
                   </WellnessCard>
                 );
               })}
-            </div>
-          )}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Кнопка Продолжить */}
-        <PillButton 
-          onClick={handleContinue} 
-          variant="gradientMesh" 
-          className="w-full mb-3"
-          disabled={!isDurationSufficient}
-        >
-          Продолжить
-        </PillButton>
+        <div className="flex-shrink-0">
+          <PillButton 
+            onClick={handleContinue} 
+            variant="gradientMesh" 
+            className="w-full mb-3"
+            disabled={!isDurationSufficient}
+          >
+            Продолжить
+          </PillButton>
 
-        {/* Кнопка Назад */}
-        <button
-          onClick={onBack}
-          className="w-full text-center text-[#1a1a1a]/70 hover:text-[#1a1a1a] py-3 text-sm transition-colors"
-        >
-          Назад
-        </button>
+          {/* Кнопка Назад */}
+          <button
+            onClick={onBack}
+            className="w-full text-center text-[#1a1a1a]/70 hover:text-[#1a1a1a] py-3 text-sm transition-colors"
+          >
+            Назад
+          </button>
+        </div>
       </div>
     </div>
   );

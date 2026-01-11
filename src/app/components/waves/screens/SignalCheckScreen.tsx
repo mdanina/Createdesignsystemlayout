@@ -114,7 +114,48 @@ export function SignalCheckScreen({ onBack, onAllGood }: SignalCheckScreenProps)
         {/* Схема головы */}
         <div className="relative w-64 h-64 mx-auto mb-8">
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-32 h-32 bg-[#1a1a1a]/5 rounded-full"></div>
+            {/* Фигура головы вид сверху */}
+            <svg 
+              width="128" 
+              height="128" 
+              viewBox="0 0 128 128" 
+              className="w-32 h-32"
+              fill="none"
+            >
+              {/* Голова (овал) */}
+              <ellipse 
+                cx="64" 
+                cy="64" 
+                rx="48" 
+                ry="60" 
+                fill="#1a1a1a" 
+                fillOpacity="0.05"
+                className="stroke-[#1a1a1a]/10"
+                strokeWidth="1.5"
+              />
+              {/* Левое ухо */}
+              <ellipse 
+                cx="24" 
+                cy="64" 
+                rx="8" 
+                ry="12" 
+                fill="#1a1a1a" 
+                fillOpacity="0.05"
+                className="stroke-[#1a1a1a]/10"
+                strokeWidth="1.5"
+              />
+              {/* Правое ухо */}
+              <ellipse 
+                cx="104" 
+                cy="64" 
+                rx="8" 
+                ry="12" 
+                fill="#1a1a1a" 
+                fillOpacity="0.05"
+                className="stroke-[#1a1a1a]/10"
+                strokeWidth="1.5"
+              />
+            </svg>
           </div>
           {/* Датчики */}
           {[0, 1, 2, 3].map((index) => {
