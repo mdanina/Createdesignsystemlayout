@@ -212,7 +212,7 @@ export function TrainingPlaylistSelectionScreen({
     <div 
       className="flex flex-col min-h-screen"
       style={{
-        backgroundImage: 'url(/bg3.png)',
+        backgroundImage: 'url(/bg.png)',
         backgroundSize: 'cover',
         backgroundPosition: 'top center',
         backgroundRepeat: 'no-repeat',
