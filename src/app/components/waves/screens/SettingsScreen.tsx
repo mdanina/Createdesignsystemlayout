@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronRight, User, Bell, Shield, LogOut, ChevronDown, Plus, ExternalLink } from 'lucide-react';
+import { ChevronRight, User, Bell, Shield, LogOut, ChevronDown, Plus, ExternalLink, Radio, CheckCircle2 } from 'lucide-react';
 import { Toggle } from '../../design-system/Toggle';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
@@ -14,11 +14,21 @@ interface SubProfile {
   type?: 'child' | 'adult';
 }
 
+interface Device {
+  id: string;
+  name: string;
+  batteryLevel?: number;
+}
+
 interface SettingsScreenProps {
   currentProfile: SubProfile | null;
   allProfiles: SubProfile[];
   onProfileChange: (profileId: string) => void;
   onProfileClick?: () => void;
+  currentDevice?: Device | null;
+  allDevices?: Device[];
+  onDeviceChange?: (deviceId: string) => void;
+  onAddDevice?: () => void;
   onLogout: () => void;
 }
 
@@ -27,29 +37,38 @@ export function SettingsScreen({
   allProfiles,
   onProfileChange,
   onProfileClick,
+  currentDevice,
+  allDevices = [],
+  onDeviceChange,
+  onAddDevice,
   onLogout,
 }: SettingsScreenProps) {
   const [notifications, setNotifications] = React.useState(true);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = React.useState(false);
+  const [isDeviceDropdownOpen, setIsDeviceDropdownOpen] = React.useState(false);
   const [isAddUserModalOpen, setIsAddUserModalOpen] = React.useState(false);
-  const dropdownRef = React.useRef<HTMLDivElement>(null);
+  const profileDropdownRef = React.useRef<HTMLDivElement>(null);
+  const deviceDropdownRef = React.useRef<HTMLDivElement>(null);
 
-  // Закрытие выпадающего списка при клике вне его
+  // Закрытие выпадающего списка профилей при клике вне его
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (profileDropdownRef.current && !profileDropdownRef.current.contains(event.target as Node)) {
         setIsProfileDropdownOpen(false);
+      }
+      if (deviceDropdownRef.current && !deviceDropdownRef.current.contains(event.target as Node)) {
+        setIsDeviceDropdownOpen(false);
       }
     };
 
-    if (isProfileDropdownOpen) {
+    if (isProfileDropdownOpen || isDeviceDropdownOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isProfileDropdownOpen]);
+  }, [isProfileDropdownOpen, isDeviceDropdownOpen]);
 
   return (
     <div 
@@ -70,7 +89,7 @@ export function SettingsScreen({
         <WellnessCard className="mb-6">
           <div className="mb-3">
             <p className="font-semibold text-gray-900 mb-3">Сменить пользователя</p>
-            <div className="relative" ref={dropdownRef}>
+            <div className="relative" ref={profileDropdownRef}>
               <button
                 onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
                 className="w-full flex items-center justify-between p-3 bg-white rounded-lg hover:bg-gray-50 border border-[#1a1a1a]/10"
@@ -122,6 +141,88 @@ export function SettingsScreen({
             <Plus className="w-5 h-5" />
             <span className="font-medium">Добавить пользователя</span>
           </button>
+        </WellnessCard>
+
+        {/* Выбор устройства */}
+        <WellnessCard className="mb-6">
+          <div className="mb-3">
+            <p className="font-semibold text-gray-900 mb-3">Выбрать устройство</p>
+            <div className="relative" ref={deviceDropdownRef}>
+              <button
+                onClick={() => allDevices.length > 0 && setIsDeviceDropdownOpen(!isDeviceDropdownOpen)}
+                disabled={allDevices.length === 0}
+                className="w-full flex items-center justify-between p-3 bg-white rounded-lg hover:bg-gray-50 border border-[#1a1a1a]/10 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <div className="flex items-center gap-3">
+                  <Radio className="w-5 h-5 text-gray-600" />
+                  {currentDevice ? (
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-[#a8d8ea]" />
+                      <span className="text-gray-900">
+                        {currentDevice.id}
+                      </span>
+                      {currentDevice.batteryLevel !== undefined && (
+                        <span className="text-xs text-gray-500">
+                          ({currentDevice.batteryLevel}%)
+                        </span>
+                      )}
+                    </div>
+                  ) : (
+                    <span className="text-gray-900">Выберите устройство</span>
+                  )}
+                </div>
+                {allDevices.length > 0 && (
+                  <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform ${isDeviceDropdownOpen ? 'rotate-180' : ''}`} />
+                )}
+              </button>
+              
+              {isDeviceDropdownOpen && allDevices.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-[#1a1a1a]/10 rounded-lg shadow-lg z-10 max-h-60 overflow-y-auto">
+                  {allDevices.map((device) => (
+                    <button
+                      key={device.id}
+                      onClick={() => {
+                        onDeviceChange?.(device.id);
+                        setIsDeviceDropdownOpen(false);
+                      }}
+                      className={`w-full flex items-center gap-3 p-3 hover:bg-gray-50 transition-colors ${
+                        currentDevice?.id === device.id ? 'bg-[#a8d8ea]/10' : ''
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        {currentDevice?.id === device.id ? (
+                          <CheckCircle2 className="w-5 h-5 text-[#a8d8ea]" />
+                        ) : (
+                          <Radio className="w-5 h-5 text-gray-600" />
+                        )}
+                      </div>
+                      <div className="flex-1 text-left">
+                        <p className="text-gray-900 font-medium">{device.id}</p>
+                        <p className="text-xs text-gray-500">{device.name}</p>
+                        {device.batteryLevel !== undefined && (
+                          <p className="text-xs text-gray-400">{device.batteryLevel}% заряда</p>
+                        )}
+                      </div>
+                      {currentDevice?.id === device.id && (
+                        <div className="w-2 h-2 bg-[#a8d8ea] rounded-full"></div>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+          
+          {/* Кнопка добавить устройство */}
+          {onAddDevice && (
+            <button
+              onClick={onAddDevice}
+              className="w-full flex items-center justify-center gap-2 p-3 text-[#a8d8ea] hover:text-[#8bc9e0] hover:bg-[#a8d8ea]/10 rounded-lg transition-colors border border-[#a8d8ea]/20 mt-3"
+            >
+              <Plus className="w-5 h-5" />
+              <span className="font-medium">Добавить новое устройство</span>
+            </button>
+          )}
         </WellnessCard>
 
         {/* Модальное окно для добавления пользователя */}

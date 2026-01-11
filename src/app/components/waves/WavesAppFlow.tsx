@@ -87,6 +87,12 @@ export function WavesAppFlow() {
   const [connectedDeviceBattery, setConnectedDeviceBattery] = useState<number | null>(null);
   const [lastTrainingSessionId, setLastTrainingSessionId] = useState<string | null>(null);
   
+  // Список доступных устройств (mock данные)
+  const availableDevices = [
+    { id: 'Flex4-12345', name: 'Flex4', batteryLevel: 85 },
+    { id: 'Flex4-67890', name: 'Flex4', batteryLevel: 15 },
+  ];
+  
   // Список доступных программ тренировок
   const availablePrograms = [
     { id: 'tbr', name: 'Концентрация', eyesOpen: true, waves: 'Theta/Beta (4-7 / 15-20 Hz)' },
@@ -691,6 +697,16 @@ export function WavesAppFlow() {
               }
             }}
             onProfileClick={() => setCurrentScreen('profile')}
+            currentDevice={connectedDevice ? availableDevices.find(d => d.id === connectedDevice) || { id: connectedDevice, name: 'Flex4', batteryLevel: connectedDeviceBattery ?? undefined } : null}
+            allDevices={availableDevices}
+            onDeviceChange={(deviceId) => {
+              const device = availableDevices.find(d => d.id === deviceId);
+              if (device) {
+                setConnectedDevice(device.id);
+                setConnectedDeviceBattery(device.batteryLevel);
+              }
+            }}
+            onAddDevice={() => setCurrentScreen('device-connection')}
             onLogout={() => setCurrentScreen('login')}
           />
         );

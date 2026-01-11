@@ -89,7 +89,7 @@ export function DeviceConnectionScreen({
           <>
             <SerifHeading size="2xl" className="mb-2 text-center">Подключите устройство</SerifHeading>
             <p className="text-[#1a1a1a]/70 mb-8 text-center">
-              Нажмите кнопку питания на Flex4
+              Подключите блок питания к устройству
             </p>
           </>
         )}
