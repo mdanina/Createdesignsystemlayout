@@ -1,15 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { X, MessageCircle, Loader2 } from 'lucide-react';
+import { X, MessageCircle, Loader2, CheckCircle2, AlertTriangle } from 'lucide-react';
 import { PillButton } from '../../design-system/PillButton';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
 
+interface Device {
+  id: string;
+  name: string;
+  batteryLevel: number;
+}
+
 interface DeviceConnectionScreenProps {
   onClose: () => void;
   onSupport: () => void;
-  onConnected: (deviceId: string) => void;
+  onConnected: (deviceId: string, batteryLevel: number) => void;
   onNoDevice: () => void;
 }
+
+// Mock данные устройств с уровнем заряда
+const mockDevices: Device[] = [
+  { id: 'Flex4-12345', name: 'Flex4', batteryLevel: 85 },
+  { id: 'Flex4-67890', name: 'Flex4', batteryLevel: 15 },
+];
 
 export function DeviceConnectionScreen({
   onClose,
@@ -18,17 +30,36 @@ export function DeviceConnectionScreen({
   onNoDevice,
 }: DeviceConnectionScreenProps) {
   const [isSearching, setIsSearching] = useState(true);
-  const [foundDevices, setFoundDevices] = useState<string[]>([]);
+  const [foundDevices, setFoundDevices] = useState<Device[]>([]);
+  const [connectedDevice, setConnectedDevice] = useState<Device | null>(null);
+  const [connectingDeviceId, setConnectingDeviceId] = useState<string | null>(null);
 
   useEffect(() => {
     // Симуляция поиска устройств
     const timer = setTimeout(() => {
       setIsSearching(false);
-      setFoundDevices(['Flex4-12345', 'Flex4-67890']);
+      setFoundDevices(mockDevices);
     }, 2000);
 
     return () => clearTimeout(timer);
   }, []);
+
+  const handleDeviceSelect = async (device: Device) => {
+    setConnectingDeviceId(device.id);
+    // Симуляция подключения устройства
+    setTimeout(() => {
+      setConnectedDevice(device);
+      setConnectingDeviceId(null);
+      // НЕ вызываем onConnected здесь - только при нажатии "Продолжить"
+    }, 1500);
+  };
+
+  const handleContinue = () => {
+    if (connectedDevice) {
+      // Передаем информацию о подключенном устройстве родителю для перехода на следующий экран
+      onConnected(connectedDevice.id, connectedDevice.batteryLevel);
+    }
+  };
 
   return (
     <div className="flex flex-col bg-white min-h-screen">
@@ -44,10 +75,24 @@ export function DeviceConnectionScreen({
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center px-16 py-12">
-        <SerifHeading size="2xl" className="mb-2 text-center">Подключите устройство</SerifHeading>
-        <p className="text-[#1a1a1a]/70 mb-8 text-center">
-          Нажмите кнопку питания на Flex4
-        </p>
+        {connectedDevice ? (
+          <>
+            <SerifHeading size="2xl" className="mb-2 text-center">Устройство подключено</SerifHeading>
+            <p className="text-[#1a1a1a]/70 mb-8 text-center">
+              {connectedDevice.batteryLevel < 20 
+                ? 'Рекомендуется дозарядить устройство перед началом тренировки'
+                : 'Устройство готово к использованию'
+              }
+            </p>
+          </>
+        ) : (
+          <>
+            <SerifHeading size="2xl" className="mb-2 text-center">Подключите устройство</SerifHeading>
+            <p className="text-[#1a1a1a]/70 mb-8 text-center">
+              Нажмите кнопку питания на Flex4
+            </p>
+          </>
+        )}
 
         {/* Анимация поиска */}
         {isSearching && (
@@ -60,23 +105,102 @@ export function DeviceConnectionScreen({
         {/* Список найденных устройств */}
         {!isSearching && foundDevices.length > 0 && (
           <div className="w-full max-w-sm space-y-3 mb-6">
-            {foundDevices.map((device) => (
-              <button
-                key={device}
-                onClick={() => onConnected(device)}
-                className="w-full text-left transition-all hover:scale-[1.02]"
-              >
-                <WellnessCard gradient="blue" hover>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="font-semibold text-[#1a1a1a]">{device}</h3>
-                      <p className="text-sm text-[#1a1a1a]/70">Flex4</p>
-                    </div>
-                    <span className="text-2xl">📡</span>
-                  </div>
-                </WellnessCard>
-              </button>
-            ))}
+            {foundDevices.map((device) => {
+              const isConnected = connectedDevice?.id === device.id;
+              const isConnecting = connectingDeviceId === device.id;
+              
+              return (
+                <div key={device.id} className="w-full">
+                  <button
+                    onClick={() => !isConnected && !isConnecting && handleDeviceSelect(device)}
+                    disabled={isConnected || isConnecting}
+                    className={`w-full text-left transition-all ${
+                      !isConnected && !isConnecting 
+                        ? 'hover:scale-[1.02] opacity-70 hover:opacity-100' 
+                        : 'cursor-not-allowed'
+                    }`}
+                  >
+                    <WellnessCard 
+                      gradient="blue" 
+                      hover={!isConnected && !isConnecting}
+                      className={isConnected ? "border-2 border-[#a8d8ea] opacity-100" : "opacity-70"}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h3 className="font-semibold text-[#1a1a1a]">{device.id}</h3>
+                            {isConnected && (
+                              <CheckCircle2 className="w-5 h-5 text-[#a8d8ea] flex-shrink-0" />
+                            )}
+                            {isConnecting && (
+                              <Loader2 className="w-5 h-5 text-[#a8d8ea] animate-spin flex-shrink-0" />
+                            )}
+                          </div>
+                          <p className="text-sm text-[#1a1a1a]/70 mb-2">{device.name}</p>
+                          
+                          {/* Показываем заряд только если устройство подключено */}
+                          {isConnected && (
+                            <div className="mt-2 pt-2 border-t border-[#1a1a1a]/10">
+                              <div className="flex items-center justify-between mb-1">
+                                <span className="text-xs text-[#1a1a1a]/70">Заряд</span>
+                                <span className={`text-xs font-semibold ${
+                                  device.batteryLevel < 20 ? 'text-orange-600' : 'text-[#1a1a1a]'
+                                }`}>
+                                  {device.batteryLevel}%
+                                </span>
+                              </div>
+                              <div className="w-full bg-[#1a1a1a]/10 rounded-full h-1.5">
+                                <div
+                                  className={`h-1.5 rounded-full transition-all ${
+                                    device.batteryLevel < 20 
+                                      ? 'bg-orange-500' 
+                                      : 'bg-[#a8d8ea]'
+                                  }`}
+                                  style={{ width: `${device.batteryLevel}%` }}
+                                ></div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                        {!isConnected && !isConnecting && (
+                          <span className="text-2xl">📡</span>
+                        )}
+                      </div>
+                    </WellnessCard>
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Уведомление о низком заряде */}
+        {connectedDevice && connectedDevice.batteryLevel < 20 && (
+          <WellnessCard gradient="lavender" className="w-full max-w-sm mb-4">
+            <div className="flex items-start gap-3">
+              <AlertTriangle className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-sm font-semibold text-[#1a1a1a] mb-1">
+                  Низкий заряд устройства
+                </p>
+                <p className="text-xs text-[#1a1a1a]/80">
+                  Рекомендуется дозарядить устройство перед началом тренировки. Текущий заряд: {connectedDevice.batteryLevel}%
+                </p>
+              </div>
+            </div>
+          </WellnessCard>
+        )}
+
+        {/* Кнопка Продолжить после подключения */}
+        {connectedDevice && (
+          <div className="w-full max-w-sm">
+            <PillButton 
+              onClick={handleContinue} 
+              variant="gradientMesh" 
+              className="w-full"
+            >
+              Продолжить
+            </PillButton>
           </div>
         )}
 
@@ -89,12 +213,15 @@ export function DeviceConnectionScreen({
           </div>
         )}
 
-        <button
-          onClick={onNoDevice}
-          className="text-sm text-[#1a1a1a]/50 hover:text-[#1a1a1a]/70 underline"
-        >
-          У меня нет устройства
-        </button>
+        {/* Кнопка "У меня нет устройства" - показываем только если устройство не подключено */}
+        {!connectedDevice && (
+          <button
+            onClick={onNoDevice}
+            className="text-sm text-[#1a1a1a]/50 hover:text-[#1a1a1a]/70 underline"
+          >
+            У меня нет устройства
+          </button>
+        )}
       </div>
     </div>
   );

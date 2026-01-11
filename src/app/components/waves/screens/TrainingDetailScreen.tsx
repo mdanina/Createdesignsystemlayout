@@ -27,10 +27,10 @@ interface TrainingDetailScreenProps {
 export function TrainingDetailScreen({ session, onBack }: TrainingDetailScreenProps) {
   // Генерируем данные для графика динамики (симуляция данных за сессию)
   // В реальном приложении эти данные будут приходить с сервера
-  const chartData = useMemo(() => {
-    if (!session) return [];
+  const chartData = useMemo<Array<{ time: string; value: number }>>(() => {
+    if (!session) return [] as Array<{ time: string; value: number }>;
     
-    const data = [];
+    const data: Array<{ time: string; value: number }> = [];
     const intervals = Math.floor(session.duration / 2); // Точка каждые 2 минуты
     // Используем ID сессии как seed для стабильной генерации
     const seed = parseInt(session.id) || 0;
@@ -192,8 +192,8 @@ export function TrainingDetailScreen({ session, onBack }: TrainingDetailScreenPr
           </WellnessCard>
         )}
 
-        {/* График динамики */}
-        {session.timeInZone > 0 && (
+        {/* График динамики - показываем для всех тренировок, кроме технических проблем */}
+        {session.endReason !== 'technical' && chartData.length > 0 && (
           <WellnessCard className="mb-6">
             <h3 className="text-lg font-semibold text-[#1a1a1a] mb-4">Динамика в течение сессии</h3>
             <MoodChart

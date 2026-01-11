@@ -84,6 +84,7 @@ export function WavesAppFlow() {
   const [isFirstLaunch, setIsFirstLaunch] = useState(true);
   const [selectedTrainingType, setSelectedTrainingType] = useState<string>('tbr');
   const [connectedDevice, setConnectedDevice] = useState<string | null>(null);
+  const [connectedDeviceBattery, setConnectedDeviceBattery] = useState<number | null>(null);
   const [lastTrainingSessionId, setLastTrainingSessionId] = useState<string | null>(null);
   
   // Список доступных программ тренировок
@@ -209,28 +210,35 @@ export function WavesAppFlow() {
       // Дыхательные упражнения не требуют устройства
       setCurrentScreen('check-in');
     } else {
-      // Для других тренировок нужен check-in и устройство
-      setCurrentScreen('check-in');
+      // Для других тренировок сначала проверяем подключение устройства
+      if (!connectedDevice) {
+        setCurrentScreen('device-connection');
+      } else {
+        // Если устройство уже подключено, переходим сразу к советам
+        setCurrentScreen('training-tips');
+      }
     }
   };
 
   const handleCheckInComplete = () => {
     if (selectedTrainingType === 'breathing') {
       setCurrentScreen('breathing-training');
-    } else if (!connectedDevice) {
-      setCurrentScreen('device-connection');
     } else {
-      setCurrentScreen('training-tips');
+      // После чекина переходим к старту тренировки
+      setCurrentScreen('active-training');
     }
   };
 
-  const handleDeviceConnected = (deviceId: string) => {
+  const handleDeviceConnected = (deviceId: string, batteryLevel?: number) => {
     setConnectedDevice(deviceId);
-    setCurrentScreen('device-connected');
+    if (batteryLevel !== undefined) {
+      setConnectedDeviceBattery(batteryLevel);
+    }
   };
 
   const handleDeviceContinue = () => {
-    setCurrentScreen('wearing-instruction');
+    // После подключения устройства переходим к советам в карточках
+    setCurrentScreen('training-tips');
   };
 
   const handleWearingReady = () => {
@@ -238,15 +246,18 @@ export function WavesAppFlow() {
   };
 
   const handleSignalCheckComplete = () => {
+    // После проверки сигнала переходим к подтверждению начала тренировки (экран "Текущая программа")
     setCurrentScreen('training-selection');
   };
 
   const handleTrainingTipsContinue = () => {
-    setCurrentScreen('active-training');
+    // После советов переходим к инструктажу по надеванию устройства
+    setCurrentScreen('wearing-instruction');
   };
 
   const handleTrainingStart = () => {
-    setCurrentScreen('training-tips');
+    // После подтверждения начала тренировки переходим к чекину
+    setCurrentScreen('check-in');
   };
 
   const handleTrainingComplete = (
@@ -440,7 +451,11 @@ export function WavesAppFlow() {
               setCurrentScreen('home');
             }}
             onSupport={() => setIsSupportModalOpen(true)}
-            onConnected={handleDeviceConnected}
+            onConnected={(deviceId, batteryLevel) => {
+              handleDeviceConnected(deviceId, batteryLevel);
+              // Переходим сразу к советам (убрали промежуточный экран device-connected)
+              setCurrentScreen('training-tips');
+            }}
             onNoDevice={() => {
               // Проверяем статус устройства и подписки
               if (!hasDevice && !hasSubscription) {
@@ -461,6 +476,7 @@ export function WavesAppFlow() {
         return (
           <DeviceConnectedScreen
             deviceId={connectedDevice || 'Flex4-12345'}
+            batteryLevel={connectedDeviceBattery ?? undefined}
             onContinue={handleDeviceContinue}
             onClose={() => {
               setConnectedDevice(null);
@@ -509,7 +525,7 @@ export function WavesAppFlow() {
       case 'wearing-instruction':
         return (
           <WearingInstructionScreen
-            onBack={() => setCurrentScreen('device-connected')}
+            onBack={() => setCurrentScreen('training-tips')}
             onReady={handleWearingReady}
           />
         );
@@ -526,8 +542,8 @@ export function WavesAppFlow() {
         return (
           <TrainingTipsScreen
             onBack={() => {
-              // Возвращаемся к выбору тренировки
-              setCurrentScreen('training-selection');
+              // Возвращаемся на home (так как training-tips может быть первым экраном после "Начать тренировку", если устройство уже подключено)
+              setCurrentScreen('home');
             }}
             onContinue={handleTrainingTipsContinue}
           />
@@ -550,12 +566,8 @@ export function WavesAppFlow() {
               setIsProgramSelectionModalOpen(true);
             }}
             onBack={() => {
-              // Возвращаемся на предыдущий экран в зависимости от контекста
-              if (connectedDevice) {
-                setCurrentScreen('signal-check');
-              } else {
-                setCurrentScreen('home');
-              }
+              // Возвращаемся на проверку сигнала
+              setCurrentScreen('signal-check');
             }}
           />
         );
@@ -599,6 +611,15 @@ export function WavesAppFlow() {
             technicalIssue={lastTrainingData?.technicalIssue}
             trainingType={selectedTrainingType}
             onComplete={handleTrainingCompleteDone}
+            onRetry={
+              lastTrainingData?.endReason === 'technical'
+                ? () => {
+                    // Возвращаемся к чекину для повторного запуска тренировки
+                    // (устройство уже подключено, настройки уже выбраны)
+                    setCurrentScreen('check-in');
+                  }
+                : undefined
+            }
           />
         );
 

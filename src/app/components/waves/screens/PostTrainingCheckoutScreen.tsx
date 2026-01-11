@@ -37,20 +37,20 @@ export function PostTrainingCheckoutScreen({
 
   return (
     <div className="flex flex-col bg-white min-h-screen">
-      <div className="flex-1 px-16 py-8">
-        <div className="flex items-center justify-between mb-8">
-          <SerifHeading size="2xl">
+      <div className="flex-1 px-4 sm:px-8 md:px-16 py-4 sm:py-6 md:py-8">
+        <div className="flex items-center justify-between mb-4 sm:mb-6 md:mb-8">
+          <SerifHeading size="2xl" className="text-xl sm:text-2xl md:text-3xl lg:text-4xl">
             Как {childName} себя чувствует после тренировки?
           </SerifHeading>
           <button onClick={onSkip} className="text-[#1a1a1a]/40 hover:text-[#1a1a1a]/60">
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         </div>
 
         {/* Настроение */}
-        <div className="mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Настроение</h2>
-          <div className="grid grid-cols-5 gap-5">
+        <div className="mb-4 sm:mb-6 md:mb-8">
+          <h2 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Настроение</h2>
+          <div className="grid grid-cols-5 gap-2 sm:gap-3 md:gap-4 lg:gap-5">
             {moodOptions.map((option) => {
               const isSelected = mood === option.value;
               return (
@@ -62,7 +62,7 @@ export function PostTrainingCheckoutScreen({
                   }`}
                 >
                   <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl transition-all ${
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-xl sm:text-2xl transition-all ${
                       isSelected
                         ? 'bg-white shadow-[0_4px_15px_rgba(0,0,0,0.1)] scale-110'
                         : 'bg-white/50 hover:bg-white/80'
@@ -71,7 +71,7 @@ export function PostTrainingCheckoutScreen({
                     {option.emoji}
                   </div>
                   <span
-                    className={`text-xs transition-opacity ${
+                    className={`text-[10px] sm:text-xs md:text-sm transition-opacity ${
                       isSelected ? 'opacity-100 font-medium' : 'opacity-60'
                     }`}
                   >
@@ -84,9 +84,9 @@ export function PostTrainingCheckoutScreen({
         </div>
 
         {/* Концентрация */}
-        <div className="mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Концентрация</h2>
-          <div className="grid grid-cols-5 gap-5">
+        <div className="mb-4 sm:mb-6 md:mb-8">
+          <h2 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Концентрация</h2>
+          <div className="grid grid-cols-5 gap-2 sm:gap-3 md:gap-4 lg:gap-5">
             {concentrationLevels.map((level) => {
               const isSelected = concentration === level.value;
               return (
@@ -120,9 +120,9 @@ export function PostTrainingCheckoutScreen({
         </div>
 
         {/* Понравилась тренировка */}
-        <div className="mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Понравилась тренировка?</h2>
-          <div className="relative py-6">
+        <div className="mb-4 sm:mb-6 md:mb-8">
+          <h2 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Понравилась тренировка?</h2>
+          <div className="relative py-4 sm:py-5 md:py-6">
             {/* Slider track */}
             <div className="relative h-2 w-full bg-gradient-to-r from-gray-100 to-gray-200 rounded-full overflow-visible shadow-inner">
               {/* Fill */}
@@ -138,14 +138,14 @@ export function PostTrainingCheckoutScreen({
             
             {/* Thumb */}
             <div
-              className="absolute w-12 h-12 rounded-full transition-all duration-200 flex items-center justify-center pointer-events-none top-1/2 -translate-y-1/2"
+              className="absolute w-10 h-10 sm:w-12 sm:h-12 rounded-full transition-all duration-200 flex items-center justify-center pointer-events-none top-1/2 -translate-y-1/2"
               style={{
-                left: `calc(${(rating - 1) / 4 * 100}% - 24px)`,
+                left: `calc(${(rating - 1) / 4 * 100}% - 20px)`,
                 background: `radial-gradient(circle at 30% 30%, #F3B83Aff, #F3B83Acc, #F3B83A99)`,
                 boxShadow: `0 6px 20px #F3B83A50, 0 2px 8px #F3B83A40, inset 0 1px 2px rgba(255,255,255,0.3)`,
               }}
             >
-              <div className="w-3 h-3 bg-white/90 rounded-full shadow-sm" />
+              <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-white/90 rounded-full shadow-sm" />
             </div>
             
             {/* Input */}
@@ -179,7 +179,7 @@ export function PostTrainingCheckoutScreen({
           Готово
         </PillButton>
 
-        <button onClick={onSkip} className="w-full text-center text-[#1a1a1a]/50 hover:text-[#1a1a1a]/70 text-sm">
+        <button onClick={onSkip} className="w-full text-center text-[#1a1a1a]/50 hover:text-[#1a1a1a]/70 text-xs sm:text-sm md:text-base">
           Пропустить
         </button>
       </div>
