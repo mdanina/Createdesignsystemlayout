@@ -97,13 +97,50 @@ export function WavesAppFlow() {
   ];
 
   // Mock плейлист пользователя (в реальном приложении будет загружаться из API)
-  const userPlaylist = [
-    { id: '1', title: 'Успокаивающая музыка для концентрации', artist: 'Meditation Music', duration: 930 }, // 15:30
-    { id: '2', title: 'Медитация для детей - Лес', artist: 'Nature Sounds', duration: 765 }, // 12:45
-    { id: '3', title: 'Дыхательные упражнения - Анимация', artist: 'Relaxing Sounds', duration: 620 }, // 10:20
-    { id: '4', title: 'Бинауральные биты Alpha', artist: 'Binaural Beats', duration: 1200 }, // 20:00
-    { id: '5', title: 'Тихая музыка для фокуса', artist: 'Focus Music', duration: 600 }, // 10:00
-  ];
+  // Используем ту же структуру и данные, что и в PlaylistScreen
+  const userPlaylist = {
+    id: 'default',
+    name: 'Мой плейлист',
+    sections: [
+      {
+        id: 'default-section',
+        name: 'Все',
+        items: [
+          {
+            id: '1',
+            title: 'Успокаивающая музыка для концентрации',
+            type: 'audio' as const,
+            source: 'spotify' as const,
+            duration: '15:30',
+            addedAt: new Date(2024, 0, 15),
+            url: 'https://open.spotify.com/track/example',
+          },
+          {
+            id: '2',
+            title: 'Медитация для детей - Лес',
+            type: 'video' as const,
+            source: 'youtube' as const,
+            thumbnail: 'https://img.youtube.com/vi/example/mqdefault.jpg',
+            duration: '12:45',
+            addedAt: new Date(2024, 0, 14),
+            url: 'https://youtube.com/watch?v=example',
+          },
+          {
+            id: '3',
+            title: 'Дыхательные упражнения - Анимация',
+            type: 'video' as const,
+            source: 'youtube' as const,
+            thumbnail: 'https://img.youtube.com/vi/example2/mqdefault.jpg',
+            duration: '10:20',
+            addedAt: new Date(2024, 0, 13),
+            url: 'https://youtube.com/watch?v=example2',
+          },
+        ],
+      },
+    ],
+    createdAt: new Date(2024, 0, 1),
+    updatedAt: new Date(2024, 0, 15),
+  };
   
   // Список доступных программ тренировок
   const availablePrograms = [
@@ -621,7 +658,6 @@ export function WavesAppFlow() {
           <ActiveTrainingScreen
             trainingType={selectedTrainingType}
             duration={16 * 60} // 16 минут в секундах
-            onPause={() => setCurrentScreen('training-pause')}
             onComplete={(endReason, timeElapsed, technicalIssue) => handleTrainingComplete(endReason, timeElapsed, technicalIssue)}
             onTechnicalIssue={() => {
               // Симуляция технической проблемы - можно вызвать при потере сигнала
@@ -636,9 +672,6 @@ export function WavesAppFlow() {
         return (
           <BreathingTrainingScreen
             pattern={{ inhale: 4, hold: 4, exhale: 4, hold2: 4 }}
-            onPause={() => {
-              // Можно добавить экран паузы
-            }}
             onComplete={(endReason, timeElapsed, technicalIssue) => handleTrainingComplete(endReason, timeElapsed, technicalIssue)}
           />
         );

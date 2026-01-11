@@ -8,15 +8,13 @@ type TrainingEndReason = 'completed' | 'early' | 'technical';
 interface ActiveTrainingScreenProps {
   trainingType?: string;
   duration?: number; // в секундах, по умолчанию 4 минуты (240 сек)
-  onPause: () => void;
-  onComplete: (reason: TrainingEndReason, timeElapsed: number) => void;
+  onComplete: (reason: TrainingEndReason, timeElapsed: number, technicalIssue?: string) => void;
   onTechnicalIssue?: () => void; // Обработчик технических проблем (потеря сигнала, отвалились электроды)
 }
 
 export function ActiveTrainingScreen({
   trainingType = 'tbr',
   duration = 240, // 4 минуты по умолчанию
-  onPause,
   onComplete,
   onTechnicalIssue,
 }: ActiveTrainingScreenProps) {

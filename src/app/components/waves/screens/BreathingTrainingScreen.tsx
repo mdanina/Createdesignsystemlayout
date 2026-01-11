@@ -7,63 +7,58 @@ type BreathingPhase = 'inhale' | 'hold' | 'exhale' | 'hold2';
 
 interface BreathingTrainingScreenProps {
   pattern: { inhale: number; hold: number; exhale: number; hold2: number };
-  onPause: () => void;
   onComplete: (endReason: 'completed' | 'early' | 'technical', timeElapsed: number, technicalIssue?: string) => void;
 }
 
 export function BreathingTrainingScreen({
   pattern,
-  onPause,
   onComplete,
 }: BreathingTrainingScreenProps) {
   const [phase, setPhase] = useState<BreathingPhase>('inhale');
   const [countdown, setCountdown] = useState(pattern.inhale);
-  const [isPaused, setIsPaused] = useState(false);
   const [cycle, setCycle] = useState(0);
   const timerRef = React.useRef<NodeJS.Timeout | null>(null);
   const phaseProgressRef = React.useRef<number>(0); // Точный прогресс фазы от 0 до 1
   const trainingStartTimeRef = React.useRef<number>(Date.now()); // Время начала тренировки
 
   useEffect(() => {
-    if (!isPaused) {
-      let startTime = Date.now();
-      const currentPhaseDuration = pattern[phase] * 1000; // в миллисекундах
+    let startTime = Date.now();
+    const currentPhaseDuration = pattern[phase] * 1000; // в миллисекундах
+    
+    const updateTimer = () => {
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, currentPhaseDuration - elapsed);
+      const newCountdown = Math.ceil(remaining / 1000);
       
-      const updateTimer = () => {
-        const elapsed = Date.now() - startTime;
-        const remaining = Math.max(0, currentPhaseDuration - elapsed);
-        const newCountdown = Math.ceil(remaining / 1000);
-        
-        // Обновляем точный прогресс фазы для плавной анимации
-        phaseProgressRef.current = Math.max(0, Math.min(1, 1 - remaining / currentPhaseDuration));
-        
-        if (remaining <= 0) {
-          // Переход к следующей фазе
-          const nextPhase = getNextPhase(phase);
-          setPhase(nextPhase);
-          const nextDuration = pattern[nextPhase];
-          setCountdown(nextDuration);
-          phaseProgressRef.current = 0;
-          startTime = Date.now();
-          // Перезапускаем таймер с новой фазой
-          timerRef.current = setTimeout(updateTimer, 50) as unknown as NodeJS.Timeout;
-        } else {
-          setCountdown(newCountdown);
-          // Обновляем каждые 50мс для плавной анимации
-          timerRef.current = setTimeout(updateTimer, 50) as unknown as NodeJS.Timeout;
-        }
-      };
+      // Обновляем точный прогресс фазы для плавной анимации
+      phaseProgressRef.current = Math.max(0, Math.min(1, 1 - remaining / currentPhaseDuration));
       
-      phaseProgressRef.current = 0;
-      updateTimer();
-      
-      return () => {
-        if (timerRef.current) {
-          clearTimeout(timerRef.current);
-        }
-      };
-    }
-  }, [phase, isPaused, pattern]);
+      if (remaining <= 0) {
+        // Переход к следующей фазе
+        const nextPhase = getNextPhase(phase);
+        setPhase(nextPhase);
+        const nextDuration = pattern[nextPhase];
+        setCountdown(nextDuration);
+        phaseProgressRef.current = 0;
+        startTime = Date.now();
+        // Перезапускаем таймер с новой фазой
+        timerRef.current = setTimeout(updateTimer, 50) as unknown as NodeJS.Timeout;
+      } else {
+        setCountdown(newCountdown);
+        // Обновляем каждые 50мс для плавной анимации
+        timerRef.current = setTimeout(updateTimer, 50) as unknown as NodeJS.Timeout;
+      }
+    };
+    
+    phaseProgressRef.current = 0;
+    updateTimer();
+    
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, [phase, pattern]);
 
   const getNextPhase = (current: BreathingPhase): BreathingPhase => {
     switch (current) {
@@ -126,13 +121,11 @@ export function BreathingTrainingScreen({
   
   // Обновляем компонент каждые 50мс для плавной анимации
   React.useEffect(() => {
-    if (!isPaused) {
-      const interval = setInterval(() => {
-        forceUpdate();
-      }, 50);
-      return () => clearInterval(interval);
-    }
-  }, [isPaused]);
+    const interval = setInterval(() => {
+      forceUpdate();
+    }, 50);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <>
