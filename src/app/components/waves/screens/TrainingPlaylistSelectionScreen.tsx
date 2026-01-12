@@ -308,7 +308,7 @@ export function TrainingPlaylistSelectionScreen({
               onClick={() => setContentTypeFilter('audio')}
               className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center gap-1.5 sm:gap-2 ${
                 contentTypeFilter === 'audio'
-                  ? 'bg-[#b8a0d6] text-white'
+                  ? 'bg-[#a8d8ea] text-white'
                   : 'bg-white border border-[#1a1a1a]/20 text-[#1a1a1a]/70 hover:bg-[#1a1a1a]/5'
               }`}
             >
@@ -319,7 +319,7 @@ export function TrainingPlaylistSelectionScreen({
               onClick={() => setContentTypeFilter('video')}
               className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center gap-1.5 sm:gap-2 ${
                 contentTypeFilter === 'video'
-                  ? 'bg-[#ff8a65] text-white'
+                  ? 'bg-[#a8d8ea] text-white'
                   : 'bg-white border border-[#1a1a1a]/20 text-[#1a1a1a]/70 hover:bg-[#1a1a1a]/5'
               }`}
             >
