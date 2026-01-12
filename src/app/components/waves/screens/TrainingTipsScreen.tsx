@@ -77,9 +77,7 @@ export function TrainingTipsScreen({ onBack, onContinue }: TrainingTipsScreenPro
           <p className="text-sm text-[#1a1a1a] text-center mb-6">
             Прокрутите карточки, чтобы узнать все советы для эффективной тренировки
           </p>
-          <div className="flex justify-center">
-            <CardStack items={tips} className="!w-[280px]" />
-          </div>
+          <CardStack items={tips} className="!w-[280px] mx-auto" />
         </div>
 
         <PillButton onClick={onContinue} variant="gradientMesh" className="w-full mb-3">
