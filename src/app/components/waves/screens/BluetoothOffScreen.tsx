@@ -19,7 +19,7 @@ export function BluetoothOffScreen({ onEnable, onCancel }: BluetoothOffScreenPro
           </div>
         </div>
 
-        <SerifHeading size="2xl" className="mb-4">Bluetooth выключен</SerifHeading>
+        <SerifHeading size="2xl" className="mb-4 text-3xl sm:text-4xl md:text-5xl">Bluetooth выключен</SerifHeading>
         <p className="text-[#1a1a1a]/70 mb-6">
           Для подключения Flex4 необходимо включить Bluetooth
         </p>

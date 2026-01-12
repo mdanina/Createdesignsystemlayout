@@ -53,7 +53,7 @@ export function DeviceConnectedScreen({
             <CheckCircle2 className="w-16 h-16 text-[#a8d8ea]" />
           </div>
 
-          <SerifHeading size="2xl" className="mb-4">Устройство подключено</SerifHeading>
+          <SerifHeading size="2xl" className="mb-4 text-3xl sm:text-4xl md:text-5xl">Устройство подключено</SerifHeading>
 
           <WellnessCard className="mb-6 text-left">
             <div className="mb-2">

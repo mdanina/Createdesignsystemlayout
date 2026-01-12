@@ -16,7 +16,7 @@ export function DeviceNotFoundScreen({ onRetry, onSupport }: DeviceNotFoundScree
           <AlertTriangle className="w-16 h-16 text-[#ff8a65]" />
         </div>
 
-        <SerifHeading size="2xl" className="mb-4">Устройство не найдено</SerifHeading>
+        <SerifHeading size="2xl" className="mb-4 text-3xl sm:text-4xl md:text-5xl">Устройство не найдено</SerifHeading>
         <p className="text-[#1a1a1a]/70 mb-8">
           Убедитесь, что Flex4 включён и рядом
         </p>

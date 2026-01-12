@@ -39,7 +39,7 @@ export function PostTrainingCheckoutScreen({
     <div className="flex flex-col bg-white min-h-screen">
       <div className="flex-1 px-4 sm:px-8 md:px-16 py-4 sm:py-6 md:py-8">
         <div className="flex items-center justify-between mb-4 sm:mb-6 md:mb-8">
-          <SerifHeading size="2xl" className="text-xl sm:text-2xl md:text-3xl lg:text-4xl">
+          <SerifHeading size="2xl" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
             Как {childName} себя чувствует после тренировки?
           </SerifHeading>
           <button onClick={onSkip} className="text-[#1a1a1a]/40 hover:text-[#1a1a1a]/60">
@@ -98,7 +98,7 @@ export function PostTrainingCheckoutScreen({
                   }`}
                 >
                   <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl transition-all ${
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-xl sm:text-2xl transition-all ${
                       isSelected
                         ? 'bg-white shadow-[0_4px_15px_rgba(0,0,0,0.1)] scale-110'
                         : 'bg-white/50 hover:bg-white/80'
@@ -107,7 +107,7 @@ export function PostTrainingCheckoutScreen({
                     {level.emoji}
                   </div>
                   <span
-                    className={`text-xs transition-opacity ${
+                    className={`text-[10px] sm:text-xs md:text-sm transition-opacity ${
                       isSelected ? 'opacity-100 font-medium' : 'opacity-60'
                     }`}
                   >

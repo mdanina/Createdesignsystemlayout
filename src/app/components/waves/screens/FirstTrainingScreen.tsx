@@ -15,7 +15,7 @@ export function FirstTrainingScreen({ onStartTutorial }: FirstTrainingScreenProp
         <div className="w-full max-w-sm text-center">
           <div className="text-6xl mb-6">🎉</div>
 
-          <SerifHeading size="2xl" className="mb-8">
+          <SerifHeading size="2xl" className="mb-8 text-3xl sm:text-4xl md:text-5xl">
             Всё готово для первой тренировки!
           </SerifHeading>
 

@@ -17,7 +17,7 @@ export function InsightsEmptyScreen({ onStartTraining }: InsightsEmptyScreenProp
             <TrendingUp className="w-20 h-20 text-[#1a1a1a]/40" />
           </div>
 
-          <SerifHeading size="2xl" className="mb-4">Пока нет данных для аналитики</SerifHeading>
+          <SerifHeading size="2xl" className="mb-4 text-3xl sm:text-4xl md:text-5xl">Пока нет данных для аналитики</SerifHeading>
           <p className="text-[#1a1a1a]/70 mb-6">
             Завершите несколько тренировок, и здесь появятся:
           </p>

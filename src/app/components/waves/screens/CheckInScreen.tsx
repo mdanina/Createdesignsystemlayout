@@ -39,15 +39,15 @@ export function CheckInScreen({ childName = 'ребёнок', onContinue, onBack
 
   return (
     <div className="flex flex-col bg-white min-h-screen">
-      <div className="flex-1 px-16 py-8">
-        <SerifHeading size="2xl" className="mb-8">
+      <div className="flex-1 px-4 sm:px-8 md:px-16 py-4 sm:py-6 md:py-8">
+        <SerifHeading size="2xl" className="mb-6 sm:mb-8 text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
           Как {childName} себя чувствует сейчас?
         </SerifHeading>
 
         {/* Секция Эмоции */}
-        <div className="mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Эмоции</h2>
-          <div className="grid grid-cols-5 gap-5">
+        <div className="mb-6 sm:mb-8">
+          <h2 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Эмоции</h2>
+          <div className="grid grid-cols-5 gap-2 sm:gap-3 md:gap-4 lg:gap-5">
             {emotions.map((emotion) => {
               const isSelected = selectedEmotion === emotion.value;
               return (
@@ -65,7 +65,7 @@ export function CheckInScreen({ childName = 'ребёнок', onContinue, onBack
                   }`}
                 >
                   <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl transition-all ${
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-xl sm:text-2xl transition-all ${
                       isSelected
                         ? 'bg-white shadow-[0_4px_15px_rgba(0,0,0,0.1)] scale-110'
                         : 'bg-white/50 hover:bg-white/80'
@@ -74,7 +74,7 @@ export function CheckInScreen({ childName = 'ребёнок', onContinue, onBack
                     {emotion.emoji}
                   </div>
                   <span
-                    className={`text-xs transition-opacity ${
+                    className={`text-[10px] sm:text-xs md:text-sm transition-opacity ${
                       isSelected ? 'opacity-100 font-medium' : 'opacity-60'
                     }`}
                   >
@@ -87,9 +87,9 @@ export function CheckInScreen({ childName = 'ребёнок', onContinue, onBack
         </div>
 
         {/* Секция Концентрация */}
-        <div className="mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Концентрация</h2>
-          <div className="grid grid-cols-5 gap-5">
+        <div className="mb-6 sm:mb-8">
+          <h2 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Концентрация</h2>
+          <div className="grid grid-cols-5 gap-2 sm:gap-3 md:gap-4 lg:gap-5">
             {concentrationLevels.map((level) => {
               const isSelected = concentration === level.value;
               return (
@@ -101,7 +101,7 @@ export function CheckInScreen({ childName = 'ребёнок', onContinue, onBack
                   }`}
                 >
                   <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl transition-all ${
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-xl sm:text-2xl transition-all ${
                       isSelected
                         ? 'bg-white shadow-[0_4px_15px_rgba(0,0,0,0.1)] scale-110'
                         : 'bg-white/50 hover:bg-white/80'
@@ -110,7 +110,7 @@ export function CheckInScreen({ childName = 'ребёнок', onContinue, onBack
                     {level.emoji}
                   </div>
                   <span
-                    className={`text-xs transition-opacity ${
+                    className={`text-[10px] sm:text-xs md:text-sm transition-opacity ${
                       isSelected ? 'opacity-100 font-medium' : 'opacity-60'
                     }`}
                   >
@@ -141,7 +141,7 @@ export function CheckInScreen({ childName = 'ребёнок', onContinue, onBack
         {onBack && (
           <button
             onClick={onBack}
-            className="w-full text-center text-[#1a1a1a]/70 hover:text-[#1a1a1a] py-3 text-sm transition-colors"
+            className="w-full text-center text-[#1a1a1a]/70 hover:text-[#1a1a1a] py-3 text-xs sm:text-sm transition-colors"
           >
             Назад
           </button>

@@ -27,7 +27,7 @@ export function DeviceInTransitScreen({
           <button onClick={onBack} className="p-2 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
             <ArrowLeft className="w-6 h-6" />
           </button>
-          <SerifHeading size="xl" className="flex-1 text-center">Устройство в пути</SerifHeading>
+          <SerifHeading size="xl" className="flex-1 text-center text-2xl sm:text-3xl md:text-4xl">Устройство в пути</SerifHeading>
           <div className="w-10"></div>
         </div>
       )}
@@ -37,7 +37,7 @@ export function DeviceInTransitScreen({
             <Package className="w-20 h-20 text-[#a8d8ea]" />
           </div>
 
-          <SerifHeading size="2xl" className="mb-2">Ваш Flex4 в пути! 📦</SerifHeading>
+          <SerifHeading size="2xl" className="mb-2 text-3xl sm:text-4xl md:text-5xl">Ваш Flex4 в пути! 📦</SerifHeading>
           <p className="text-[#1a1a1a]/70 mb-4">Статус: Ожидается доставка {deliveryDate}</p>
 
           {trackingNumber && (

@@ -5,6 +5,7 @@ interface SerifHeadingProps {
   children: React.ReactNode;
   className?: string;
   size?: 'xl' | '2xl' | '3xl' | '4xl';
+  style?: React.CSSProperties;
 }
 
 const sizeClasses = {
@@ -14,7 +15,7 @@ const sizeClasses = {
   '4xl': 'text-6xl',
 };
 
-export function SerifHeading({ children, className, size = '2xl' }: SerifHeadingProps) {
+export function SerifHeading({ children, className, size = '2xl', style }: SerifHeadingProps) {
   return (
     <h1
       className={cn(
@@ -22,7 +23,7 @@ export function SerifHeading({ children, className, size = '2xl' }: SerifHeading
         sizeClasses[size],
         className
       )}
-      style={{ fontFamily: 'var(--font-serif)' }}
+      style={{ fontFamily: 'var(--font-serif)', ...style }}
     >
       {children}
     </h1>

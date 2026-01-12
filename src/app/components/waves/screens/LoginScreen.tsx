@@ -32,17 +32,17 @@ export function LoginScreen({ onLogin, onForgotPassword }: LoginScreenProps) {
       }}
     >
       {/* Контейнер для позиционирования формы - можно свободно перемещать */}
-      <div className="flex-1 flex items-start justify-center px-16" style={{ paddingTop: '77px' }}>
+      <div className="flex-1 flex items-start justify-center px-4 sm:px-8 md:px-16" style={{ paddingTop: '77px' }}>
         {/* Независимый блок формы */}
         <div className="w-full max-w-sm">
           {/* Логотип */}
-          <div className="text-center mb-8">
-            <div className="flex justify-center mb-4">
+          <div className="text-center mb-6 sm:mb-8">
+            <div className="flex justify-center mb-3 sm:mb-4">
               <Logo size="2xl" variant="default" />
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl p-6">
+          <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4 rounded-2xl p-4 sm:p-6">
             <Input
               type="email"
               placeholder="Email"
@@ -66,7 +66,7 @@ export function LoginScreen({ onLogin, onForgotPassword }: LoginScreenProps) {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
               >
-                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                {showPassword ? <EyeOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <Eye className="w-4 h-4 sm:w-5 sm:h-5" />}
               </button>
             </div>
 
@@ -79,7 +79,7 @@ export function LoginScreen({ onLogin, onForgotPassword }: LoginScreenProps) {
             </PillButton>
           </form>
 
-          <p className="text-center text-sm text-white mt-2">
+          <p className="text-center text-xs sm:text-sm text-white mt-2">
             Нет аккаунта?{' '}
             <a href="#" className="text-white hover:text-white/80 underline transition-colors">
               Зарегистрируйтесь на сайте
@@ -92,7 +92,7 @@ export function LoginScreen({ onLogin, onForgotPassword }: LoginScreenProps) {
               e.preventDefault();
               onForgotPassword();
             }}
-            className="text-sm text-white hover:text-white/80 transition-colors text-center w-full mt-2 block underline"
+            className="text-xs sm:text-sm text-white hover:text-white/80 transition-colors text-center w-full mt-2 block underline"
           >
             Забыли пароль?
           </a>

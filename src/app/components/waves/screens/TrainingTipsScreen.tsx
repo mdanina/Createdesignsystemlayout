@@ -67,17 +67,21 @@ export function TrainingTipsScreen({ onBack, onContinue }: TrainingTipsScreenPro
     >
       <div className="flex items-center px-4 py-4">
         <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
-          <ArrowLeft className="w-6 h-6" />
+          <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
-        <SerifHeading size="xl">Советы</SerifHeading>
+        <SerifHeading size="xl" className="text-2xl sm:text-3xl md:text-4xl">Советы</SerifHeading>
       </div>
 
-      <div className="flex-1 px-16 py-8 overflow-y-auto">
-        <div className="mb-6">
-          <p className="text-sm text-[#1a1a1a] text-center mb-6">
+      <div className="flex-1 px-4 sm:px-8 md:px-16 py-4 sm:py-6 md:py-8 overflow-y-auto">
+        <div className="mb-4 sm:mb-6">
+          <p className="text-xs sm:text-sm text-[#1a1a1a] text-center mb-4 sm:mb-6">
             Прокрутите карточки, чтобы узнать все советы для эффективной тренировки
           </p>
-          <CardStack items={tips} className="!w-[280px] mx-auto" />
+          <div className="flex justify-center">
+            <div style={{ transform: 'translateX(-3px)' }}>
+              <CardStack items={tips} className="!w-[280px]" />
+            </div>
+          </div>
         </div>
 
         <PillButton onClick={onContinue} variant="gradientMesh" className="w-full mb-3">
@@ -86,7 +90,7 @@ export function TrainingTipsScreen({ onBack, onContinue }: TrainingTipsScreenPro
         
         <button
           onClick={onBack}
-          className="w-full text-center text-[#1a1a1a]/70 hover:text-[#1a1a1a] py-3 text-sm transition-colors"
+          className="w-full text-center text-[#1a1a1a]/70 hover:text-[#1a1a1a] py-3 text-xs sm:text-sm transition-colors"
         >
           Назад
         </button>

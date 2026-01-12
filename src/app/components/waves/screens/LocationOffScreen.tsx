@@ -15,7 +15,7 @@ export function LocationOffScreen({ onOpenSettings }: LocationOffScreenProps) {
           <MapPin className="w-16 h-16 text-[#ff8a65]" />
         </div>
 
-        <SerifHeading size="2xl" className="mb-4">Геолокация</SerifHeading>
+        <SerifHeading size="2xl" className="mb-4 text-3xl sm:text-4xl md:text-5xl">Геолокация</SerifHeading>
         <p className="text-[#1a1a1a]/70 mb-6">
           Требуется для Bluetooth. Мы не отслеживаем ваше местоположение.
         </p>

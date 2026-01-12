@@ -38,22 +38,26 @@ const defaultSettings: CardStackSettings = {
   zIndexDelay: 0.05,
 };
 
-const createCardVariants = (settings: CardStackSettings) => ({
-  visible: (i: number) => ({
-    opacity: 1,
-    zIndex: [4, 3, 2, 1][i],
-    scale: [1, 0.9, 0.85, 0.8][i],
-    y: [0, -12, 0, 12][i],
-    rotate: [0, 2, 4, 7][i],
-    x: [0, 32, 48, 62][i],
-    perspective: 400,
-    transition: {
-      zIndex: { delay: settings.zIndexDelay },
-      scale: { type: "spring", duration: settings.springDuration, bounce: settings.springBounce },
-      y: { type: "spring", duration: settings.springDuration, bounce: settings.springBounce },
-      x: { type: "spring", duration: settings.xSpringDuration, bounce: settings.xSpringBounce },
-    },
-  }),
+const createCardVariants = (settings: CardStackSettings, containerWidth: number = 343) => ({
+  visible: (i: number) => {
+    const baseX = containerWidth * 0.093; // ~32px для 343px
+    const xOffsets = [0, baseX, baseX * 1.5, baseX * 1.94]; // [0, 32, 48, 62] пропорционально
+    return {
+      opacity: 1,
+      zIndex: [4, 3, 2, 1][i],
+      scale: [1, 0.9, 0.85, 0.8][i],
+      y: [0, -12, 0, 12][i],
+      rotate: [0, 2, 4, 7][i],
+      x: xOffsets[i] || 0,
+      perspective: 400,
+      transition: {
+        zIndex: { delay: settings.zIndexDelay },
+        scale: { type: "spring", duration: settings.springDuration, bounce: settings.springBounce },
+        y: { type: "spring", duration: settings.springDuration, bounce: settings.springBounce },
+        x: { type: "spring", duration: settings.xSpringDuration, bounce: settings.xSpringBounce },
+      },
+    };
+  },
   exit: { opacity: 0, scale: 0.5, y: 50 },
 });
 
@@ -84,6 +88,20 @@ export const CardStack: React.FC<CardStackProps> = ({
     setDragElastic(settings.dragElastic || 0.7);
   }, [settings.dragElastic]);
 
+  const [containerRef, setContainerRef] = useState<HTMLDivElement | null>(null);
+  const [containerWidth, setContainerWidth] = useState(343);
+
+  useEffect(() => {
+    if (containerRef) {
+      const updateWidth = () => {
+        setContainerWidth(containerRef.offsetWidth || 343);
+      };
+      updateWidth();
+      window.addEventListener('resize', updateWidth);
+      return () => window.removeEventListener('resize', updateWidth);
+    }
+  }, [containerRef]);
+
   const paginate = () => {
     setIndices((prevIndices) => [
       prevIndices[1],
@@ -93,10 +111,15 @@ export const CardStack: React.FC<CardStackProps> = ({
     ]);
   };
 
-  const cardVariants = createCardVariants(settings);
+  const cardVariants = createCardVariants(settings, containerWidth);
+  const cardWidth = containerWidth * 0.94; // ~323px для 343px (94%)
+  const cardHeight = containerWidth * 1.41; // ~484px для 343px (сохраняем пропорции)
 
   return (
-    <div className={`relative w-[343px] h-[484px] ${className}`}>
+    <div 
+      ref={setContainerRef}
+      className={`relative w-full max-w-[343px] h-[400px] sm:h-[450px] md:h-[484px] ${className}`}
+    >
       <AnimatePresence initial={false}>
         {indices.map((index, i) => (
           <motion.div
@@ -118,7 +141,11 @@ export const CardStack: React.FC<CardStackProps> = ({
                 paginate();
               }
             }}
-            className="absolute h-[484px] w-[323px] rounded-[24px] bg-white shadow-[0px_35px_14px_rgba(0,0,0,0.01),0px_20px_12px_rgba(0,0,0,0.05),0px_9px_9px_rgba(0,0,0,0.09),0px_2px_5px_rgba(0,0,0,0.1)] cursor-grab active:cursor-grabbing overflow-hidden"
+            className="absolute rounded-[24px] bg-white shadow-[0px_35px_14px_rgba(0,0,0,0.01),0px_20px_12px_rgba(0,0,0,0.05),0px_9px_9px_rgba(0,0,0,0.09),0px_2px_5px_rgba(0,0,0,0.1)] cursor-grab active:cursor-grabbing overflow-hidden"
+            style={{
+              width: `${cardWidth}px`,
+              height: `${cardHeight}px`,
+            }}
           >
             {(() => {
               const currentItem = items[index % items.length];
@@ -135,18 +162,18 @@ export const CardStack: React.FC<CardStackProps> = ({
               }
               
               return (
-                <div className={`h-full w-full ${gradientClasses[gradient]} rounded-[24px] flex flex-col justify-between p-6`}>
+                <div className={`h-full w-full ${gradientClasses[gradient]} rounded-[24px] flex flex-col justify-between p-4 sm:p-5 md:p-6`}>
                   <div className="flex-1 flex items-center justify-center">
-                    <div className="text-center px-4">
-                      <h3 className="text-2xl font-semibold text-[#2D2D2D] mb-3">{currentItem.title}</h3>
+                    <div className="text-center px-2 sm:px-3 md:px-4">
+                      <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-[#2D2D2D] mb-2 sm:mb-2.5 md:mb-3">{currentItem.title}</h3>
                       {currentItem.description && (
-                        <p className="text-[#666666] text-sm leading-relaxed">{currentItem.description}</p>
+                        <p className="text-[#666666] text-xs sm:text-sm leading-relaxed">{currentItem.description}</p>
                       )}
                     </div>
                   </div>
                   {currentItem.tag && (
-                    <div className="mt-4 flex justify-start">
-                      <span className="bg-white/80 backdrop-blur-sm text-[#2D2D2D] text-xs font-medium px-4 py-2 rounded-full border border-white/50">
+                    <div className="mt-2 sm:mt-3 md:mt-4 flex justify-start">
+                      <span className="bg-white/80 backdrop-blur-sm text-[#2D2D2D] text-[10px] sm:text-xs font-medium px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-white/50">
                         {currentItem.tag}
                       </span>
                     </div>

@@ -46,7 +46,7 @@ export function TrainingHistoryScreen({ onBack, sessions: propSessions }: Traini
         <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
           <ArrowLeft className="w-6 h-6" />
         </button>
-        <SerifHeading size="xl" className="text-xl sm:text-2xl md:text-3xl">История тренировок</SerifHeading>
+        <SerifHeading size="xl" className="text-3xl sm:text-4xl md:text-5xl">История тренировок</SerifHeading>
       </div>
 
       <div className="flex-1 px-16 py-6">

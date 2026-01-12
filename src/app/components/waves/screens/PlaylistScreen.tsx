@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Plus, Music, Video, MoreVertical, Edit2, Trash2, ChevronDown, ChevronUp, FolderPlus, X } from 'lucide-react';
 import { SerifHeading } from '../../design-system/SerifHeading';
 import { WellnessCard } from '../../design-system/WellnessCard';
@@ -34,6 +34,91 @@ export interface Playlist {
 
 interface PlaylistScreenProps {
   onBack?: () => void;
+}
+
+// Компонент для названия трека с адаптивным шрифтом
+function PlaylistItemTitle({ title, className = '' }: { title: string; className?: string }) {
+  const textRef = useRef<HTMLParagraphElement>(null);
+  const [fontSize, setFontSize] = useState(16);
+
+  useEffect(() => {
+    const textElement = textRef.current;
+    if (!textElement) return;
+
+    const updateFontSize = () => {
+      // Измеряем ширину доступного пространства для текста
+      const playlistItem = textElement.closest('.playlist-item-container') as HTMLElement;
+      if (!playlistItem) return;
+      
+      // Измеряем реальную доступную ширину для текста (контейнер с flex-1)
+      const textContainer = textElement.closest('.flex-1.min-w-0') as HTMLElement;
+      const availableWidth = textContainer ? textContainer.offsetWidth : playlistItem.offsetWidth - 100;
+      if (availableWidth <= 0) return;
+      
+      // Более агрессивная формула для узких экранов
+      // На узких экранах (50-150px) размер от 8px до 10px
+      // На средних (150-300px) размер от 10px до 14px
+      // На широких (300px+) размер от 14px до 18px
+      let calculatedSize: number;
+      if (availableWidth < 150) {
+        // Очень узкие экраны
+        calculatedSize = Math.max(8, Math.min(10, availableWidth * 0.06));
+      } else if (availableWidth < 300) {
+        // Средние экраны
+        calculatedSize = Math.max(10, Math.min(14, availableWidth * 0.045));
+      } else {
+        // Широкие экраны
+        calculatedSize = Math.max(14, Math.min(18, availableWidth * 0.04));
+      }
+      
+      // Дополнительно учитываем длину текста
+      const textLength = title.length;
+      if (textLength > 30) {
+        calculatedSize = Math.max(8, calculatedSize * 0.85);
+      } else if (textLength > 20) {
+        calculatedSize = Math.max(8, calculatedSize * 0.9);
+      }
+      
+      setFontSize(calculatedSize);
+    };
+
+    updateFontSize();
+
+    const resizeObserver = new ResizeObserver(updateFontSize);
+    
+    // Наблюдаем за изменением размера родительского элемента
+    const playlistItem = textElement.closest('.playlist-item-container');
+    if (playlistItem) {
+      resizeObserver.observe(playlistItem);
+    }
+    
+    const textContainer = textElement.closest('.flex-1.min-w-0');
+    if (textContainer) {
+      resizeObserver.observe(textContainer);
+    }
+
+    window.addEventListener('resize', updateFontSize);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateFontSize);
+    };
+  }, [title]);
+
+  return (
+    <p 
+      ref={textRef}
+      className={`font-medium text-[#1a1a1a] break-words leading-tight ${className}`}
+      style={{ 
+        fontSize: `${fontSize}px`,
+        wordBreak: 'break-word',
+        overflowWrap: 'break-word',
+        hyphens: 'auto'
+      }}
+    >
+      {title}
+    </p>
+  );
 }
 
 // Функция для генерации моковых треков (та же, что используется в WavesAppFlow)
@@ -458,7 +543,7 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
     >
       <div className="px-16 py-6">
         <div className="flex items-center justify-between mb-6">
-          <SerifHeading size="2xl" className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl">Плейлист</SerifHeading>
+          <SerifHeading size="2xl" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl">Плейлист</SerifHeading>
           <div className="flex items-center gap-2">
             <button
               onClick={handleAddItem}
@@ -669,7 +754,7 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
                                   autoFocus
                                 />
                               ) : (
-                                <p className="font-medium text-[#1a1a1a] truncate text-sm sm:text-base md:text-lg">{item.title}</p>
+                                <PlaylistItemTitle title={item.title} />
                               )}
                               <div className="flex items-center gap-2 mt-1">
                                 <span className="text-[10px] sm:text-xs md:text-sm text-[#1a1a1a]/50">

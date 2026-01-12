@@ -16,7 +16,7 @@ export function PermissionsDeniedScreen({ onOpenSettings, onCancel }: Permission
           <Settings className="w-16 h-16 text-[#ff8a65]" />
         </div>
 
-        <SerifHeading size="2xl" className="mb-4">Нужны разрешения</SerifHeading>
+        <SerifHeading size="2xl" className="mb-4 text-3xl sm:text-4xl md:text-5xl">Нужны разрешения</SerifHeading>
         <p className="text-[#1a1a1a]/70 mb-6">
           Для работы приложения необходимы разрешения на Bluetooth и геолокацию.
           Без них мы не сможем подключить устройство Flex4.

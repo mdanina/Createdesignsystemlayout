@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { PillButton } from '../../design-system/PillButton';
 import { SerifHeading } from '../../design-system/SerifHeading';
 
@@ -77,6 +77,125 @@ function toAccusativeCase(name: string): string {
   return name;
 }
 
+// Компонент для текста шага с адаптивным шрифтом
+function StepText({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  const textRef = useRef<HTMLParagraphElement>(null);
+  const [fontSize, setFontSize] = useState(16);
+
+  useEffect(() => {
+    const textElement = textRef.current;
+    if (!textElement) return;
+
+    const updateFontSize = () => {
+      // Измеряем ширину контейнера
+      const container = textElement.closest('.w-full.max-w-md') as HTMLElement;
+      if (!container) return;
+      
+      const availableWidth = container.offsetWidth - 64; // Учитываем отступы (pl-16 = 64px)
+      if (availableWidth <= 0) return;
+      
+      // Адаптируем размер шрифта в зависимости от ширины
+      // На узких экранах (100-200px) размер от 10px до 14px
+      // На средних (200-350px) размер от 14px до 16px
+      // На широких (350px+) размер от 16px до 18px
+      let calculatedSize: number;
+      if (availableWidth < 200) {
+        calculatedSize = Math.max(10, Math.min(14, availableWidth * 0.06));
+      } else if (availableWidth < 350) {
+        calculatedSize = Math.max(14, Math.min(16, availableWidth * 0.045));
+      } else {
+        calculatedSize = Math.max(16, Math.min(18, availableWidth * 0.04));
+      }
+      
+      setFontSize(calculatedSize);
+    };
+
+    updateFontSize();
+
+    const resizeObserver = new ResizeObserver(updateFontSize);
+    resizeObserver.observe(textElement);
+    
+    const container = textElement.closest('.w-full.max-w-md');
+    if (container) {
+      resizeObserver.observe(container);
+    }
+
+    window.addEventListener('resize', updateFontSize);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateFontSize);
+    };
+  }, []);
+
+  return (
+    <p 
+      ref={textRef}
+      className={`break-words leading-relaxed ${className || 'text-gray-700 pt-1'}`}
+      style={{ fontSize: `${fontSize}px` }}
+    >
+      {children}
+    </p>
+  );
+}
+
+// Компонент для италического текста с адаптивным шрифтом
+function ItalicText({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  const textRef = useRef<HTMLParagraphElement>(null);
+  const [fontSize, setFontSize] = useState(14);
+
+  useEffect(() => {
+    const textElement = textRef.current;
+    if (!textElement) return;
+
+    const updateFontSize = () => {
+      const container = textElement.closest('.w-full.max-w-md') as HTMLElement;
+      if (!container) return;
+      
+      const availableWidth = container.offsetWidth - 64;
+      if (availableWidth <= 0) return;
+      
+      let calculatedSize: number;
+      if (availableWidth < 200) {
+        calculatedSize = Math.max(9, Math.min(12, availableWidth * 0.055));
+      } else if (availableWidth < 350) {
+        calculatedSize = Math.max(12, Math.min(14, availableWidth * 0.04));
+      } else {
+        calculatedSize = Math.max(14, Math.min(16, availableWidth * 0.035));
+      }
+      
+      setFontSize(calculatedSize);
+    };
+
+    updateFontSize();
+
+    const resizeObserver = new ResizeObserver(updateFontSize);
+    resizeObserver.observe(textElement);
+    
+    const container = textElement.closest('.w-full.max-w-md');
+    if (container) {
+      resizeObserver.observe(container);
+    }
+
+    window.addEventListener('resize', updateFontSize);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateFontSize);
+    };
+  }, []);
+
+  return (
+    <p 
+      ref={textRef}
+      className={`text-gray-500 italic break-words leading-relaxed ${className}`}
+      style={{ fontSize: `${fontSize}px` }}
+    >
+      {children}
+    </p>
+  );
+}
+
 export function WelcomeFlowScreen({ step, childName = 'ребёнка', parentName, onNext, onComplete, onStepChange }: WelcomeFlowScreenProps) {
   const handleStepClick = (stepNumber: 1 | 2 | 3) => {
     if (stepNumber !== step) {
@@ -105,7 +224,7 @@ export function WelcomeFlowScreen({ step, childName = 'ребёнка', parentNa
         return (
           <>
             <div className="text-6xl mb-4">👋</div>
-            <SerifHeading size="2xl" className="mb-3">
+            <SerifHeading size="2xl" className="mb-3 text-3xl sm:text-4xl md:text-5xl">
               Привет, {parentName || 'родитель'}!
             </SerifHeading>
             <p className="text-gray-600 mb-1.5">
@@ -121,7 +240,7 @@ export function WelcomeFlowScreen({ step, childName = 'ребёнка', parentNa
         return (
           <>
             <SerifHeading size="2xl" className="mb-6">Как это работает:</SerifHeading>
-            <div className="space-y-2.5 text-left mb-6 pl-16">
+            <div className="space-y-2.5 text-left mb-6 pl-5">
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-full bg-[#1a1a1a] text-white flex items-center justify-center flex-shrink-0 text-sm font-semibold">
                   1
@@ -150,8 +269,8 @@ export function WelcomeFlowScreen({ step, childName = 'ребёнка', parentNa
       case 3:
         return (
           <>
-            <SerifHeading size="2xl" className="mb-6">Когда ждать результат:</SerifHeading>
-            <div className="space-y-2.5 text-left mb-6 pl-16">
+            <SerifHeading size="2xl" className="mb-6 text-3xl sm:text-4xl md:text-5xl">Когда ждать результат:</SerifHeading>
+            <div className="space-y-2.5 text-left mb-6 pl-5">
               <div className="flex items-start gap-2">
                 <span className="text-xl">📅</span>
                 <div>

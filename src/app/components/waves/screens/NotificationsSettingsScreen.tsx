@@ -22,7 +22,7 @@ export function NotificationsSettingsScreen({ onBack }: NotificationsSettingsScr
         <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
           <ArrowLeft className="w-6 h-6" />
         </button>
-        <SerifHeading size="xl">Уведомления</SerifHeading>
+        <SerifHeading size="xl" className="text-2xl sm:text-3xl md:text-4xl">Уведомления</SerifHeading>
       </div>
 
       <div className="flex-1 px-16 py-8">

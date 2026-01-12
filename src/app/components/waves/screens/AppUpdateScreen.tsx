@@ -14,7 +14,7 @@ export function AppUpdateScreen({ isMandatory = false, onUpdate, onLater }: AppU
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center px-6">
       <WellnessCard className="w-full max-w-sm p-6">
-        <SerifHeading size="xl" className="mb-2">Доступна новая версия</SerifHeading>
+        <SerifHeading size="xl" className="mb-2 text-2xl sm:text-3xl md:text-4xl">Доступна новая версия</SerifHeading>
         <p className="text-[#1a1a1a]/70 mb-6">
           Обновите приложение для получения новых функций и исправлений
         </p>

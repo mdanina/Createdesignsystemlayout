@@ -113,18 +113,18 @@ export function ActiveTrainingScreen({
           showTimer ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
-        <div className="bg-black/70 backdrop-blur-md rounded-b-2xl p-6 text-white">
+        <div className="bg-black/70 backdrop-blur-md rounded-b-2xl p-4 sm:p-5 md:p-6 text-white">
           <div className="text-center">
-            <p className="text-3xl font-mono mb-3">
+            <p className="text-xl sm:text-2xl md:text-3xl font-mono mb-2 sm:mb-3">
               {formatTime(timeElapsed)} / {formatTime(duration)}
             </p>
-            <div className="w-full bg-white/20 rounded-full h-2.5 mb-2">
+            <div className="w-full bg-white/20 rounded-full h-2 sm:h-2.5 mb-1.5 sm:mb-2">
               <div
-                className="bg-white h-2.5 rounded-full transition-all duration-300"
+                className="bg-white h-2 sm:h-2.5 rounded-full transition-all duration-300"
                 style={{ width: `${progress}%` }}
               ></div>
             </div>
-            <p className="text-sm text-white/70">
+            <p className="text-xs sm:text-sm text-white/70">
               {Math.round(progress)}% завершено
             </p>
           </div>

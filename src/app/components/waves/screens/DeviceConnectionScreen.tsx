@@ -80,10 +80,10 @@ export function DeviceConnectionScreen({
         <X className="w-6 h-6" />
       </button>
 
-      <div className="flex-1 flex flex-col items-center justify-center px-16 py-12">
+      <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-8 md:px-16 py-6 sm:py-8 md:py-12">
         {connectedDevice ? (
           <>
-            <SerifHeading size="2xl" className="mb-2 text-center">Устройство подключено</SerifHeading>
+            <SerifHeading size="2xl" className="mb-2 text-center text-3xl sm:text-4xl md:text-5xl">Устройство подключено</SerifHeading>
             <p className="text-[#1a1a1a]/70 mb-8 text-center">
               {connectedDevice.batteryLevel < 20 
                 ? 'Рекомендуется дозарядить устройство перед началом тренировки'
@@ -93,7 +93,7 @@ export function DeviceConnectionScreen({
           </>
         ) : (
           <>
-            <SerifHeading size="2xl" className="mb-2 text-center">Подключите устройство</SerifHeading>
+            <SerifHeading size="2xl" className="mb-2 text-center text-3xl sm:text-4xl md:text-5xl">Подключите устройство</SerifHeading>
             <p className="text-[#1a1a1a]/70 mb-8 text-center">
               Подключите блок питания к устройству
             </p>
@@ -102,8 +102,8 @@ export function DeviceConnectionScreen({
 
         {/* Анимация поиска */}
         {isSearching && (
-          <div className="flex items-center gap-2 text-[#1a1a1a]/70 mb-8">
-            <Loader2 className="w-5 h-5 animate-spin" />
+          <div className="flex items-center gap-2 text-xs sm:text-sm text-[#1a1a1a]/70 mb-6 sm:mb-8">
+            <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
             <span>Поиск устройств...</span>
           </div>
         )}
@@ -139,23 +139,23 @@ export function DeviceConnectionScreen({
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1">
-                            <h3 className="font-semibold text-[#1a1a1a]">{device.id}</h3>
+                          <div className="flex items-center gap-2 mb-0.5 sm:mb-1">
+                            <h3 className="text-sm sm:text-base font-semibold text-[#1a1a1a]">{device.id}</h3>
                             {isConnected && (
-                              <CheckCircle2 className="w-5 h-5 text-[#1a1a1a] flex-shrink-0" />
+                              <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-[#1a1a1a] flex-shrink-0" />
                             )}
                             {isConnecting && (
-                              <Loader2 className="w-5 h-5 text-[#D4C5F0] animate-spin flex-shrink-0" />
+                              <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 text-[#D4C5F0] animate-spin flex-shrink-0" />
                             )}
                           </div>
-                          <p className="text-sm text-[#1a1a1a]/70 mb-2">{device.name}</p>
+                          <p className="text-xs sm:text-sm text-[#1a1a1a]/70 mb-1.5 sm:mb-2">{device.name}</p>
                           
                           {/* Показываем заряд только если устройство подключено */}
                           {isConnected && (
                             <div className="mt-2 pt-2 border-t border-[#1a1a1a]/10">
-                              <div className="flex items-center justify-between mb-1">
-                                <span className="text-xs text-[#1a1a1a]/70">Заряд</span>
-                                <span className={`text-xs font-semibold ${
+                              <div className="flex items-center justify-between mb-0.5 sm:mb-1">
+                                <span className="text-[10px] sm:text-xs text-[#1a1a1a]/70">Заряд</span>
+                                <span className={`text-[10px] sm:text-xs font-semibold ${
                                   device.batteryLevel < 20 ? 'text-orange-600' : 'text-[#1a1a1a]'
                                 }`}>
                                   {device.batteryLevel}%
@@ -190,7 +190,7 @@ export function DeviceConnectionScreen({
         {connectedDevice && connectedDevice.batteryLevel < 20 && (
           <div className="w-full max-w-sm mb-4 rounded-[20px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.1)] bg-white/40 backdrop-blur-md border border-white/50">
             <div className="flex items-start gap-3">
-              <AlertTriangle className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" />
+              <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="text-sm font-semibold text-[#1a1a1a] mb-1">
                   Низкий заряд устройства
@@ -217,8 +217,8 @@ export function DeviceConnectionScreen({
         )}
 
         {!isSearching && foundDevices.length === 0 && (
-          <div className="text-center mb-6">
-            <p className="text-[#1a1a1a]/70 mb-4">Устройства не найдены</p>
+          <div className="text-center mb-4 sm:mb-6">
+            <p className="text-xs sm:text-sm md:text-base text-[#1a1a1a]/70 mb-3 sm:mb-4">Устройства не найдены</p>
             <PillButton onClick={() => setIsSearching(true)} variant="secondary">
               Попробовать снова
             </PillButton>
@@ -229,7 +229,7 @@ export function DeviceConnectionScreen({
         {!connectedDevice && (
           <button
             onClick={onNoDevice}
-            className="text-sm text-[#1a1a1a]/50 hover:text-[#1a1a1a]/70 underline"
+            className="text-xs sm:text-sm text-[#1a1a1a]/50 hover:text-[#1a1a1a]/70 underline"
           >
             У меня нет устройства
           </button>

@@ -64,7 +64,7 @@ export function PurchaseScreen({ onPurchase, onBack }: PurchaseScreenProps) {
       <div className="flex-1 px-16 py-8">
         <div className="max-w-md mx-auto">
           <div className="text-center mb-8">
-            <SerifHeading size="2xl" className="mb-2">
+            <SerifHeading size="2xl" className="mb-2 text-3xl sm:text-4xl md:text-5xl">
               Начните тренировки с Flex4
             </SerifHeading>
             <p className="text-gray-600 mb-1">

@@ -53,7 +53,7 @@ export function ForgotPasswordScreen({ onBack, onSend }: ForgotPasswordScreenPro
               <div className="w-16 h-16 mx-auto bg-gradient-to-br from-[#a8d8ea]/30 to-[#a8d8ea]/50 rounded-full flex items-center justify-center mb-4">
                 <span className="text-3xl">✓</span>
               </div>
-              <SerifHeading size="xl" className="mb-2">Письмо отправлено</SerifHeading>
+              <SerifHeading size="xl" className="mb-2 text-2xl sm:text-3xl md:text-4xl">Письмо отправлено</SerifHeading>
               <p className="text-[#1a1a1a]/70 mb-2">
                 Письмо отправлено на <strong>{email}</strong>
               </p>

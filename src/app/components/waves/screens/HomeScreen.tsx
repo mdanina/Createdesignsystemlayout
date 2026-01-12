@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Flame, Play, Info } from 'lucide-react';
 import { StreakBadge } from '../../design-system/StreakBadge';
 import { PillButton } from '../../design-system/PillButton';
@@ -18,6 +18,90 @@ interface HomeScreenProps {
   };
 }
 
+// Компонент карточки тренировки с адаптивным шрифтом
+function TrainingTypeCard({ 
+  title, 
+  subtitle, 
+  image, 
+  duration, 
+  onClick 
+}: { 
+  title: string; 
+  subtitle: string; 
+  image: string; 
+  duration: string; 
+  onClick: () => void;
+}) {
+  const cardRef = useRef<HTMLButtonElement>(null);
+  const [fontSize, setFontSize] = useState(15.5);
+  const [subtitleSize, setSubtitleSize] = useState(10.5);
+
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!card) return;
+
+    const updateFontSize = () => {
+      const width = card.offsetWidth;
+      // Адаптируем размер шрифта заголовка в зависимости от ширины карточки
+      // Минимальная ширина ~120px, максимальная ~300px
+      // Размер шрифта от 14px до 22px (увеличено на 1pt ≈ 1.5px)
+      const calculatedSize = Math.max(14, Math.min(22, width * 0.08 + 1.5)) * 1.01;
+      setFontSize(calculatedSize);
+      
+      // Размер подзаголовка пропорционально меньше (увеличено на 1pt ≈ 1.5px)
+      const calculatedSubtitleSize = Math.max(10, Math.min(14, width * 0.05 + 1.5)) * 1.01;
+      setSubtitleSize(calculatedSubtitleSize);
+    };
+
+    updateFontSize();
+
+    const resizeObserver = new ResizeObserver(updateFontSize);
+    resizeObserver.observe(card);
+
+    // Также слушаем изменения размера окна
+    window.addEventListener('resize', updateFontSize);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateFontSize);
+    };
+  }, []);
+
+  return (
+    <button
+      ref={cardRef}
+      onClick={onClick}
+      className="text-left transition-all hover:scale-[1.02] relative overflow-hidden rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0_6px_30px_rgba(0,0,0,0.1)]"
+    >
+      <img 
+        src={image} 
+        alt={title} 
+        className={`w-full h-auto rounded-[20px] ${image === '/card4.png' ? '[@media(min-width:431px)]:scale-[1.01]' : ''}`}
+      />
+      <div className="absolute inset-0 p-6 sm:p-5 md:p-6 pl-4 sm:pl-4 [@media(max-width:430px)]:p-8 [@media(max-width:430px)]:pl-5 flex flex-col justify-between items-start">
+        <span className="inline-block bg-white/80 backdrop-blur-sm text-[#1a1a1a] text-[9px] sm:text-[10px] md:text-xs font-medium px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 rounded-full self-start -ml-1">
+          {duration}
+        </span>
+        <div className="flex flex-col -ml-1 min-w-0 w-full pr-0.5">
+          <SerifHeading 
+            size="xl" 
+            className="mb-0.5 sm:mb-1 break-words leading-tight"
+            style={{ fontSize: `${fontSize}px` }}
+          >
+            {title}
+          </SerifHeading>
+          <p 
+            className="text-[#1a1a1a]/70 leading-relaxed break-words"
+            style={{ fontSize: `${subtitleSize}px` }}
+          >
+            {subtitle}
+          </p>
+        </div>
+      </div>
+    </button>
+  );
+}
+
 export function HomeScreen({
   childName = 'Миша',
   profileType,
@@ -34,7 +118,7 @@ export function HomeScreen({
 
   return (
     <div 
-      className="min-h-screen pb-20"
+      className="min-h-screen pb-16 [@media(min-width:431px)]:pb-24"
       style={{
         backgroundImage: 'url(/bg.png)',
         backgroundSize: 'cover',
@@ -77,15 +161,15 @@ export function HomeScreen({
                   e.stopPropagation();
                   setShowTutorial(false);
                 }}
-                className="absolute top-2 right-2 text-[#1a1a1a]/40 hover:text-[#1a1a1a]/60 z-10"
+                className="absolute top-2 right-2 text-[#1a1a1a]/40 hover:text-[#1a1a1a]/60 z-10 text-lg sm:text-xl"
               >
                 ×
               </button>
-              <div className="flex items-center gap-3">
-                <Info className="w-5 h-5 text-[#1a1a1a]/70" />
+              <div className="flex items-center gap-2 sm:gap-3">
+                <Info className="w-4 h-4 sm:w-5 sm:h-5 text-[#1a1a1a]/70" />
                 <div className="flex-1">
-                  <h3 className="font-semibold text-[#1a1a1a]">Пройти инструктаж</h3>
-                  <p className="text-sm text-[#1a1a1a]/70">Узнайте, как работает нейрофидбек</p>
+                  <h3 className="text-sm sm:text-base font-semibold text-[#1a1a1a]">Пройти инструктаж</h3>
+                  <p className="text-xs sm:text-sm text-[#1a1a1a]/70">Узнайте, как работает нейрофидбек</p>
                 </div>
               </div>
             </div>
@@ -94,8 +178,8 @@ export function HomeScreen({
 
         {/* Рекомендуемая тренировка */}
         <WellnessCard>
-          <h2 className="text-lg font-semibold text-[#1a1a1a] mb-2">Рекомендуемая тренировка</h2>
-          <p className="text-sm text-[#1a1a1a]/70 mb-4">{recommendedTraining.type}</p>
+          <h2 className="text-base sm:text-lg font-semibold text-[#1a1a1a] mb-2">Рекомендуемая тренировка</h2>
+          <p className="text-xs sm:text-sm text-[#1a1a1a]/70 mb-4">{recommendedTraining.type}</p>
           <PillButton
             onClick={() => onStartTraining('tbr')}
             variant="gradientMeshOrange"
@@ -107,89 +191,39 @@ export function HomeScreen({
         </WellnessCard>
 
         {/* Карточки тренировок по типам */}
-        <div className="space-y-3">
-          <h2 className="text-lg font-semibold text-[#1a1a1a]">Типы тренировок</h2>
-          <div className="grid grid-cols-2 gap-3">
-            <button
+        <div>
+          <h2 className="text-base sm:text-lg font-semibold text-[#1a1a1a] text-left mb-4 [@media(max-width:430px)]:text-center">Типы тренировок</h2>
+          <div className="grid grid-cols-1 [@media(min-width:431px)]:grid-cols-2 gap-3 [@media(max-width:430px)]:scale-[0.969] [@media(max-width:430px)]:origin-center [@media(max-width:430px)]:justify-items-center mt-4 [@media(max-width:430px)]:-mt-4">
+            <TrainingTypeCard
+              title="Концентрация"
+              subtitle="Theta/Beta (4-7 / 15-20 Hz)"
+              image="/card1.png"
+              duration="16 МИН"
               onClick={() => onStartTraining('tbr')}
-              className="text-left transition-all hover:scale-[1.02] relative overflow-hidden rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0_6px_30px_rgba(0,0,0,0.1)]"
-            >
-              <img 
-                src="/card1.png" 
-                alt="Концентрация" 
-                className="w-full h-auto"
-              />
-              <div className="absolute inset-0 p-6 pl-4 flex flex-col justify-between items-start">
-                <span className="inline-block bg-white/80 backdrop-blur-sm text-[#1a1a1a] text-[10px] sm:text-xs font-medium px-2 sm:px-3 py-1 rounded-full self-start -ml-1">
-                  16 МИН
-                </span>
-                <div className="flex flex-col -ml-1">
-                  <SerifHeading size="xl" className="mb-1 text-lg sm:text-xl md:text-2xl">Концентрация</SerifHeading>
-                  <p className="text-xs sm:text-sm text-[#1a1a1a]/70 leading-relaxed">Theta/Beta (4-7 / 15-20 Hz)</p>
-                </div>
-              </div>
-            </button>
-            <button
+            />
+            <TrainingTypeCard
+              title="Спокойствие"
+              subtitle="Alpha (8-12 Hz)"
+              image="/card2.png"
+              duration="16 МИН"
               onClick={() => onStartTraining('alpha')}
-              className="text-left transition-all hover:scale-[1.02] relative overflow-hidden rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0_6px_30px_rgba(0,0,0,0.1)]"
-            >
-              <img 
-                src="/card2.png" 
-                alt="Спокойствие" 
-                className="w-full h-auto"
-              />
-              <div className="absolute inset-0 p-6 pl-4 flex flex-col justify-between items-start">
-                <span className="inline-block bg-white/80 backdrop-blur-sm text-[#1a1a1a] text-[10px] sm:text-xs font-medium px-2 sm:px-3 py-1 rounded-full self-start -ml-1">
-                  16 МИН
-                </span>
-                <div className="flex flex-col -ml-1">
-                  <SerifHeading size="xl" className="mb-1 text-lg sm:text-xl md:text-2xl">Спокойствие</SerifHeading>
-                  <p className="text-xs sm:text-sm text-[#1a1a1a]/70 leading-relaxed">Alpha (8-12 Hz)</p>
-                </div>
-              </div>
-            </button>
-            <button
+            />
+            <TrainingTypeCard
+              title="Фокус"
+              subtitle="Low-Beta (12-15 Hz)"
+              image="/card3.png"
+              duration="16 МИН"
               onClick={() => onStartTraining('smr')}
-              className="text-left transition-all hover:scale-[1.02] relative overflow-hidden rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0_6px_30px_rgba(0,0,0,0.1)]"
-            >
-              <img 
-                src="/card3.png" 
-                alt="Фокус" 
-                className="w-full h-auto"
-              />
-              <div className="absolute inset-0 p-6 pl-4 flex flex-col justify-between items-start">
-                <span className="inline-block bg-white/80 backdrop-blur-sm text-[#1a1a1a] text-[10px] sm:text-xs font-medium px-2 sm:px-3 py-1 rounded-full self-start -ml-1">
-                  16 МИН
-                </span>
-                <div className="flex flex-col -ml-1">
-                  <SerifHeading size="xl" className="mb-1 text-lg sm:text-xl md:text-2xl">Фокус</SerifHeading>
-                  <p className="text-xs sm:text-sm text-[#1a1a1a]/70 leading-relaxed">Low-Beta (12-15 Hz)</p>
-                </div>
-              </div>
-            </button>
-            <button
+            />
+            <TrainingTypeCard
+              title="Дыхание"
+              subtitle="Без устройства"
+              image="/card4.png"
+              duration="10 МИН"
               onClick={() => onStartTraining('breathing')}
-              className="text-left transition-all hover:scale-[1.02] relative overflow-hidden rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0_6px_30px_rgba(0,0,0,0.1)]"
-            >
-              <img 
-                src="/card4.png" 
-                alt="Дыхание" 
-                className="w-full h-auto scale-102"
-                style={{ transform: 'scale(1.02)' }}
-              />
-              <div className="absolute inset-0 p-6 pl-4 flex flex-col justify-between items-start">
-                <span className="inline-block bg-white/80 backdrop-blur-sm text-[#1a1a1a] text-[10px] sm:text-xs font-medium px-2 sm:px-3 py-1 rounded-full self-start -ml-1">
-                  10 МИН
-                </span>
-                <div className="flex flex-col -ml-1">
-                  <SerifHeading size="xl" className="mb-1 text-lg sm:text-xl md:text-2xl">Дыхание</SerifHeading>
-                  <p className="text-xs sm:text-sm text-[#1a1a1a]/70 leading-relaxed">Без устройства</p>
-                </div>
-              </div>
-            </button>
+            />
           </div>
         </div>
-
       </div>
 
     </div>

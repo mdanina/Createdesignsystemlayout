@@ -149,7 +149,7 @@ export function BreathingTrainingScreen({
       <div className="flex flex-col items-center justify-center px-16 relative bg-white min-h-screen">
         <div className="relative z-10">
           <div className="text-center mb-8">
-            <SerifHeading size="2xl" className="mb-2">{getPhaseText(phase)}</SerifHeading>
+            <SerifHeading size="2xl" className="mb-2 text-3xl sm:text-4xl md:text-5xl">{getPhaseText(phase)}</SerifHeading>
           </div>
 
           {/* Анимация круга с счетчиком в центре */}

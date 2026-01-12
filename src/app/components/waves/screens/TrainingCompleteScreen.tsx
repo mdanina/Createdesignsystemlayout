@@ -134,7 +134,15 @@ export function TrainingCompleteScreen({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center px-4 sm:px-8 md:px-16 py-6 sm:py-8 md:py-12 bg-white min-h-screen">
+    <div 
+      className="flex flex-col items-center justify-center px-4 sm:px-8 md:px-16 py-6 sm:py-8 md:py-12 min-h-screen"
+      style={{
+        backgroundImage: 'url(/bg2.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'top center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       <div className="w-full max-w-sm text-center">
         {/* Анимация */}
         {isCompleted ? (
@@ -145,7 +153,7 @@ export function TrainingCompleteScreen({
           <div className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl mb-4 sm:mb-5 md:mb-6">👍</div>
         )}
 
-        <SerifHeading size="2xl" className="mb-4 sm:mb-6 md:mb-8 text-2xl sm:text-3xl md:text-4xl">
+        <SerifHeading size="2xl" className="mb-4 sm:mb-6 md:mb-8 text-4xl sm:text-5xl md:text-6xl">
           {isCompleted
             ? `Отличная тренировка, ${userName}!`
             : isTechnical
@@ -185,7 +193,7 @@ export function TrainingCompleteScreen({
         {isTechnical && (() => {
           const issueInfo = getTechnicalIssueInfo(technicalIssue);
           return (
-            <WellnessCard gradient="lavender" className="mb-4 sm:mb-5 md:mb-6 text-left">
+            <div className="rounded-[20px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.1)] bg-white/40 backdrop-blur-md border-2 border-white/50 mb-4 sm:mb-5 md:mb-6 text-left">
               <div className="space-y-3 sm:space-y-4">
                 <div>
                   <p className="text-sm sm:text-base md:text-lg font-semibold text-[#1a1a1a] mb-1.5 sm:mb-2">
@@ -210,17 +218,17 @@ export function TrainingCompleteScreen({
                   </ul>
                 </div>
               </div>
-            </WellnessCard>
+            </div>
           );
         })()}
 
         {/* Сообщение для досрочно завершенной тренировки - не показываем для дыхательной тренировки */}
         {endReason === 'early' && trainingType !== 'breathing' && (
-          <WellnessCard gradient="pink" className="mb-4 sm:mb-5 md:mb-6">
+          <div className="rounded-[20px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.1)] bg-white/40 backdrop-blur-md border-2 border-white/50 mb-4 sm:mb-5 md:mb-6">
             <p className="text-xs sm:text-sm md:text-base text-[#1a1a1a]/80">
               Тренировка была завершена досрочно. Для лучших результатов рекомендуется проходить тренировку полностью.
             </p>
-          </WellnessCard>
+          </div>
         )}
 
         {/* Кнопки действий */}

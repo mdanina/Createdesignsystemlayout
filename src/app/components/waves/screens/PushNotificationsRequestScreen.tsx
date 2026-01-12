@@ -21,7 +21,7 @@ export function PushNotificationsRequestScreen({
           <Bell className="w-16 h-16 text-[#a8d8ea]" />
         </div>
 
-        <SerifHeading size="2xl" className="mb-4">
+        <SerifHeading size="2xl" className="mb-4 text-3xl sm:text-4xl md:text-5xl">
           Хотите напоминания о тренировках?
         </SerifHeading>
         <p className="text-[#1a1a1a]/70 mb-8">

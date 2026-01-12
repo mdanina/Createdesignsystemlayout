@@ -102,15 +102,15 @@ export function SignalCheckScreen({ onBack, onAllGood }: SignalCheckScreenProps)
     <div className="flex flex-col bg-white min-h-screen">
       <div className="flex items-center justify-between px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
         <button onClick={onBack} className="text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
-          <ArrowLeft className="w-6 h-6" />
+          <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
-        <SerifHeading size="xl">Проверка сигнала</SerifHeading>
+        <SerifHeading size="xl" className="text-2xl sm:text-3xl md:text-4xl">Проверка сигнала</SerifHeading>
         <button className="text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
-          <Volume2 className="w-6 h-6" />
+          <Volume2 className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
       </div>
 
-      <div className="flex-1 px-16 py-8">
+      <div className="flex-1 px-4 sm:px-8 md:px-16 py-4 sm:py-6 md:py-8">
         {/* Схема головы */}
         <div className="relative w-64 h-64 mx-auto mb-8">
           <div className="absolute inset-0 flex items-center justify-center">
@@ -186,40 +186,40 @@ export function SignalCheckScreen({ onBack, onAllGood }: SignalCheckScreenProps)
 
         {/* Динамическая подсказка */}
         {needsAdjustment && poorSensorIndex !== -1 && (
-          <WellnessCard gradient="blue" className="p-4 mb-6">
-            <p className="font-semibold text-[#1a1a1a] mb-2">
+          <WellnessCard gradient="blue" className="p-3 sm:p-4 mb-4 sm:mb-6">
+            <p className="text-sm sm:text-base font-semibold text-[#1a1a1a] mb-1.5 sm:mb-2">
               Поправьте датчик {sensorNames[poorSensorIndex].toLowerCase()}
             </p>
-            <button className="text-sm text-[#1a1a1a]/70 hover:text-[#1a1a1a] underline">
+            <button className="text-xs sm:text-sm text-[#1a1a1a]/70 hover:text-[#1a1a1a] underline">
               Как улучшить контакт?
             </button>
           </WellnessCard>
         )}
 
         {allGood && (
-          <WellnessCard gradient="blue" className="p-4 mb-6 text-center">
-            <p className="font-semibold text-[#1a1a1a] mb-1">Все датчики подключены!</p>
+          <WellnessCard gradient="blue" className="p-3 sm:p-4 mb-4 sm:mb-6 text-center">
+            <p className="text-sm sm:text-base font-semibold text-[#1a1a1a] mb-1">Все датчики подключены!</p>
             {countdown !== null && countdown > 0 ? (
-              <p className="text-sm text-[#1a1a1a]/70">
+              <p className="text-xs sm:text-sm text-[#1a1a1a]/70">
                 Начинаем тренировку через {countdown}...
               </p>
             ) : (
-              <p className="text-sm text-[#1a1a1a]/70">Начинаем тренировку...</p>
+              <p className="text-xs sm:text-sm text-[#1a1a1a]/70">Начинаем тренировку...</p>
             )}
           </WellnessCard>
         )}
 
         {/* Список датчиков */}
-        <div className="space-y-3 mb-6">
+        <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
           {sensorNames.map((name, index) => {
             const status = getSignalStatus(signals[index]);
             return (
-              <WellnessCard key={index} className="p-4">
+              <WellnessCard key={index} className="p-3 sm:p-4">
                 <div className="flex items-center justify-between">
-                  <span className="font-medium text-[#1a1a1a]">{name}</span>
+                  <span className="text-sm sm:text-base font-medium text-[#1a1a1a]">{name}</span>
                   <div className="flex items-center gap-2">
-                    <div className={`w-3 h-3 rounded-full ${status.dot}`}></div>
-                    <span className={`text-sm font-medium ${status.color}`}>
+                    <div className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full ${status.dot}`}></div>
+                    <span className={`text-xs sm:text-sm font-medium ${status.color}`}>
                       {signals[index] === 'good' ? 'Хорошо' : signals[index] === 'medium' ? 'Средне' : 'Плохо'}
                     </span>
                   </div>

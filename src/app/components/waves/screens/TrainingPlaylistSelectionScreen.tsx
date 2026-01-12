@@ -221,25 +221,25 @@ export function TrainingPlaylistSelectionScreen({
       {/* Шапка */}
       <div className="flex items-center px-4 py-4">
         <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
-          <ArrowLeft className="w-6 h-6" />
+          <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
-        <SerifHeading size="xl">Выберите треки</SerifHeading>
+        <SerifHeading size="xl" className="text-2xl sm:text-3xl md:text-4xl">Выберите треки</SerifHeading>
       </div>
 
-      <div className="flex-1 px-16 py-8 flex flex-col overflow-hidden">
+      <div className="flex-1 px-4 sm:px-8 md:px-16 py-4 sm:py-6 md:py-8 flex flex-col overflow-hidden">
         {/* Информация о длительности тренировки */}
-        <div className="rounded-[20px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.1)] bg-white/40 backdrop-blur-md border-2 border-white/50 mb-6 flex-shrink-0">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <Clock className="w-5 h-5 text-[#1a1a1a]/70" />
+        <div className="rounded-[20px] p-4 sm:p-5 md:p-6 shadow-[0_4px_20px_rgba(0,0,0,0.1)] bg-white/40 backdrop-blur-md border-2 border-white/50 mb-4 sm:mb-6 flex-shrink-0">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-[#1a1a1a]/70" />
               <div>
-                <p className="text-sm text-[#1a1a1a]/70">Длительность тренировки</p>
-                <p className="text-lg font-semibold text-[#1a1a1a]">{trainingDuration} мин</p>
+                <p className="text-xs sm:text-sm text-[#1a1a1a]/70">Длительность тренировки</p>
+                <p className="text-base sm:text-lg font-semibold text-[#1a1a1a]">{trainingDuration} мин</p>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-sm text-[#1a1a1a]/70">Выбрано</p>
-              <p className="text-lg font-semibold text-[#1a1a1a]">
+              <p className="text-xs sm:text-sm text-[#1a1a1a]/70">Выбрано</p>
+              <p className="text-base sm:text-lg font-semibold text-[#1a1a1a]">
                 {formatDuration(totalSelectedDuration)}
               </p>
             </div>
@@ -259,12 +259,12 @@ export function TrainingPlaylistSelectionScreen({
 
           {/* Сообщение о недостающей длительности */}
           {!isDurationSufficient && (
-            <p className="text-xs text-[#1a1a1a]/60 mt-2">
+            <p className="text-[10px] sm:text-xs text-[#1a1a1a]/60 mt-1.5 sm:mt-2">
               Выберите еще треки на {formatDuration(remainingDuration)}
             </p>
           )}
           {isDurationSufficient && (
-            <p className="text-xs text-[#ff8a65] mt-2 font-medium">
+            <p className="text-[10px] sm:text-xs text-[#ff8a65] mt-1.5 sm:mt-2 font-medium">
               ✓ Достаточно треков для тренировки
             </p>
           )}
@@ -296,7 +296,7 @@ export function TrainingPlaylistSelectionScreen({
           <div className="flex gap-2">
             <button
               onClick={() => setContentTypeFilter('all')}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
                 contentTypeFilter === 'all'
                   ? 'bg-[#a8d8ea] text-white'
                   : 'bg-white border border-[#1a1a1a]/20 text-[#1a1a1a]/70 hover:bg-[#1a1a1a]/5'
@@ -306,24 +306,24 @@ export function TrainingPlaylistSelectionScreen({
             </button>
             <button
               onClick={() => setContentTypeFilter('audio')}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
+              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center gap-1.5 sm:gap-2 ${
                 contentTypeFilter === 'audio'
                   ? 'bg-[#b8a0d6] text-white'
                   : 'bg-white border border-[#1a1a1a]/20 text-[#1a1a1a]/70 hover:bg-[#1a1a1a]/5'
               }`}
             >
-              <Music className="w-4 h-4" />
+              <Music className="w-3 h-3 sm:w-4 sm:h-4" />
               Аудио
             </button>
             <button
               onClick={() => setContentTypeFilter('video')}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
+              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center gap-1.5 sm:gap-2 ${
                 contentTypeFilter === 'video'
                   ? 'bg-[#ff8a65] text-white'
                   : 'bg-white border border-[#1a1a1a]/20 text-[#1a1a1a]/70 hover:bg-[#1a1a1a]/5'
               }`}
             >
-              <Video className="w-4 h-4" />
+              <Video className="w-3 h-3 sm:w-4 sm:h-4" />
               Видео
             </button>
           </div>
@@ -367,10 +367,10 @@ export function TrainingPlaylistSelectionScreen({
                             <span className="text-xs text-[#a8d8ea] font-bold">{sectionSelectedCount}</span>
                           )}
                         </div>
-                        <h3 className="font-semibold text-[#1a1a1a] text-left">
+                        <h3 className="text-sm sm:text-base font-semibold text-[#1a1a1a] text-left">
                           {section.name}
                         </h3>
-                        <span className="text-sm text-[#1a1a1a]/50">({section.items.length})</span>
+                        <span className="text-xs sm:text-sm text-[#1a1a1a]/50">({section.items.length})</span>
                       </div>
                       <div className={`transform transition-transform ${isExpanded ? 'rotate-180' : ''}`}>
                         <svg className="w-5 h-5 text-[#1a1a1a]/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -455,7 +455,7 @@ export function TrainingPlaylistSelectionScreen({
                             {section.items.length > visibleTracksCount && (
                               <button
                                 onClick={() => setVisibleTracksCount(prev => Math.min(prev + 10, section.items.length))}
-                                className="text-sm text-[#1a1a1a]/70 hover:text-[#1a1a1a] transition-colors font-medium py-2"
+                                className="text-xs sm:text-sm text-[#1a1a1a]/70 hover:text-[#1a1a1a] transition-colors font-medium py-2"
                               >
                                 Показать 10 ({section.items.length - visibleTracksCount})
                               </button>
@@ -467,7 +467,7 @@ export function TrainingPlaylistSelectionScreen({
                                 )}
                                 <button
                                   onClick={() => setVisibleTracksCount(10)}
-                                  className="text-sm text-[#1a1a1a]/50 hover:text-[#1a1a1a] transition-colors py-2"
+                                  className="text-xs sm:text-sm text-[#1a1a1a]/50 hover:text-[#1a1a1a] transition-colors py-2"
                                 >
                                   Скрыть
                                 </button>
@@ -499,7 +499,7 @@ export function TrainingPlaylistSelectionScreen({
           {/* Кнопка Назад */}
           <button
             onClick={onBack}
-            className="w-full text-center text-[#1a1a1a]/70 hover:text-[#1a1a1a] py-3 text-sm transition-colors"
+            className="w-full text-center text-[#1a1a1a]/70 hover:text-[#1a1a1a] py-3 text-xs sm:text-sm transition-colors"
           >
             Назад
           </button>

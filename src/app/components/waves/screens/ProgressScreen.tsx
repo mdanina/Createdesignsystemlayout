@@ -47,7 +47,7 @@ export function ProgressScreen({ userName, onBack, sessions, onSessionClick }: P
     >
       <div className="px-16 py-6">
         <div className="mb-6">
-          <SerifHeading size="2xl" className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl">Прогресс</SerifHeading>
+          <SerifHeading size="2xl" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl">Прогресс</SerifHeading>
         </div>
 
         {/* Статистика */}

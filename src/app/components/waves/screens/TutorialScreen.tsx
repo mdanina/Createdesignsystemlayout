@@ -20,16 +20,16 @@ export function TutorialScreen({ onBack, onComplete }: TutorialScreenProps) {
       <div className="flex flex-col bg-white min-h-screen">
         <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
           <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
-            <ArrowLeft className="w-6 h-6" />
+            <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
-          <SerifHeading size="xl">Инструктаж</SerifHeading>
+          <SerifHeading size="xl" className="text-lg sm:text-xl md:text-2xl">Инструктаж</SerifHeading>
         </div>
 
-        <div className="flex-1 px-16 py-8">
-          <div className="w-full h-64 bg-gradient-to-br from-[#a8d8ea]/30 to-[#b8a0d6]/30 rounded-2xl mb-6 flex items-center justify-center">
-            <span className="text-6xl">📹</span>
+        <div className="flex-1 px-4 sm:px-8 md:px-16 py-4 sm:py-6 md:py-8">
+          <div className="w-full h-48 sm:h-56 md:h-64 bg-gradient-to-br from-[#a8d8ea]/30 to-[#b8a0d6]/30 rounded-2xl mb-4 sm:mb-6 flex items-center justify-center">
+            <span className="text-4xl sm:text-5xl md:text-6xl">📹</span>
           </div>
-          <p className="text-center text-[#1a1a1a]/70 mb-6">
+          <p className="text-center text-xs sm:text-sm md:text-base text-[#1a1a1a]/70 mb-4 sm:mb-6">
             Видео: что такое нейрофидбек (1-2 мин)
           </p>
           <PillButton onClick={() => setStep('explanation')} variant="gradientMesh" className="w-full">
@@ -66,14 +66,14 @@ export function TutorialScreen({ onBack, onComplete }: TutorialScreenProps) {
       <div className="flex flex-col bg-white min-h-screen">
         <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
           <button onClick={() => setStep('video')} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
-            <ArrowLeft className="w-6 h-6" />
+            <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
-          <SerifHeading size="xl">Объяснение</SerifHeading>
+          <SerifHeading size="xl" className="text-2xl sm:text-3xl md:text-4xl">Объяснение</SerifHeading>
         </div>
 
-        <div className="flex-1 px-6 py-8 overflow-y-auto">
-          <div className="mb-6">
-            <p className="text-sm text-[#666666] text-center mb-6">
+        <div className="flex-1 px-4 sm:px-6 md:px-8 py-4 sm:py-6 md:py-8 overflow-y-auto">
+          <div className="mb-4 sm:mb-6">
+            <p className="text-xs sm:text-sm text-[#666666] text-center mb-4 sm:mb-6">
               Прокрутите карточки, чтобы узнать, как работает нейрофидбек
             </p>
             <div className="flex justify-center">
@@ -93,16 +93,16 @@ export function TutorialScreen({ onBack, onComplete }: TutorialScreenProps) {
       <div className="flex flex-col bg-white min-h-screen">
         <div className="flex items-center px-4 py-4 border-b border-[#1a1a1a]/10 bg-white/80 backdrop-blur-sm">
           <button onClick={() => setStep('explanation')} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
-            <ArrowLeft className="w-6 h-6" />
+            <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
-          <SerifHeading size="xl">Демо-тренировка</SerifHeading>
+          <SerifHeading size="xl" className="text-lg sm:text-xl md:text-2xl">Демо-тренировка</SerifHeading>
         </div>
 
-        <div className="flex-1 flex flex-col items-center justify-center px-16 py-8">
-          <div className="mb-6">
+        <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-8 md:px-16 py-4 sm:py-6 md:py-8">
+          <div className="mb-4 sm:mb-6">
             <Logo size="xl" variant="default" />
           </div>
-          <p className="text-center text-[#1a1a1a]/70 mb-6">Демо-тренировка (2-3 мин)</p>
+          <p className="text-center text-xs sm:text-sm md:text-base text-[#1a1a1a]/70 mb-4 sm:mb-6">Демо-тренировка (2-3 мин)</p>
           <PillButton
             onClick={() => {
               setDemoCompleted(true);
@@ -120,12 +120,12 @@ export function TutorialScreen({ onBack, onComplete }: TutorialScreenProps) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center px-16 py-12 bg-white min-h-screen">
+    <div className="flex flex-col items-center justify-center px-4 sm:px-8 md:px-16 py-6 sm:py-8 md:py-12 bg-white min-h-screen">
       <div className="w-full max-w-sm text-center">
-        <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-[#a8d8ea]/30 to-[#a8d8ea]/50 rounded-full flex items-center justify-center">
-          <CheckCircle2 className="w-16 h-16 text-[#a8d8ea]" />
+        <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-4 sm:mb-6 bg-gradient-to-br from-[#a8d8ea]/30 to-[#a8d8ea]/50 rounded-full flex items-center justify-center">
+          <CheckCircle2 className="w-12 h-12 sm:w-16 sm:h-16 text-[#a8d8ea]" />
         </div>
-        <SerifHeading size="2xl" className="mb-4">
+        <SerifHeading size="2xl" className="mb-3 sm:mb-4 text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
           Отлично! Теперь ты готов к настоящим тренировкам 👏
         </SerifHeading>
         <PillButton onClick={onComplete} variant="gradientMesh" className="w-full">
