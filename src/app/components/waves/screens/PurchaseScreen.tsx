@@ -49,19 +49,25 @@ export function PurchaseScreen({ onPurchase, onBack }: PurchaseScreenProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      {/* Шапка */}
+    <div 
+      className="min-h-screen flex flex-col"
+      style={{
+        backgroundImage: 'url(/bg2.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'top center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       {onBack && (
-        <div className="flex items-center px-4 py-4 border-b border-gray-100">
-          <button onClick={onBack} className="p-2 text-gray-600 hover:text-gray-900">
-            <ArrowLeft className="w-6 h-6" />
+        <div className="flex items-center px-4 py-4">
+          <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
+            <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
-          <h1 className="text-lg font-semibold text-gray-900 flex-1 text-center">Выберите пакет</h1>
-          <div className="w-10"></div>
+          <SerifHeading size="xl" className="text-2xl sm:text-3xl md:text-4xl text-[#1a1a1a]">Выберите пакет</SerifHeading>
         </div>
       )}
 
-      <div className="flex-1 px-16 py-8">
+      <div className="flex-1 px-4 sm:px-8 md:px-16 py-4 sm:py-6 md:py-8">
         <div className="max-w-md mx-auto">
           <div className="text-center mb-8">
             <SerifHeading size="2xl" className="mb-2 text-3xl sm:text-4xl md:text-5xl">
@@ -75,7 +81,7 @@ export function PurchaseScreen({ onPurchase, onBack }: PurchaseScreenProps) {
             </p>
           </div>
 
-          <div className="space-y-4 mb-8">
+          <div className="space-y-5 sm:space-y-6 mb-8">
             {availablePackages.map((pkg) => (
               <div key={pkg.id} className="relative">
                 {pkg.recommended && (
@@ -83,8 +89,8 @@ export function PurchaseScreen({ onPurchase, onBack }: PurchaseScreenProps) {
                     Рекомендуется
                   </div>
                 )}
-                <WellnessCard gradient={pkg.recommended ? 'lavender' : undefined} hover>
-                  <div className="mb-4">
+                <WellnessCard gradient={pkg.recommended ? 'lavender' : undefined} hover className="p-7 sm:p-8">
+                  <div className="mb-5 sm:mb-6">
                     <h3 className="text-xl font-semibold text-[#1a1a1a] mb-1">{pkg.name}</h3>
                     <div className="flex items-baseline gap-2 mb-2">
                       <span className="text-2xl font-semibold text-[#1a1a1a]">{pkg.price}</span>
@@ -96,7 +102,7 @@ export function PurchaseScreen({ onPurchase, onBack }: PurchaseScreenProps) {
                       <p className="text-xs text-[#1a1a1a]/50">Рассрочка на 24 месяца без переплаты</p>
                     )}
                   </div>
-                  <ul className="space-y-2 mb-4">
+                  <ul className="space-y-3 mb-5 sm:mb-6">
                     {pkg.includes.map((item, index) => (
                       <li key={index} className="flex items-start gap-2">
                         <Check className="w-5 h-5 text-[#ff8a65] flex-shrink-0 mt-0.5" />

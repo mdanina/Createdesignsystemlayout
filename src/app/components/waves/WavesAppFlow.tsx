@@ -899,7 +899,8 @@ export function WavesAppFlow() {
     currentScreen === 'home' ||
     currentScreen === 'progress' ||
     currentScreen === 'training' ||
-    currentScreen === 'settings';
+    currentScreen === 'settings' ||
+    currentScreen === 'training-detail';
 
   return (
     <div className="min-h-screen bg-white relative">

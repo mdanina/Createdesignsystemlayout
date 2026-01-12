@@ -226,7 +226,7 @@ export function TrainingPlaylistSelectionScreen({
         <SerifHeading size="xl" className="text-2xl sm:text-3xl md:text-4xl">Выберите треки</SerifHeading>
       </div>
 
-      <div className="flex-1 px-4 sm:px-8 md:px-16 py-4 sm:py-6 md:py-8 flex flex-col overflow-hidden">
+      <div className="flex-1 px-4 sm:px-6 md:px-12 lg:px-16 py-4 sm:py-6 md:py-8 pb-16 [@media(min-width:431px)]:pb-24 flex flex-col overflow-hidden">
         {/* Информация о длительности тренировки */}
         <div className="rounded-[20px] p-4 sm:p-5 md:p-6 shadow-[0_4px_20px_rgba(0,0,0,0.1)] bg-white/40 backdrop-blur-md border-2 border-white/50 mb-4 sm:mb-6 flex-shrink-0">
           <div className="flex items-center justify-between mb-3 sm:mb-4">
@@ -259,12 +259,12 @@ export function TrainingPlaylistSelectionScreen({
 
           {/* Сообщение о недостающей длительности */}
           {!isDurationSufficient && (
-            <p className="text-[10px] sm:text-xs text-[#1a1a1a]/60 mt-1.5 sm:mt-2">
+            <p className="text-xs sm:text-xs md:text-sm text-[#1a1a1a]/60 mt-1.5 sm:mt-2">
               Выберите еще треки на {formatDuration(remainingDuration)}
             </p>
           )}
           {isDurationSufficient && (
-            <p className="text-[10px] sm:text-xs text-[#ff8a65] mt-1.5 sm:mt-2 font-medium">
+            <p className="text-xs sm:text-xs md:text-sm text-[#ff8a65] mt-1.5 sm:mt-2 font-medium">
               ✓ Достаточно треков для тренировки
             </p>
           )}
@@ -381,7 +381,7 @@ export function TrainingPlaylistSelectionScreen({
 
                     {/* Список треков в разделе */}
                     {isExpanded && (
-                      <div className="space-y-2">
+                      <div className="space-y-3">
                         {section.items.slice(0, visibleTracksCount).map((track) => {
                           const isSelected = selectedTrackIds.has(track.id);
                           const isDragging = draggedTrackId === track.id;
@@ -403,7 +403,7 @@ export function TrainingPlaylistSelectionScreen({
                               >
                                 <WellnessCard
                                   gradient={isSelected ? "blue" : undefined}
-                                  className="p-3"
+                                  className="p-3 sm:p-4"
                                   hover={!isSelected && !isDragging}
                                 >
                                 <div className="flex items-center gap-4">
@@ -419,15 +419,15 @@ export function TrainingPlaylistSelectionScreen({
                                   {/* Иконка типа контента */}
                                   <div className="flex-shrink-0">
                                     {track.type === 'video' ? (
-                                      <Video className={`w-5 h-5 ${isSelected ? 'text-[#ff8a65]' : 'text-[#1a1a1a]/50'}`} />
+                                      <Video className="w-5 h-5 text-[#1a1a1a]/50" />
                                     ) : (
-                                      <Music className={`w-5 h-5 ${isSelected ? 'text-[#b8a0d6]' : 'text-[#1a1a1a]/50'}`} />
+                                      <Music className="w-5 h-5 text-[#1a1a1a]/50" />
                                     )}
                                   </div>
 
                                   {/* Информация о треке */}
                                   <div className="flex-1 min-w-0">
-                                    <p className={`font-medium truncate ${
+                                    <p className={`text-sm sm:text-base font-medium break-words leading-tight ${
                                       isSelected ? 'text-[#1a1a1a]' : 'text-[#1a1a1a]/90'
                                     }`}>
                                       {track.title}

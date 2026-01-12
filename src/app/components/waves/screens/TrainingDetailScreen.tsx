@@ -92,7 +92,7 @@ export function TrainingDetailScreen({ session, onBack }: TrainingDetailScreenPr
         <SerifHeading size="xl" className="text-2xl sm:text-3xl md:text-4xl">Детали тренировки</SerifHeading>
       </div>
 
-      <div className="flex-1 px-4 sm:px-8 md:px-16 py-4 sm:py-6 overflow-y-auto">
+      <div className="flex-1 px-4 sm:px-8 md:px-16 py-4 sm:py-6 overflow-y-auto pb-16 [@media(min-width:431px)]:pb-24">
         {/* Основная информация */}
         <WellnessCard className="mb-4 sm:mb-6">
           <div className="space-y-3 sm:space-y-4">
