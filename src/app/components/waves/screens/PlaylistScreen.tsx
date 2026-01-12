@@ -541,16 +541,16 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <div className="px-16 py-6">
+      <div className="px-4 sm:px-6 md:px-12 lg:px-16 py-4 sm:py-6">
         <div className="flex items-center justify-between mb-6">
-          <SerifHeading size="2xl" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl">Плейлист</SerifHeading>
+          <SerifHeading size="2xl" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">Плейлист</SerifHeading>
           <div className="flex items-center gap-2">
             <button
               onClick={handleAddItem}
               className="p-2 text-[#1a1a1a]/70 hover:text-[#1a1a1a] hover:bg-white/50 rounded-lg transition-colors"
               title="Добавить контент"
             >
-              <Plus className="w-6 h-6" />
+              <Plus className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
             {selectedPlaylist && (
               <button
@@ -558,7 +558,7 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
                 className="p-2 text-[#1a1a1a]/70 hover:text-[#1a1a1a] hover:bg-white/50 rounded-lg transition-colors"
                 title="Добавить раздел"
               >
-                <FolderPlus className="w-6 h-6" />
+                <FolderPlus className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
             )}
           </div>
@@ -600,7 +600,7 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
               return (
                 <WellnessCard 
                   key={section.id} 
-                  className="p-4"
+                  className="p-3 sm:p-4"
                   onDragOver={(e) => {
                     if (!isExpanded) {
                       e.preventDefault();
@@ -708,22 +708,22 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
                               handleDrop(e, item.id, section.id);
                             }}
                             onDragEnd={handleDragEnd}
-                            className={`flex items-center gap-3 p-3 bg-white/50 rounded-lg hover:bg-white/70 transition-colors group cursor-move ${
+                            className={`playlist-item-container flex items-center gap-3 p-3 bg-white/50 rounded-lg hover:bg-white/70 transition-colors group cursor-move ${
                               isDragging ? 'opacity-50' : ''
                             }`}
                           >
                             {/* Иконка типа */}
                             <div className="flex-shrink-0">
                               {item.type === 'video' ? (
-                                <Video className="w-5 h-5 text-[#a8d8ea]" />
+                                <Video className="w-4 h-4 sm:w-5 sm:h-5 text-[#a8d8ea]" />
                               ) : (
-                                <Music className="w-5 h-5 text-[#b8a0d6]" />
+                                <Music className="w-4 h-4 sm:w-5 sm:h-5 text-[#b8a0d6]" />
                               )}
                             </div>
 
                             {/* Превью (для видео) */}
                             {item.thumbnail && (
-                              <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-[#a8d8ea]/30 to-[#b8a0d6]/30 rounded-lg overflow-hidden">
+                              <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-[#a8d8ea]/30 to-[#b8a0d6]/30 rounded-lg overflow-hidden">
                                 <img
                                   src={item.thumbnail}
                                   alt={item.title}
@@ -756,23 +756,23 @@ export function PlaylistScreen({ onBack }: PlaylistScreenProps) {
                               ) : (
                                 <PlaylistItemTitle title={item.title} />
                               )}
-                              <div className="flex items-center gap-2 mt-1">
-                                <span className="text-[10px] sm:text-xs md:text-sm text-[#1a1a1a]/50">
+                              <div className="flex items-center gap-2 mt-1 flex-wrap">
+                                <span className="text-xs sm:text-xs md:text-sm text-[#1a1a1a]/50">
                                   {getSourceIcon(item.source)} {item.source}
                                 </span>
                                 {item.duration && (
                                   <>
-                                    <span className="text-[10px] sm:text-xs md:text-sm text-[#1a1a1a]/30">•</span>
-                                    <span className="text-[10px] sm:text-xs md:text-sm text-[#1a1a1a]/50">{item.duration}</span>
+                                    <span className="text-xs sm:text-xs md:text-sm text-[#1a1a1a]/30">•</span>
+                                    <span className="text-xs sm:text-xs md:text-sm text-[#1a1a1a]/50">{item.duration}</span>
                                   </>
                                 )}
-                                <span className="text-[10px] sm:text-xs md:text-sm text-[#1a1a1a]/30">•</span>
-                                <span className="text-[10px] sm:text-xs md:text-sm text-[#1a1a1a]/50">{formatDate(item.addedAt)}</span>
+                                <span className="text-xs sm:text-xs md:text-sm text-[#1a1a1a]/30">•</span>
+                                <span className="text-xs sm:text-xs md:text-sm text-[#1a1a1a]/50">{formatDate(item.addedAt)}</span>
                               </div>
                             </div>
 
                             {/* Действия */}
-                            <div className={`flex items-center gap-1 transition-opacity ${editingItem === item.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+                            <div className={`flex items-center gap-1 transition-opacity ${editingItem === item.id ? 'opacity-100' : 'opacity-100 md:opacity-0 md:group-hover:opacity-100'}`}>
                               {editingItem !== item.id && (
                                 <button
                                   onClick={(e) => {

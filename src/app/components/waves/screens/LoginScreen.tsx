@@ -79,7 +79,7 @@ export function LoginScreen({ onLogin, onForgotPassword }: LoginScreenProps) {
             </PillButton>
           </form>
 
-          <p className="text-center text-xs sm:text-sm text-white mt-2">
+          <p className="text-center text-sm sm:text-base text-white mt-2">
             Нет аккаунта?{' '}
             <a href="#" className="text-white hover:text-white/80 underline transition-colors">
               Зарегистрируйтесь на сайте
@@ -92,7 +92,7 @@ export function LoginScreen({ onLogin, onForgotPassword }: LoginScreenProps) {
               e.preventDefault();
               onForgotPassword();
             }}
-            className="text-xs sm:text-sm text-white hover:text-white/80 transition-colors text-center w-full mt-2 block underline"
+            className="text-sm sm:text-base text-white hover:text-white/80 transition-colors text-center w-full mt-2 block underline"
           >
             Забыли пароль?
           </a>
