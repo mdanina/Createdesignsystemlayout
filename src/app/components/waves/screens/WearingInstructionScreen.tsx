@@ -23,7 +23,7 @@ export function WearingInstructionScreen({ onBack, onReady }: WearingInstruction
         <button onClick={onBack} className="mr-4 text-[#1a1a1a]/70 hover:text-[#1a1a1a]">
           <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
-        <SerifHeading size="xl" className="text-xl sm:text-2xl md:text-3xl">Инструкция</SerifHeading>
+        <SerifHeading size="xl" className="text-2xl sm:text-3xl md:text-4xl">Инструкция</SerifHeading>
       </div>
 
       <div className="flex-1 px-4 sm:px-8 md:px-16 py-4 sm:py-6 md:py-8">
