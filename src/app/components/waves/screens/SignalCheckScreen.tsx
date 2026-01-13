@@ -71,7 +71,7 @@ export function SignalCheckScreen({ onBack, onAllGood }: SignalCheckScreenProps)
   }, [allGood, countdown, onAllGood]);
 
 
-  const sensorNames = ['Левый висок', 'Правый висок', 'За левым ухом', 'За правым ухом'];
+  const sensorNames = ['Лоб слева', 'Лоб справа', 'Макушка', 'Затылок'];
   const needsAdjustment = signals.some((s) => s !== 'good');
   const poorSensorIndex = signals.findIndex((s) => s === 'poor');
 
@@ -110,62 +110,25 @@ export function SignalCheckScreen({ onBack, onAllGood }: SignalCheckScreenProps)
         </button>
       </div>
 
-      <div className="flex-1 px-4 sm:px-8 md:px-16 py-4 sm:py-6 md:py-8">
+      <div className="flex-1 px-4 sm:px-8 md:px-16 py-4 sm:py-6 md:py-8 pt-[33%]">
         {/* Схема головы */}
         <div className="relative w-64 h-64 mx-auto mb-8">
           <div className="absolute inset-0 flex items-center justify-center">
-            {/* Фигура головы вид сверху */}
-            <svg 
-              width="128" 
-              height="128" 
-              viewBox="0 0 128 128" 
-              className="w-32 h-32"
-              fill="none"
-            >
-              {/* Голова (овал) */}
-              <ellipse 
-                cx="64" 
-                cy="64" 
-                rx="48" 
-                ry="60" 
-                fill="#1a1a1a" 
-                fillOpacity="0.05"
-                className="stroke-[#1a1a1a]/10"
-                strokeWidth="1.5"
-              />
-              {/* Левое ухо */}
-              <ellipse 
-                cx="24" 
-                cy="64" 
-                rx="8" 
-                ry="12" 
-                fill="#1a1a1a" 
-                fillOpacity="0.05"
-                className="stroke-[#1a1a1a]/10"
-                strokeWidth="1.5"
-              />
-              {/* Правое ухо */}
-              <ellipse 
-                cx="104" 
-                cy="64" 
-                rx="8" 
-                ry="12" 
-                fill="#1a1a1a" 
-                fillOpacity="0.05"
-                className="stroke-[#1a1a1a]/10"
-                strokeWidth="1.5"
-              />
-            </svg>
+            <img 
+              src="/head.png" 
+              alt="Голова" 
+              className="w-[374px] h-[374px] object-contain"
+            />
           </div>
           {/* Датчики */}
           {[0, 1, 2, 3].map((index) => {
             const status = getSignalStatus(signals[index]);
-            // Симметричное расположение относительно центра (128px = половина от 256px)
+            // Расположение электродов по системе 10-20
             const positions = [
-              { top: '15%', left: '15%' }, // Левый висок
-              { top: '15%', left: '85%' }, // Правый висок
-              { top: '85%', left: '15%' }, // За левым ухом
-              { top: '85%', left: '85%' }, // За правым ухом
+              { top: '20%', left: '25%' }, // Лоб слева (Fp1)
+              { top: '20%', left: '75%' }, // Лоб справа (Fp2)
+              { top: '50%', left: '50%' }, // Cz (центральная линия, макушка)
+              { top: '75%', left: '50%' }, // Pz (затылок, центральная линия)
             ];
             return (
               <div
