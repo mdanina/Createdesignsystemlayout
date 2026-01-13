@@ -113,7 +113,7 @@ export function SignalCheckScreen({ onBack, onAllGood }: SignalCheckScreenProps)
       <div className="flex-1 px-4 sm:px-8 md:px-16 py-4 sm:py-6 md:py-8 pt-[33%]">
         {/* Схема головы */}
         <div className="relative w-64 h-64 mx-auto mb-8">
-          <div className="absolute inset-0 flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center justify-center -mt-12">
             <img 
               src="/head.png" 
               alt="Голова" 
